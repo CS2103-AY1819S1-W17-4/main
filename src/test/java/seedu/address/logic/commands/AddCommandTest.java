@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import org.junit.Rule;
@@ -117,6 +118,11 @@ public class AddCommandTest {
 
         @Override
         public void updatePerson(Task target, Task editedTask) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateSortedPersonList(Comparator<Task> comparator) {
             throw new AssertionError("This method should not be called.");
         }
 

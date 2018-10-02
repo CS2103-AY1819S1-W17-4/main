@@ -12,7 +12,7 @@ import seedu.address.model.task.exceptions.InvalidPredicateOperatorException;
  * Represents a Task's name in the deadline manager. Guarantees: immutable; is valid as declared in
  * {@link #isValidName(String)}
  */
-public class Name {
+public class Name implements Comparable<Name> {
 
     public static final String MESSAGE_NAME_CONSTRAINTS =
         "Names should only contain alphanumeric characters and spaces, and it should not be blank";
@@ -80,6 +80,11 @@ public class Name {
     @Override
     public int hashCode() {
         return value.hashCode();
+    }
+
+    @Override
+    public int compareTo(Name other) {
+        return this.value.compareTo(other.value);
     }
 
 }

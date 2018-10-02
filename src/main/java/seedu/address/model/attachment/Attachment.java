@@ -10,9 +10,16 @@ import java.io.File;
 public class Attachment {
     public final File file;
 
-    public Attachment(File file, String description) {
+    public Attachment(File file) {
         requireNonNull(file);
         this.file = file;
+    }
+
+    /**
+     * @return Name of the attachment, which is the file name.
+     */
+    public String getName() {
+        return file.getName();
     }
 
     @Override
@@ -25,5 +32,10 @@ public class Attachment {
     @Override
     public int hashCode() {
         return file.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return file.getName();
     }
 }

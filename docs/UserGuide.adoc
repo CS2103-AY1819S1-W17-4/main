@@ -200,6 +200,11 @@ Returns a subset of the current list of tasks that have priority = 1 (highest pr
 * `filter p<3`
 Returns a subset of the current list of tasks that have priority < 3. (Highest priority or second highest priority.)
 
+=== Filtering a list of tasks: `search`
+Filters the current list of tasks with a specified filter predicate. +
+This is an alias for `filter`.  They perform exactly the same function. +
+The alias is provided because it is sometimes more intuitive to think of certain filter operations as 'search' operations, e.g. searching for a task that has a particular name. 
+
 //TODO: Sidhant
 === Sorting the tasks in the current view : `sort`
 
