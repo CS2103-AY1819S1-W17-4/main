@@ -361,28 +361,30 @@ Format: <code>filter FILTER_EXPRESSION</code></p>
 <div class="sidebarblock">
 <div class="content">
 <div class="paragraph">
-<p><code>FILTER_EXPRESSION</code> is one of the following:
+<p><code>FILTER_EXPRESSION</code> can be any of the following:
 * <code>FILTER_PREDICATE</code>
 * <code>FILTER_EXPRESSION and FILTER_EXPRESSION</code>
 * <code>FILTER_EXPRESSION or FILTER_EXPRESSION</code>
 * <code>not FILTER_EXPRESSION</code>
-* <code>(FILTER_EXPRESSION)</code></p>
+* <code>(FILTER_EXPRESSION)</code>
+As can be seen, we can construct arbitrarily complex filter expressions that are composed from many predicates.</p>
 </div>
 </div>
 </div>
 <div class="paragraph">
 <p>Format of FILTER_PREDICATE: <code>&lt;key&gt;&lt;operator&gt;&lt;phrase&gt;</code>:
-* Where <code>key</code> is one of <code>n</code>, <code>name</code>, <code>d</code>, <code>due</code>
+* Where <code>key</code> is an alphanumeric string that describes the attribute being compared
 * Where <code>operator</code> is one of <code>:</code>, <code>=</code>, <code>&lt;</code>, <code>&gt;</code>
 * Where <code>phrase</code> is a string that describes what to search (called the search phrase)
-* The operator <code>:</code> is known as the <strong>convenience</strong> operator - it is an alias for another operator that is commonly used.</p>
+The operator <code>:</code> is known as the <strong>convenience</strong> operator - it is an alias for another operator that is commonly used.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="paragraph">
 <p>Elaboration:
 * When <code>key</code> is <code>n</code> or <code>name</code>, we are comparing the task name.  Comparision is case-insensitive.  Quotes may be used to specify a search phrase that contains spaces.  The operator <code>&gt;</code> tests if the search phrase is contained within the task name.  The operator <code>&lt;</code> test if the task name is contained within the search phrase.  The operator <code>=</code> tests if the search phrase is exactly the same as the task name.  The convenience operator is an alias for <code>&gt;</code>.
-* When <code>key</code> is <code>d</code> or <code>due</code>, we are comparing the due date, and the search phrase is interpreted as a date.  Dates are in <code>d/m/y</code> format.  The operator <code>&gt;</code> tests if the task due date is on or after the specified due date.  The operator <code>&lt;</code> test if the task due date is on or before the specified due date.  The operator <code>=</code> tests if the task due date is exactly equal to the specified due date.  The convenience operator is an alias for <code>&lt;</code>.</p>
+* When <code>key</code> is <code>d</code> or <code>due</code>, we are comparing the due date, and the search phrase is interpreted as a date.  Dates must be in <code>d/m/y</code> format.  The operator <code>&gt;</code> tests if the task due date is on or after the specified due date.  The operator <code>&lt;</code> test if the task due date is on or before the specified due date.  The operator <code>=</code> tests if the task due date is exactly equal to the specified due date.  The convenience operator is an alias for <code>&lt;</code>.
+* Any other <code>key</code> will cause Deadline Manager to produce an error.</p>
 </div>
 </div>
 </div>
@@ -949,4 +951,4 @@ e.g.<code>select 2</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-02 04:53:18 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-02 05:04:05 UTC</div></div></div></body></html>
