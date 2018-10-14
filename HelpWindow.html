@@ -354,41 +354,44 @@ Returns any task having names <code>CS2103T</code>, <code>assignment</code>, or 
 <div class="sect2">
 <h3 id="filtering-a-list-of-tasks-code-filter-code"><a class="link" href="#filtering-a-list-of-tasks-code-filter-code">3.7. Filtering a list of tasks: <code>filter</code></a></h3>
 <div class="paragraph">
-<p>Filters the current list of tasks with a specified filter predicate.<br>
-Deadline Manager will then display only those tasks which satisfies the given filter predicate.<br>
+<p>Filters the current list of tasks with a specified filter expression.<br>
 Format: <code>filter FILTER_EXPRESSION</code></p>
 </div>
-<div class="sidebarblock">
-<div class="content">
 <div class="paragraph">
-<p><code>FILTER_EXPRESSION</code> can be any one of the following:</p>
+<p>When this command is used, Deadline Manager will display only those tasks which satisfies the given filter expression.<br>
+Filter predicates are the core of the <code>filter</code> command.  Each filter predicate specifies a particular attribute (e.g. deadline, priority) and a value to test this attribute against (e.g. deadline being earlier than 1/10/2018).  Filter predicates are regarded as "indivisible".<br>
+Filter expressions are composed from some number of filter predicates, and the <code>filter</code> command is designed to accept arbitrarily complex filter expressions that can be composed from any number of filter predicates.<br>
+The format for <code>FILTER_EXPRESSION</code> is defined recursively in the following paragraphs.</p>
+</div>
+<div class="paragraph">
+<p><code>FILTER_EXPRESSION</code> is a string in the following format:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>FILTER_PREDICATE</code></p>
+<p><code>FILTER_PREDICATE</code>&#8201;&#8212;&#8201;This filter expression contains a single filter predicate</p>
 </li>
 <li>
-<p><code>FILTER_EXPRESSION and FILTER_EXPRESSION</code></p>
+<p><code>FILTER_EXPRESSION</code> &amp; <code>FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical conjunction (i.e. AND) of two other filter expressions.  The operator "&amp;" may be substituted with "&amp;&amp;".</p>
 </li>
 <li>
-<p><code>FILTER_EXPRESSION or FILTER_EXPRESSION</code></p>
+<p><code>FILTER_EXPRESSION</code> | <code>FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical disjunction (i.e. OR) of two other filter expressions.  The operator "|" may be substituted with "||".</p>
 </li>
 <li>
-<p><code>not FILTER_EXPRESSION</code></p>
+<p>! <code>FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical negation (i.e. NOT) of two other filter expressions.</p>
 </li>
 <li>
-<p><code>(FILTER_EXPRESSION)</code></p>
+<p>(<code>FILTER_EXPRESSION</code>)&#8201;&#8212;&#8201;This filter expression is surrounded by parentheses.</p>
 </li>
 </ul>
 </div>
-</div>
-</div>
-<div class="paragraph">
-<p>The filter expression is designed so that it is possible to construct arbitrarily complex filter expressions that are composed from any number of predicates.</p>
-</div>
 <div class="sidebarblock">
 <div class="content">
+<div class="paragraph">
+<p>Parentheses are used for finer control the order that filter expressions are combined.  By default, "!" has highest precedence (i.e. "!" is applied first), followed by "&amp;", then followed by "|".</p>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p><code>FILTER_PREDICATE</code> is a string in the following format-: <code>&lt;key&gt;&lt;operator&gt;&lt;phrase&gt;</code>:</p>
 </div>
@@ -401,17 +404,18 @@ Format: <code>filter FILTER_EXPRESSION</code></p>
 <p>where <code>operator</code> is one of <code>:</code>, <code>=</code>, <code>&lt;</code>, <code>&gt;</code></p>
 </li>
 <li>
-<p>where <code>phrase</code> is a string that describes what to search (called the search phrase)</p>
+<p>where <code>phrase</code> is a string that describes what to search (this is called the search phrase)</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>The operator <code>:</code> is known as the <strong>convenience</strong> operator&#8201;&#8212;&#8201;it is an alias for the operator that intuitively does what you expect for the given <code>key</code>.  More details are given below.</p>
 </div>
-</div>
-</div>
 <div class="paragraph">
 <p>The <code>&lt;</code> and <code>&gt;</code> operators are non-strict: Every task that will be shown using <code>=</code> will also be shown using <code>&lt;</code> or <code>&gt;</code>.</p>
+</div>
+<div class="paragraph">
+<p>In general, both <code>key</code> and <code>phrase</code> do not need to be placed in quotes.  However, if whitespace or special chracters (i.e. those that have a meaning for compositing filter expressions) are part of <code>phrase</code>, then <code>phrase</code> must be in quotes (either single or double quotes will work, but the opening and closing quotes must be of the same type).</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -421,10 +425,16 @@ Format: <code>filter FILTER_EXPRESSION</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared.  Comparision is case-insensitive.  Quotes may be used to specify a search phrase that contains spaces.  The operator <code>&gt;</code> tests if the search phrase is contained within the task name.  The operator <code>&lt;</code> test if the task name is contained within the search phrase.  The operator <code>=</code> tests if the search phrase is exactly the same as the task name.  The convenience operator is an alias for <code>&gt;</code>.</p>
+<p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared.  Comparision is case-insensitive.  The operator <code>&gt;</code> tests if the search phrase is contained within the task name.  The operator <code>&lt;</code> tests if the task name is contained within the search phrase.  The operator <code>=</code> tests if the search phrase is exactly the same as the task name.  The convenience operator is an alias for <code>&gt;</code>.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>d</code> or <code>due</code>, the due date is being compared, and the search phrase is interpreted as a date.  Dates must be in <code>d/m/y</code> format.  The operator <code>&gt;</code> tests if the task due date is on or after the specified due date.  The operator <code>&lt;</code> test if the task due date is on or before the specified due date.  The operator <code>=</code> tests if the task due date is exactly equal to the specified due date.  The convenience operator is an alias for <code>&lt;</code>.</p>
+<p>When <code>key</code> is <code>d</code> or <code>due</code>, the task&#8217;s due date is compared, and the search phrase is interpreted as a date.  Dates must be in <code>d/m/y</code> format.  The operator <code>&gt;</code> tests if the task&#8217;s due date is on or after the specified due date.  The operator <code>&lt;</code> tests if the task&#8217;s due date is on or before the specified due date.  The operator <code>=</code> tests if the task&#8217;s due date is exactly equal to the specified due date.  The convenience operator is an alias for <code>&lt;</code>.</p>
+</li>
+<li>
+<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared, and the search phrase is interpreted as an integer, representing the priority to be searched.  A priority of zero matches all the tasks with no priority set.  The operator <code>&gt;</code> tests if the task has priority at most as high as the specified priority.  The operator <code>&lt;</code> tests if the task has priority at least as high as the specified priority.  The operator <code>=</code> tests if the task&#8217;s priority is exactly equal to the specified priority.  The convenience operator is an alias for <code>&lt;</code>.  Note that priority 1 is the highest priority, and priority 4 is the lowest priority.</p>
+</li>
+<li>
+<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared, and the search phrase is interpreted as a (unordered) set of tags.  Multiple tags are separated by commas (see examples below).  The operator <code>&gt;</code> tests if every tag of the given task is contained in the specified set of tags.  The operator <code>&lt;</code> tests if the every specified tag is present for the given task.  The operator <code>=</code> tests if the set of tags for the given task is exactly the same as the set of specified tags.  The convenience operator is an alias for <code>&lt;</code>.</p>
 </li>
 <li>
 <p>Any other <code>key</code> will cause Deadline Manager to produce an error.</p>
@@ -465,6 +475,14 @@ Returns a subset of the current list of tasks that have priority = 1 (highest pr
 <li>
 <p><code>filter p&lt;3</code>
 Returns a subset of the current list of tasks that have priority &lt; 3. (Highest priority or second highest priority.)</p>
+</li>
+<li>
+<p><code>filter t:CS2103T</code>
+Returns a subset of the current list of tasks that has the tag "CS2103T".</p>
+</li>
+<li>
+<p><code>filter t:CS2103T,CS2101</code>
+Returns a subset of the current list of tasks that has both the tags "CS2103T" and "CS2101".</p>
 </li>
 </ul>
 </div>
@@ -1001,4 +1019,4 @@ e.g.<code>select 2</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-14 04:25:26 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-14 07:20:11 UTC</div></div></div></body></html>
