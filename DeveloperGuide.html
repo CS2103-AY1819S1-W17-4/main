@@ -33,9 +33,10 @@
 <li><a href="#import-and-export-feature">3.2. Import and Export feature</a></li>
 <li><a href="#sort-feature">3.3. Sort feature</a></li>
 <li><a href="#extended-filter-feature">3.4. Extended filter feature</a></li>
-<li><a href="#proposed-data-encryption">[Proposed] Data Encryption</a></li>
-<li><a href="#logging">3.5. Logging</a></li>
-<li><a href="#Implementation-Configuration">3.6. Configuration</a></li>
+<li><a href="#attachment-feature">3.5. Attachment feature</a></li>
+<li><a href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></li>
+<li><a href="#logging">3.7. Logging</a></li>
+<li><a href="#Implementation-Configuration">3.8. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -1113,20 +1114,223 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">[Proposed] Data Encryption</a></h3>
+<h3 id="attachment-feature"><a class="link" href="#attachment-feature">3.5. Attachment feature</a></h3>
+<div class="paragraph">
+<p>The attachment feature aims to help users organise and keep track of important files needed for the respective tasks. It allows users to associate files in their computer with a particular task. When the user decides to perform the task, this feature provides functionality to identify previously associated files and export it to an appropriate location.</p>
+</div>
+<div class="sect3">
+<h4 id="current-implementation-4"><a class="link" href="#current-implementation-4">3.5.1. Current implementation</a></h4>
+<div class="paragraph">
+<p>The attachment feature is mainly implemented by <code>AttachmentCommand</code>. As <code>AttachmentCommand</code> is an all-purpose command that allows users to perform numerous actions related to attachments, a nested abstract class <code>AttachmentAction</code> is defined within <code>AttachmentCommand</code>. There are 4 classes that extend <code>AttachmentAction</code> in order to implement the various actions of the attachment feature. The command line arguments for the attachment command is parsed by <code>AttachmentCommandParser</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="sequence-flow-3"><a class="link" href="#sequence-flow-3">3.5.2. Sequence Flow</a></h4>
+<div class="paragraph">
+<p>Given below is a sequence of steps, illustrating the interaction between <code>AttachmentCommandParser</code>, <code>AttachmentCommand</code> and classes that implement <code>AttachmentAction</code> after a user enters a relevant command.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The user enters an attachment command which involves either <code>add</code>, <code>list</code>, <code>delete</code> or <code>get</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The <code>AttachmentCommandParser</code> receives the command with the arguments given as a string.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>AttachmentCommandParser</code> interprets the arguments and constructs either a <code>AddAttachmentAction</code> for <code>add</code>, <code>ListAttachmentAction</code> for <code>list</code>, <code>DeleteAttachmentAction</code> for <code>delete</code> or <code>GetAttachmentAction</code> for <code>get</code>. The relevant arguments will also be passed as parameters to the constructors of these classes. Do note that these classes all extends from the abstract class <code>AttachmentAction</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. An <code>AttachmentCommand</code> is constructed and initialized with the <code>AttachmentAction</code> constructed in Step 3.</p>
+</div>
+<div class="paragraph">
+<p>Given below is another sequence of steps, illustrating the interaction between <code>AttachmentCommand</code> and classes that implement <code>AttachmentAction</code> when the <code>AttachmentCommand#execute</code> method is invoked by the <code>LogicManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The task identified by the user is retrieved from the <code>Model</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The <code>perform</code> method of the <code>AttachmentAction</code> is invoked, with the task retrieved in Step 1 as the parameter.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>Model</code> is updated with the <code>Task</code> object returned by the <code>perform</code> method in Step 2.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. The <code>resultMessage</code> method of <code>AttachmentAction</code> is invoked. The returned value is used to construct a <code>CommandResult</code> object and returned to the <code>LogicManager</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="attachmentaction-and-implementing-classes"><a class="link" href="#attachmentaction-and-implementing-classes">3.5.3. AttachmentAction and implementing classes</a></h4>
+<div class="paragraph">
+<p><code>AttachmentAction</code> is an abstract static class nested within <code>AttachmentCommand</code>. It defines the following 2 APIs:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>public abstract Task perform(Task taskToEdit)</code> This method is invoked by <code>AttachmentCommand</code> to perform the action on the task provided. Since <code>Task</code> is immutable, a new task with the modified values should be returned by the method. Implementing classes would need to implement this method with the logic for the respective actions.</p>
+</li>
+<li>
+<p><code>public String resultMessage()</code> This method will be invoked by <code>AttachmentCommand</code> to retrieve the response message after a call to <code>perform</code>. It would be good for implementing classes to override the default implementation to provide a more customized response message.</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="addattachmentaction"><a class="link" href="#addattachmentaction">AddAttachmentAction</a></h5>
+<div class="paragraph">
+<p><code>AddAttachmentAction</code> implements <code>AttachmentAction</code> and provides the implementations required for the user to associate a file with a task. In other words, it adds an attachment to a task. The constructor class takes in a single parameter, <code>filePath</code>, denoting the path to the file to be associated with the task. The <code>perform</code> method of <code>AddAttachmentAction</code> executes the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Checks if a file exists at the specified <code>filePath</code>. A <code>CommandException</code> will be raised if this is not the case.</p>
+</li>
+<li>
+<p>Checks if the task already contains an attachment with the same filename. A <code>CommandException</code> will be raised if this is not the case.</p>
+</li>
+<li>
+<p>Constructs a new <code>Attachment</code> object using the file at the specified <code>filePath</code>.</p>
+</li>
+<li>
+<p>Constructs a new <code>Task</code> object with the same attributes as the original task, but with the additional <code>Attachment</code> object added to the set of attachments.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="listattachmentaction"><a class="link" href="#listattachmentaction">ListAttachmentAction</a></h5>
+<div class="paragraph">
+<p><code>ListAttachmentAction</code> implements <code>AttachmentAction</code> and provides the implementations required for the user to list all the files associated with a task. In other words, it provides a listing of all attachments that are added to the task. The constructor class requries no parameters. The <code>perform</code> method of <code>ListAttachmentAction</code> executes the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Prints the total number of attachments in the specified task.</p>
+</li>
+<li>
+<p>Prints the filename of each of the attachments in the specified task, with one attachment per line.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="deleteattachmentaction"><a class="link" href="#deleteattachmentaction">DeleteAttachmentAction</a></h5>
+<div class="paragraph">
+<p><code>DeleteAttachmentAction</code> implements <code>AttachmentAction</code> and provides the implementations required for the user to unassociate a file that was previously associated with the task as attachment. In other words, it removes an attachment from a task. The constructor class takes in a single parameter, <code>fileName</code>, denoting the name of the attachment that is to be unassociated with the task. The <code>perform</code> method of <code>DeleteAttachmentAction</code> executes the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Checks if <code>fileName</code> corresponds to a valid attachment in the specified task. A  <code>CommandException</code> will be raised if this is not the case. The <code>fileName</code> is case senstitive.</p>
+</li>
+<li>
+<p>Constructs a new <code>Task</code> object with the same attributes as the original task, but with the <code>Attachment</code> object identified by the <code>fileName</code> removed from the set of attachments.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="getattachmentaction"><a class="link" href="#getattachmentaction">GetAttachmentAction</a></h5>
+<div class="paragraph">
+<p><code>GetAttachmentAction</code> implements <code>AttachmentAction</code> and provides the implementations required for the user to retrieve a file that was previously associated with the task as attachment. In other words, it allows users to copy an attachment from a task out to the file system. The constructor class takes in two parameters, <code>filename</code>, denoting the name of the attachment and <code>savePath</code>, denoting the path to copy the attachment to. The <code>perform</code> method of <code>GetAttachmentAction</code> executes the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Checks if <code>fileName</code> corresponds to a valid attachment in the specified task. A  <code>CommandException</code> will be raised if this is not the case. The <code>fileName</code> is case senstitive.</p>
+</li>
+<li>
+<p>Checks if the attachment identified by <code>fileName</code> still exists on the user&#8217;s filesystem. A <code>CommandException</code> will be raised if this is not the case.</p>
+</li>
+<li>
+<p>Copies the attachment from where it was previously associated to <code>savePath</code> on the filesystem.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.5.4. Design considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-how-to-associate-files-to-tasks"><a class="link" href="#aspect-how-to-associate-files-to-tasks">Aspect: How to associate files to tasks</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Saves the path to the file.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easy to implement. Reduces storage footprint.</p>
+</li>
+<li>
+<p>Cons: Associated file can cease to exist, due to it being renamed, moved or deleted.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Copies the entire file to a user specified directory.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Deletion of the associated file (in its original location) will not affect the application.</p>
+</li>
+<li>
+<p>Cons: Harder to implement file management system on the file system. Uses more storage space. User will not be able to update the attachment without deleting and re-adding the file.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-to-identify-attachments-within-a-task"><a class="link" href="#aspect-how-to-identify-attachments-within-a-task">Aspect: How to identify attachments within a task</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Use the file name as an identifier.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: More user friendly as there is less words to type.</p>
+</li>
+<li>
+<p>Cons: Cannot have more than one attachment with the same file name in the same task. For example: <code>folder1/Template.docx</code> and <code>folder2/Template.docx</code> cannot be simultaneously added as attachments to the same task.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Use the path to the file as an identifier.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Allows for more than one attachments with the same file name to be associated with the same task. For example: <code>folder1/Template.docx</code> and <code>folder2/Template.docx</code> can be added to the same task as attachments.</p>
+</li>
+<li>
+<p>Cons: Cumbersome for the user to type the full path to identify the file.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.6. [Proposed] Data Encryption</a></h3>
 <div class="paragraph">
 <p><em>{Explain here how the data encryption feature will be implemented}</em></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.5. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.7. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.6, &#8220;Configuration&#8221;</a>)</p>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.8, &#8220;Configuration&#8221;</a>)</p>
 </li>
 <li>
 <p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
@@ -1157,7 +1361,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </div>
 </div>
 <div class="sect2">
-<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.6. Configuration</a></h3>
+<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.8. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2610,4 +2814,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-16 15:00:05 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-16 15:07:15 UTC</div></div></div></body></html>
