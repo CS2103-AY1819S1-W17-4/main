@@ -30,10 +30,11 @@
 <li><a href="#implementation">3. Implementation</a>
 <ul class="sectlevel2">
 <li><a href="#undo-redo-feature">3.1. Undo/Redo feature</a></li>
-<li><a href="#extended-filter-feature">3.2. Extended filter feature</a></li>
+<li><a href="#import-and-export-feature">3.2. Import and Export feature</a></li>
+<li><a href="#extended-filter-feature">3.3. Extended filter feature</a></li>
 <li><a href="#proposed-data-encryption">[Proposed] Data Encryption</a></li>
-<li><a href="#logging">3.3. Logging</a></li>
-<li><a href="#Implementation-Configuration">3.4. Configuration</a></li>
+<li><a href="#logging">3.4. Logging</a></li>
+<li><a href="#Implementation-Configuration">3.5. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -585,6 +586,13 @@ As a more OOP model, we can store a <code>Tag</code> list in <code>deadline mana
 <li>
 <p>can save the deadline manager data in xml format and read it back.</p>
 </li>
+<li>
+<p>can export the last view in xml format and import it back.</p>
+</li>
+<li>
+<p>is event-based. Methods are executed by listening to events such as AddressBookChangedEvent.
+Return data and errors are also passed back through firing events.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -805,9 +813,120 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 </div>
 </div>
 <div class="sect2">
-<h3 id="extended-filter-feature"><a class="link" href="#extended-filter-feature">3.2. Extended filter feature</a></h3>
+<h3 id="import-and-export-feature"><a class="link" href="#import-and-export-feature">3.2. Import and Export feature</a></h3>
 <div class="sect3">
 <h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">3.2.1. Current implementation</a></h4>
+<div class="paragraph">
+<p>The task manager supports import and export features. This feature uses 2 components: Storage and Model.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="overview-of-components"><a class="link" href="#overview-of-components">3.2.2. Overview of components</a></h4>
+<div class="paragraph">
+<p>Internally, StorageManager implements the following APIs from ImportExportStorage interface:
+* importTaskCollection:  Imports and returns a TaskCollection given a filename
+* exportTaskCollection: Exports and writes to a file given a TaskCollection.
+Internally, it uses the same API as reading and saving the working addressbook file.
+However, additional checks are performed to ensure that the user does not inadvertently overwrite the current working file,
+or import and corrupt the current working file.
+StorageManager only handles the I/O from file, and the data read and written is handled by Model.</p>
+</div>
+<div class="paragraph">
+<p>ModelManager implements the following APIs necessary for Import and Export:
+* importTaskCollection: Creates a new Import request event
+* exportTaskCollection: Creates a new Export request event.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="inter-component-communication"><a class="link" href="#inter-component-communication">3.2.3. Inter-component communication</a></h4>
+<div class="paragraph">
+<p>To facilitate communication between the two components, the deadline manager uses the event-driven model.
+An import or export request event is first generated, then StorageManager will handle the event.
+After data has been successfully read or written, another event is generated for Model to process.</p>
+</div>
+<div class="paragraph">
+<p>Hence, StorageManager implements these additional methods to handle requests:
+* handleImportRequestEvent: Processes an import event and reads from file
+* handleExportRequestEvent: Processes an export event and writes to file
+StorageManager passes the result of imports and errors with the following events:
+* ImportExportExceptionEvent: Indicates that an error has occurred with import or export.
+* ImportDataAvailableEvent: Indicates that the requested task collection has been read from disk.</p>
+</div>
+<div class="paragraph">
+<p>Similarly, ModelManager implements these additional methods to handle requests:
+* handleImportDataAvailableEvent: Processes the read task collection and merges tasks into the current collection.
+* handleImportExportExceptionEvent: Indicates internally that the last import/export request has failed.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="sequence-flow"><a class="link" href="#sequence-flow">3.2.4. Sequence Flow</a></h4>
+<div class="paragraph">
+<p>Given below is a sequence diagram illustrating the interactions between Model and Storage when exporting.
+image::ExportSequenceDiagram.png[width="800"]</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The user executes export to file <code>dataFile</code>. The export command calls ModelManager&#8217;s exportTaskCollection.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The ModelManager posts the ExportRequestEvent with the EventsCenter.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The EventsCenter will dispatch the ExportRequestEvent to Storage.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. Storage will handle the ExportRequestEvent and write to file.</p>
+</div>
+<div class="paragraph">
+<p>Given below is a sequence diagram illustrating the interactions between Model and Storage when importing.
+image::ImportSequenceDiagram.png[width="800"]</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The user executes import from file <code>dataFile</code>. The import command calls ModelManager&#8217;s importTaskCollection.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The ModelManager posts the ImportRequestEvent with the EventsCenter.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The EventsCenter will dispatch the ImportRequestEvent to Storage.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. Storage will handle the ImportRequestEvent, read from file, then post a new ImportDataAvailableEvent to EventsCenter to signal that data is available.</p>
+</div>
+<div class="paragraph">
+<p>Step 5. The EventsCenter will dispatch the ImportDataAvailableEvent back to ModelManager.</p>
+</div>
+<div class="paragraph">
+<p>Step 6. ModelManager will take the imported data and de-conflict the merged entries.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="merge-deconflict"><a class="link" href="#merge-deconflict">3.2.5. Merge Deconflict</a></h4>
+<div class="paragraph">
+<p>An imported task can be deemed conflicting with an existing task if the two tasks compare equal with the internal implementation of Task&#8217;s equal method.
+If the user attempts to import a new task that conflicts with an existing task, the task can be de-conflicted with one of the following algorithms:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>IgnoreResolver: Discards the incoming task in favour of the existing task.</p>
+</li>
+<li>
+<p>OverwriteResolver: Updates the existing task to reflect the values of the incoming task.</p>
+</li>
+<li>
+<p>DuplicateResolver: Keep both copies.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The user can specify the deconflict algorithm with flags. By default, the ignore resolver is used.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="extended-filter-feature"><a class="link" href="#extended-filter-feature">3.3. Extended filter feature</a></h3>
+<div class="sect3">
+<h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">3.3.1. Current implementation</a></h4>
 <div class="paragraph">
 <p>The extended filter feature aims to make filtering tasks flexible as well as intuitive.</p>
 </div>
@@ -820,14 +939,14 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.3. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.4. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.4, &#8220;Configuration&#8221;</a>)</p>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.5, &#8220;Configuration&#8221;</a>)</p>
 </li>
 <li>
 <p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
@@ -858,7 +977,7 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 </div>
 </div>
 <div class="sect2">
-<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.4. Configuration</a></h3>
+<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.5. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2311,4 +2430,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-16 05:46:22 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-16 06:57:00 UTC</div></div></div></body></html>
