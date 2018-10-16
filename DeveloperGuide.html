@@ -1106,10 +1106,195 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </div>
 <div class="sect2">
 <h3 id="extended-filter-feature"><a class="link" href="#extended-filter-feature">3.4. Extended filter feature</a></h3>
-<div class="sect3">
-<h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">3.4.1. Current implementation</a></h4>
 <div class="paragraph">
-<p>The extended filter feature aims to make filtering tasks flexible as well as intuitive.</p>
+<p>The deadline manager supports a very flexible filtering system.  The filtering system can be utilized with the <code>filter</code> command.</p>
+</div>
+<div class="sect3">
+<h4 id="overview"><a class="link" href="#overview">3.4.1. Overview</a></h4>
+<div class="paragraph">
+<p>When a user invokes the <code>filter</code> command (e.g. <code>filter t:CS2101 &amp; n:Assignment</code>), the following steps are taken by the program:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Extract the text describing the filter operation (e.g. <code>t:CS2101 &amp; n:Assignment</code>)</p>
+</li>
+<li>
+<p>Parse the text describing the filter operation into a predicate (i.e. <code>Predicate&lt;Task&gt;</code>)</p>
+</li>
+<li>
+<p>Apply the predicate on the model (this simply calls <code>Model#updateFilteredPersonList()</code>, which internally leverages on JavaFX&#8217;s <code>FilteredList</code> class to provide filtering by predicate)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Step 1 is performed by the <code>AddressBookParser</code> class, and no special actions need to be taken by the filtering system.</p>
+</div>
+<div class="paragraph">
+<p>Step 3 is performed by the <code>FilterCommand</code> class.  It is a simple operation that simply delegates the task to <code>Model#updateFilteredPersonList()</code>.</p>
+</div>
+<div class="paragraph">
+<p>The overwhelming majority of code for the filtering system comes from step 2, which is performed by the <code>FilterCommandParser</code> class.  The ability to parse complex filter descriptions into usable predicates forms the core of the filtering feature, and this ability makes the filtering system very flexible.</p>
+</div>
+<div class="paragraph">
+<p>In the rest of this guide that describes the filtering system, we use the term <em>filter expression</em> to refer to the full filter operation that the user typed (e.g. <code>t:CS2101 &amp; n:Assignment</code>, or even <code>t:CS2101 &amp; ( n:Assignment | n:Homework) &amp; p&lt;3</code>), and the term <em>filter unit</em> to refer to substrings of the filter expression that represent single indivisible predicates (e.g. <code>t:CS2101</code>, or <code>n:Homework</code>).</p>
+</div>
+<div class="paragraph">
+<p>There are three parts to parsing the filter operation:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A boolean expression parser that understands the high-level syntax of the filter expression and digests the filter expression into filter units</p>
+</li>
+<li>
+<p>A parser that splits each filter unit (e.g. <code>t:CS2101</code>) into its three constituent parts (e.g. <code>t</code>, <code>:</code>, <code>CS2101</code>)&#8201;&#8212;&#8201;this is the lambda expression in the sequence diagram below</p>
+</li>
+<li>
+<p>A method for each field (e.g. <code>Name</code>, <code>Deadline</code>, <code>Priority</code>, <code>Set&lt;Tag&gt;</code>) that interprets the parts from the previous part in the context of that particular field, and returns the predicate that is required &#8201;&#8212;&#8201;this is referred to as the <em>field-specific parser</em>, and is implemented as a static method in each filterable field</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>A tokenizer (this is the <code>StringTokenizer</code> class in the <code>parser</code> subdirectory) is shared by parts 1 and 2 to split the filter expression into tokens.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/FilterOperationSequenceDiagram.png" alt="FilterOperationSequenceDiagram" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>The above diagram shows the simplified sequence of operations to parse a filter expression into a predicate.  Take note of the following simplifications in the sequence diagram above:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>"Field" represents any filterable field&#8201;&#8212;&#8201;<code>Name</code>, <code>Deadline</code>, <code>Priority</code>, or <code>Tag</code>.  For tags, filtering is more complicated as there can be any number of tags on a task, but the above sequence diagram still gives a rough idea of how parsing works.</p>
+</li>
+<li>
+<p>Strictly speaking, the "loop" is not actually a loop.  As the boolean expression parser parses the filter expression, it invokes the lambda expression whenever a filter unit is encountered.  For simplicity, the sequence diagram above hides the complexity within the boolean expression parser.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="string-tokenizer"><a class="link" href="#string-tokenizer">3.4.2. String tokenizer</a></h4>
+<div class="paragraph">
+<p>This is represented by the class <code>seedu.address.logic.parser.StringTokenizer</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This class is not to be confused with <code>java.util.StringTokenizer</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This class is initialized with the whole filter expression, and can be queried for a token multiple times&#8201;&#8212;&#8201;each query consumes and returns the next available token, in a similar way to <code>java.util.Scanner</code>.</p>
+</div>
+<div class="paragraph">
+<p>There are two ways to consume tokens using the string tokenizer:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Consume a text string.  This is used for consuming tokens that are intended to be textual (e.g. <code>t</code>, <code>CS2101</code>).  Consumption of text strings is quote-aware&#8201;&#8212;&#8201;if the text string is quoted using single or double quotes, the text string would be consumed as a single token, even if it contains spaces or special characters.  This is useful when the user wants to search for a name that contains those characters.</p>
+</li>
+<li>
+<p>Consume a token by a regular expression.  This is used for consuming symbolic tokens (e.g. <code>:</code>, <code>|</code>, <code>&amp;</code>, <code>(</code>).</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The string tokenizer class is also used to parse comma-separated tag expressions.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="boolean-expression-parser"><a class="link" href="#boolean-expression-parser">3.4.3. Boolean expression parser</a></h4>
+<div class="paragraph">
+<p>This is represented by the class <code>seedu.address.logic.parser.BooleanExpressionParser&lt;T&gt;</code>, and it is a general boolean expression parser that is designed to be unaware of the syntax of individual filter units.</p>
+</div>
+<div class="paragraph">
+<p>The following operators are recognized (highest precedence first):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>!</code>: Logical negation (NOT) of two predicates</p>
+</li>
+<li>
+<p><code>&amp;</code> or <code>&amp;&amp;</code>: Logical conjunction (AND) of two predicates</p>
+</li>
+<li>
+<p><code>|</code> or <code>||</code>: Logical disjunction (OR) of two predicates</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Parentheses (<code>(</code> and <code>)</code>) are also recognized and respected, and they may be nested to arbitrary depth.</p>
+</div>
+<div class="paragraph">
+<p>The boolean expression parser uses the <a href="https://en.wikipedia.org/wiki/Shunting-yard_algorithm">shunting yard algorithm</a> to provide precedence-respecting parsing of the filter expression.</p>
+</div>
+<div class="paragraph">
+<p>The boolean expression parser functions as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The boolean expression parser is constructed with the filter expression, and it constructs a <code>StringTokenizer</code> instance from the given filter expression.</p>
+</li>
+<li>
+<p>When the start of an operand (i.e. filter unit) is encountered, it hands over the <code>StringTokenizer</code> instance to the filter unit parser (this is defined in the <code>FilterCommandParser</code> class).  The filter unit parser determines the field name, and then uses the field-specific parser to construct the predicate (i.e. <code>Predicate&lt;Task&gt;</code> instance) that the filter unit represents.  This predicate is returned to the boolean expression parser.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Application of operators (i.e. <code>!</code>, <code>&amp;</code>, <code>|</code>) is done by the boolean expression parser itself (i.e. without delegating the work to other classes).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="filter-unit-parser"><a class="link" href="#filter-unit-parser">3.4.4. Filter unit parser</a></h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This section is under construction.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="field-specific-parser"><a class="link" href="#field-specific-parser">3.4.5. Field-specific parser</a></h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This section is under construction.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1119,7 +1304,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <p>The attachment feature aims to help users organise and keep track of important files needed for the respective tasks. It allows users to associate files in their computer with a particular task. When the user decides to perform the task, this feature provides functionality to identify previously associated files and export it to an appropriate location.</p>
 </div>
 <div class="sect3">
-<h4 id="current-implementation-4"><a class="link" href="#current-implementation-4">3.5.1. Current implementation</a></h4>
+<h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">3.5.1. Current implementation</a></h4>
 <div class="paragraph">
 <p>The attachment feature is mainly implemented by <code>AttachmentCommand</code>. As <code>AttachmentCommand</code> is an all-purpose command that allows users to perform numerous actions related to attachments, a nested abstract class <code>AttachmentAction</code> is defined within <code>AttachmentCommand</code>. There are 4 classes that extend <code>AttachmentAction</code> in order to implement the various actions of the attachment feature. The command line arguments for the attachment command is parsed by <code>AttachmentCommandParser</code>.</p>
 </div>
@@ -2814,4 +2999,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-16 15:13:50 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-16 15:41:00 UTC</div></div></div></body></html>
