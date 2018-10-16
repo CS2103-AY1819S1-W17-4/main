@@ -372,23 +372,26 @@ The format for <code>FILTER_EXPRESSION</code> is defined recursively in the foll
 <p><code>FILTER_PREDICATE</code>&#8201;&#8212;&#8201;This filter expression contains a single filter predicate</p>
 </li>
 <li>
-<p><code>FILTER_EXPRESSION</code> &amp; <code>FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical conjunction (i.e. AND) of two other filter expressions.  The operator "&amp;" may be substituted with "&amp;&amp;".</p>
+<p><code>FILTER_EXPRESSION &amp; FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical conjunction (i.e. AND) of two other filter expressions.  The operator <code>&amp;</code> may be substituted with <code>&amp;&amp;</code>.</p>
 </li>
 <li>
-<p><code>FILTER_EXPRESSION</code> | <code>FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical disjunction (i.e. OR) of two other filter expressions.  The operator "|" may be substituted with "||".</p>
+<p><code>FILTER_EXPRESSION | FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical disjunction (i.e. OR) of two other filter expressions.  The operator <code>|</code> may be substituted with <code>||</code>.</p>
 </li>
 <li>
-<p>! <code>FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical negation (i.e. NOT) of two other filter expressions.</p>
+<p><code>! FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical negation (i.e. NOT) of two other filter expressions.</p>
 </li>
 <li>
-<p>(<code>FILTER_EXPRESSION</code>)&#8201;&#8212;&#8201;This filter expression is surrounded by parentheses.</p>
+<p><code>( FILTER_EXPRESSION )</code>&#8201;&#8212;&#8201;This filter expression is surrounded by parentheses.</p>
 </li>
 </ul>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="paragraph">
-<p>Parentheses are used for finer control the order that filter expressions are combined.  By default, "!" has highest precedence (i.e. "!" is applied first), followed by "&amp;", then followed by "|".</p>
+<p>Parentheses are used for finer control the order that filter expressions are combined.  By default, <code>!</code> has highest precedence (i.e. <code>!</code> is applied first), followed by <code>&amp;</code>, then followed by <code>|</code>.</p>
+</div>
+<div class="paragraph">
+<p>When it is unambiguous, whitespace between the operators and filter expressions may be omitted.</p>
 </div>
 </div>
 </div>
@@ -1105,4 +1108,4 @@ e.g.<code>select 2</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-16 15:41:00 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-16 15:55:38 UTC</div></div></div></body></html>
