@@ -837,47 +837,57 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 However, additional checks are performed to ensure that the user does not inadvertently overwrite the current working file, or import and corrupt the current working file.
 <code>StorageManager</code> only handles the I/O from file, and the data read and written is handled by <code>Model</code>.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+An ImportExportExceptionEvent is raised if I/O fails for any reason.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>ModelManager implements the following APIs necessary for Import and Export:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>importTaskCollection</code>: Creates a new import request event</p>
+<p><code>importTaskCollection</code>: Creates and posts a new import request event</p>
 </li>
 <li>
-<p><code>exportTaskCollection</code>: Creates a new export request event.</p>
+<p><code>exportTaskCollection</code>: Creates and posts a new export request event.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>The request events are posted to the <code>EventCenter</code>, which will dispatch to all subscribed methods.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="inter-component-communication"><a class="link" href="#inter-component-communication">3.2.2. Inter-component communication</a></h4>
 <div class="paragraph">
 <p>To facilitate communication between the two components, the deadline manager uses the event-driven model.
-An import or export request event is first generated, then <code>StorageManager</code> will handle the event.
-After data has been successfully read or written, another event is generated for <code>Model</code> to process.</p>
+An import or export request event is created by <code>ModelManager</code>, and a handler in <code>StorageManager</code> is invoked to handle the event.
+After data has been successfully read or written, the response is placed in another event for <code>ModelManager</code> to process.</p>
 </div>
 <div class="paragraph">
-<p>Hence, <code>StorageManager</code> implements these additional methods to handle requests:</p>
+<p>To achieve the above, <code>ModelManager</code> indicates an import/export request by creating these events:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>handleImportRequestEvent</code>: Processes an import event and reads from file</p>
+<p><code>ImportRequestEvent</code>: Requests for a new import from file.</p>
 </li>
 <li>
-<p><code>handleExportRequestEvent</code>: Processes an export event and writes to file</p>
+<p><code>ExportRequestEvent</code>: Requests to create a new export to file.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><code>StorageManager</code> passes the result of imports and errors with the following events:
-* <code>ImportExportExceptionEvent</code>: Indicates that an error has occurred with import or export.
-* <code>ImportDataAvailableEvent</code>: Indicates that the requested task collection has been read from disk.</p>
-</div>
-<div class="paragraph">
-<p>Similarly, <code>ModelManager</code> implements these additional methods to handle requests:</p>
+<p><code>ModelManager</code> implements these additional methods to handle the responses from <code>Storage</code>:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -886,6 +896,44 @@ After data has been successfully read or written, another event is generated for
 </li>
 <li>
 <p><code>handleImportExportExceptionEvent</code>: Indicates internally that the last import/export request has failed.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It is the responsibility of the <code>Model</code> to feedback to the user in the case of an exception.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Similarly, <code>StorageManager</code> returns the result of imports and errors with the following events:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ImportExportExceptionEvent</code>: Indicates that an error has occurred with import or export.</p>
+</li>
+<li>
+<p><code>ImportDataAvailableEvent</code>: Indicates that the requested task collection has been read from disk.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>StorageManager</code> implements these additional methods to handle requests from <code>Model</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>handleImportRequestEvent</code>: Processes an import event and reads from file.</p>
+</li>
+<li>
+<p><code>handleExportRequestEvent</code>: Processes an export event and writes to file.</p>
 </li>
 </ul>
 </div>
@@ -2470,4 +2518,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-16 07:10:18 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-16 07:39:29 UTC</div></div></div></body></html>
