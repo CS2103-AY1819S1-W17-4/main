@@ -33,7 +33,7 @@
 <li><a href="#undo-redo-feature">3.2. Undo/Redo feature</a></li>
 <li><a href="#import-and-export-feature">3.3. Import and Export feature</a></li>
 <li><a href="#sort-feature">3.4. Sort feature</a></li>
-<li><a href="#extended-filter-feature">3.5. Extended filter feature</a></li>
+<li><a href="#filter-feature">3.5. Filter feature</a></li>
 <li><a href="#attachment-feature">3.6. Attachment feature</a></li>
 <li><a href="#proposed-data-encryption">3.7. [Proposed] Data Encryption</a></li>
 <li><a href="#logging">3.8. Logging</a></li>
@@ -1112,9 +1112,22 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </div>
 </div>
 <div class="sect2">
-<h3 id="extended-filter-feature"><a class="link" href="#extended-filter-feature">3.5. Extended filter feature</a></h3>
+<h3 id="filter-feature"><a class="link" href="#filter-feature">3.5. Filter feature</a></h3>
 <div class="paragraph">
-<p>The deadline manager supports a very flexible filtering system.  The filtering system can be utilized with the <code>filter</code> command.</p>
+<p>The deadline manager supports a very expressive filtering system.  The filtering system can be utilized with the <code>filter</code> command.</p>
+</div>
+<div class="paragraph">
+<p>The filtering system is designed with two primary goals:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Expressiveness: Complex ways of filtering tasks can be expressed in the command format and be understood by the program.</p>
+</li>
+<li>
+<p>Terseness: The amount of user input required to express a filter is as little as possible.</p>
+</li>
+</ul>
 </div>
 <div class="sect3">
 <h4 id="overview"><a class="link" href="#overview">3.5.1. Overview</a></h4>
@@ -1147,7 +1160,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <p>In the rest of this guide that describes the filtering system, we use the term <em>filter expression</em> to refer to the full filter operation that the user typed (e.g. <code>t:CS2101 &amp; n:Assignment</code>, or even <code>t:CS2101 &amp; ( n:Assignment | n:Homework) &amp; p&lt;3</code>), and the term <em>filter unit</em> to refer to substrings of the filter expression that represent single indivisible predicates (e.g. <code>t:CS2101</code>, or <code>n:Homework</code>).</p>
 </div>
 <div class="paragraph">
-<p>There are three parts to parsing the filter operation:</p>
+<p>There are three components to parsing the filter operation:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1155,7 +1168,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <p>A boolean expression parser that understands the high-level syntax of the filter expression and digests the filter expression into filter units</p>
 </li>
 <li>
-<p>A parser that splits each filter unit (e.g. <code>t:CS2101</code>) into its three constituent parts (e.g. <code>t</code>, <code>:</code>, <code>CS2101</code>)&#8201;&#8212;&#8201;this is the lambda expression in the sequence diagram below</p>
+<p>A parser that splits each filter unit (e.g. <code>t:CS2101</code>) into its three constituent parts (e.g. <code>t</code>, <code>:</code>, <code>CS2101</code>)&#8201;&#8212;&#8201;this is the lambda expression in the sequence diagram below, which resides in the <code>FilterCommandParser</code> class</p>
 </li>
 <li>
 <p>A method for each field (e.g. <code>Name</code>, <code>Deadline</code>, <code>Priority</code>, <code>Set&lt;Tag&gt;</code>) that interprets the parts from the previous part in the context of that particular field, and returns the predicate that is required &#8201;&#8212;&#8201;this is referred to as the <em>field-specific parser</em>, and is implemented as a static method in each filterable field</p>
@@ -1163,7 +1176,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </ol>
 </div>
 <div class="paragraph">
-<p>A tokenizer (this is the <code>StringTokenizer</code> class in the <code>parser</code> subdirectory) is shared by parts 1 and 2 to split the filter expression into tokens.</p>
+<p>A general string tokenizer (this is the <code>StringTokenizer</code> class in the <code>parser</code> subdirectory) is shared by parts 1 and 2 to split the filter expression into tokens.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1182,6 +1195,9 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <p>Strictly speaking, the "loop" is not actually a loop.  As the boolean expression parser parses the filter expression, it invokes the lambda expression whenever a filter unit is encountered.  For simplicity, the sequence diagram above hides the complexity within the boolean expression parser.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>The sections below describe the string tokenizer and the aforementioned three compoments in more detail.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1216,6 +1232,9 @@ This class is not to be confused with <code>java.util.StringTokenizer</code>.
 <p>Consume a token by a regular expression.  This is used for consuming symbolic tokens (e.g. <code>:</code>, <code>|</code>, <code>&amp;</code>, <code>(</code>).</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>When unambiguous, adjacent tokens need not be separated by whitespace.  This is usually the case when consuming a token specified by a regular expression.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1276,6 +1295,95 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 </div>
 <div class="sect3">
 <h4 id="filter-unit-parser"><a class="link" href="#filter-unit-parser">3.5.4. Filter unit parser</a></h4>
+<div class="paragraph">
+<p>The filter unit parser is written as a lambda expression inside the <code>FilterCommandParser</code> class.  There are two reasons for this:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The filter unit parser parses syntax that is specific to filters only, and it cannot be easily adapted for other uses.</p>
+</li>
+<li>
+<p>It frees both the boolean expression parser and the field-specific parser from having to depend on the <code>FilterCommandParser</code> class.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following diagram describes the syntax of a filter unit:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/FilterUnitDiagram.png" alt="FilterUnitDiagram" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>As shown in the diagram above, a filter unit consists of three parts:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The field identifier, which identifies the field (e.g. name or deadline) that is being filtered on</p>
+</li>
+<li>
+<p>The test phrase, which represents the value or keyword that tasks are being compared to</p>
+</li>
+<li>
+<p>The filter operator, which describes the how the identified field is compared to the test phrase (more details below)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>These three parts are described in the following sections.</p>
+</div>
+<div class="sect4">
+<h5 id="field-identifier"><a class="link" href="#field-identifier">Field identifier</a></h5>
+<div class="paragraph">
+<p>There are four filterable fields in a task, and each of these fields correspond to one or more field identifiers:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>n</code> or <code>name</code>&#8201;&#8212;&#8201;the name of the task</p>
+</li>
+<li>
+<p><code>d</code>, <code>due</code> or <code>deadline</code>&#8201;&#8212;&#8201;the deadline (i.e. due date) of the task</p>
+</li>
+<li>
+<p><code>p</code> or <code>priority</code>&#8201;&#8212;&#8201;the priority of the task</p>
+</li>
+<li>
+<p><code>t</code> or <code>tag</code>&#8201;&#8212;&#8201;the set of tags associated with the task</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Field identifiers that correspond to the same field are equivalent.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="test-phrase"><a class="link" href="#test-phrase">Test phrase</a></h5>
+<div class="paragraph">
+<p>This is the value or keyword that tasks are compared to, and the syntax of this field depends on the field identifier of this filter unit.</p>
+</div>
+<div class="paragraph">
+<p>The following is the required syntax for each filterable field:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Name: Any text string</p>
+</li>
+<li>
+<p>Deadline: Any date in the form <code>DD/MM/YYYY</code></p>
+</li>
+<li>
+<p>Priority: Any valid priority value (i.e. any integer between 0 and 4 inclusive)</p>
+</li>
+<li>
+<p>Tag set: Any comma-separated list of tags, where each tag can be any text string (e.g. <code>CS2101,CS2103T</code>)</p>
+</li>
+</ul>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1283,25 +1391,96 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-This section is under construction.
+The rules for quoted strings for the string tokenizer applies here as well, because the same string tokenizer is used here.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Tags that contain spaces may be specified by placing quotes around those tags.  This means that the whole test phrase must also be quoted with a different type of quote (e.g. <code>t:"CS2101,CS2103T,'Oral Presentation'"</code>).</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="filter-operator"><a class="link" href="#filter-operator">Filter operator</a></h5>
+<div class="paragraph">
+<p>The filter operator specifies exactly <em>how</em> the task should be compared to the test phrase.</p>
+</div>
+<div class="paragraph">
+<p>For fields that are intrinsically ordered (i.e. deadline and priority), the <code>&lt;</code>, <code>=</code>, and <code>&gt;</code> operators have their usual mathematical meaning, except that the operators <code>&lt;</code> and <code>&gt;</code> are non-strict.  This means that <code>p&gt;2</code> will return a superset of the tasks returned by <code>p=2</code>.</p>
+</div>
+<div class="paragraph">
+<p>For textual fields (i.e. name), the <code>&lt;</code>, <code>=</code>, <code>&gt;</code> operators represent <em>substring</em>, <em>equivalence</em>, and <em>superstring</em> relations respectively.</p>
+</div>
+<div class="paragraph">
+<p>For set-based fields (i.e. tags), the <code>&lt;</code>, <code>=</code>, <code>&gt;</code> operators represent <em>subset</em>, <em>equivalence</em>, and <em>superset</em> relations respectively.  Individual tags are compared for equivalence, so it is currently not possible to filter by a substring of a tag.</p>
+</div>
+<div class="paragraph">
+<p>As most users do not usually require such fine-grained control over the filter operator, the <code>:</code> operator, known as the <em>convenience</em> operator, is provided as well.  The convenience operator is an alias for one of the other filter operators, and the choice of filter operator depends on the field identifier.  For each field, the filter operator that is expected to be most commonly used is chosen as the target for the convenience operator.</p>
+</div>
+<div class="paragraph">
+<p>The following list shows what the convenience operator means, in the context of each field:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Name: <code>:</code> is an alias for <code>&gt;</code></p>
+</li>
+<li>
+<p>Deadline: <code>:</code> is an alias for <code>&lt;</code></p>
+</li>
+<li>
+<p>Priority: <code>:</code> is an alias for <code>&gt;</code></p>
+</li>
+<li>
+<p>Tag set: <code>:</code> is an alias for <code>&gt;</code></p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="field-specific-parser"><a class="link" href="#field-specific-parser">3.5.5. Field-specific parser</a></h4>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-This section is under construction.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>As field-specific parsers have to be implemented differently for each filterable field, the design choice was made to place each field-specific parser in its respective field class.  More precisely, each field-specific parser is implemented as a static method in its field class.</p>
+</div>
+<div class="paragraph">
+<p>When each filter unit is parsed, it invokes the field-specific parser for the given field identifier.  The field-specific parser then creates and returns a predicate from the given filter operator and test phrase.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.5.6. Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-parsing-of-composite-filter-expressions"><a class="link" href="#aspect-parsing-of-composite-filter-expressions">Aspect: Parsing of composite filter expressions</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Use an algorithm that can parse arbitrarily complex expressions (i.e. the <a href="https://en.wikipedia.org/wiki/Shunting-yard_algorithm">shunting yard algorithm</a>).</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Provides full flexibility in specifying composite filters.</p>
+</li>
+<li>
+<p>Cons: Difficult to implement.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Use a more restrictive parsing algorithm that prohibits parentheses and does not take operator precedence into consideration.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easy to implement.</p>
+</li>
+<li>
+<p>Cons: Filter command will be limited in expressiveness.  As the order of operations do not follow usual programming languages or mathematical expressions, users need to spend more time to understand the parsing format before use, and they might use the command erroneously.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
@@ -1439,7 +1618,7 @@ This section is under construction.
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.6.4. Design considerations</a></h4>
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.6.4. Design considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-to-associate-files-to-tasks"><a class="link" href="#aspect-how-to-associate-files-to-tasks">Aspect: How to associate files to tasks</a></h5>
 <div class="ulist">
@@ -3006,4 +3185,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-18 11:47:29 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-18 13:31:58 UTC</div></div></div></body></html>
