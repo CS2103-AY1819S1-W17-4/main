@@ -24,7 +24,7 @@
 <li><a href="#locating-tasks-by-name-code-find-code">3.6. Locating tasks by name: <code>find</code></a></li>
 <li><a href="#filtering-a-list-of-tasks-code-filter-code">3.7. Filtering a list of tasks: <code>filter</code></a></li>
 <li><a href="#filtering-a-list-of-tasks-code-search-code">3.8. Filtering a list of tasks: <code>search</code></a></li>
-<li><a href="#sorting-the-tasks-in-the-current-view-code-sort-code">3.9. Sorting the tasks in the current view : <code>sort</code></a></li>
+<li><a href="#sorting-a-list-of-tasks-code-sort-code">3.9. Sorting a list of tasks : <code>sort</code></a></li>
 <li><a href="#resolve-tasks-code-resolve-code-coming-in-v2-0">3.10. Resolve tasks : <code>resolve</code> (coming in v2.0)</a></li>
 <li><a href="#snooze-tasks-code-snooze-code-coming-in-v2-0">3.11. Snooze tasks : <code>snooze</code> (coming in v2.0)</a></li>
 <li><a href="#manage-attachments-of-a-task-code-attachment-code">3.12. Manage attachments of a task : <code>attachment</code></a></li>
@@ -42,6 +42,7 @@
 </li>
 <li><a href="#faq">4. FAQ</a></li>
 <li><a href="#command-summary">5. Command Summary</a></li>
+<li><a href="#glossary">6. Glossary</a></li>
 </ul>
 </div>
 </div>
@@ -56,10 +57,13 @@
 <div class="sect1">
 <h2 id="quick-start"><a class="link" href="#quick-start">2. Quick Start</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The steps to quickly get started with the project are as follows -</p>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Ensure you have Java version <code>9</code> or later installed in your Computer.</p>
+<p>Install Java version <code>9</code> or later on your Computer.</p>
 </li>
 <li>
 <p>Download the latest <code>addressbook.jar</code> <a href="https://github.com/CS2103-AY1819S1-W17-4/main/releases">here</a>.</p>
@@ -401,7 +405,7 @@ The format for <code>FILTER_EXPRESSION</code> is defined recursively in the foll
 <div class="ulist">
 <ul>
 <li>
-<p>where <code>key</code> is an alphanumeric string that describes the attribute being compared</p>
+<p>where <code>key</code> is an alphanumeric string that describes the attribute being compared. Example - <code>priority</code>, <code>tag</code> and <code>name</code></p>
 </li>
 <li>
 <p>where <code>operator</code> is one of <code>:</code>, <code>=</code>, <code>&lt;</code>, <code>&gt;</code></p>
@@ -500,22 +504,21 @@ Returns a subset of the current list of tasks that has both the tags "CS2103T" a
 </div>
 </div>
 <div class="sect2">
-<h3 id="sorting-the-tasks-in-the-current-view-code-sort-code"><a class="link" href="#sorting-the-tasks-in-the-current-view-code-sort-code">3.9. Sorting the tasks in the current view : <code>sort</code></a></h3>
+<h3 id="sorting-a-list-of-tasks-code-sort-code"><a class="link" href="#sorting-a-list-of-tasks-code-sort-code">3.9. Sorting a list of tasks : <code>sort</code></a></h3>
 <div class="paragraph">
 <p>Sorts the lists of all the tasks which the user is currently viewing. Generally meant to be used in combination with <code>filter</code>.<br></p>
 </div>
 <div class="paragraph">
-<p>When this command is used, Deadline Manager will sort all the currently displayed tasks according to the user specified comparison method<br>
-Sort comparators are the core of the <code>sort</code> command.  Each sort comparator specifies a particular attribute (e.g. deadline, priority) and a comparison direction, i.e ascending or descending.</p>
+<p>When this command is used, Deadline Manager will sort all the currently displayed tasks according to the user specified comparison method.<br>
+Sort comparators are the core of the <code>sort</code> command.  Each sort comparator specifies a particular attribute (Example - <code>name</code>, <code>priority</code>) and a comparison direction, i.e ascending or descending.</p>
 </div>
 <div class="paragraph">
-<p>The entire sorting command is composed of a chain of sort comparators which would be useful to determine which task to show earlier and latter<br></p>
+<p>The entire sorting command is composed of a chain of sort comparators. This chain helps the user to define which tasks to show earlier and which ones to show latter.<br></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="paragraph">
-<p>What this means is that in case two tasks are in tie according to the first comparator,<br>
-then the decision to place which task first is determined by the next comparator, and so on.</p>
+<p>What this means is that in case two tasks are in tie according to the first comparator, then the decision to place which task first is determined by the next comparator, and so on.</p>
 </div>
 </div>
 </div>
@@ -530,7 +533,7 @@ then the decision to place which task first is determined by the next comparator
 <p>Format of <code>SORT_COMPARATOR</code>: <code>(n|name|d|due|p|priority)(&lt;|&gt;)</code> OR `(t|tag)(&lt;|&gt;){TAG1 TAG2 TAG3 &#8230;&#8203;}</p>
 </li>
 <li>
-<p>Sorts the list by the 1st comparator, in case of ties, sorts by 2nd comparator and so on.</p>
+<p>Sorts the list by the 1st comparator, in case of ties, it sorts by 2nd comparator and so on.</p>
 </li>
 <li>
 <p>Meaning of the operators for each valid key:</p>
@@ -543,7 +546,7 @@ then the decision to place which task first is determined by the next comparator
 <p>When <code>key</code> is <code>d</code> or <code>due</code>, the task&#8217;s due date is compared.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared.</p>
+<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared. Note that 1 is the highest priority and 4 is the lowest priority.</p>
 </li>
 <li>
 <p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared.</p>
@@ -580,7 +583,7 @@ For sorting by tags the user has to specify which tags are more important and wh
 <ul>
 <li>
 <p><code>sort n&gt;</code><br>
-Sorts the current list of tasks in view in descending order by name, where sorting is done in alphabetical manner.</p>
+Sorts the current list of tasks in view in descending order by name, where sorting is done in alphabetical order.</p>
 </li>
 <li>
 <p><code>sort due&lt; name&gt;</code><br>
@@ -593,7 +596,7 @@ Sorts the current list of tasks in view in ascending order by priority.</p>
 <li>
 <p><code>sort tag&lt;{cs2100 family cs2103t}</code><br>
 Sorts the current list of tasks in view in ascending order by tags. In this case all the tasks with the tag <code>cs2100</code> will be placed
-earlier as compared to tasks with the tag <code>family</code>, finally followed by those tasks with the tag <code>cs2103t</code></p>
+before those tasks with the tag <code>family</code>, finally followed by those tasks with the tag <code>cs2103t</code>.</p>
 </li>
 </ul>
 </div>
@@ -605,7 +608,7 @@ earlier as compared to tasks with the tag <code>family</code>, finally followed 
 <p>In case a task does not belong to any of the tags mentioned it will be placed at the bottom of the sorted list.</p>
 </li>
 <li>
-<p>In case a task contains more than one tag specified by the user, then it will be attempted to be sorted according to those tags first which place it former in the sorted list.</p>
+<p>In case a task contains more than one tag specified in the comparator, then it will be attempted to be sorted according to those tags first which place it former in the sorted list.</p>
 </li>
 </ul>
 </div>
@@ -635,7 +638,8 @@ Format: <code>resolve INDEX</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>resolve 1</code> + The 1st task displayed by the deadline manager will be deleted.</p>
+<p><code>resolve 1</code><br>
+The 1st task displayed by the deadline manager will be deleted.</p>
 </li>
 </ul>
 </div>
@@ -736,6 +740,18 @@ Lists all attachments currently associated with the 1st task in the deadline man
 Removes the association of the attachment named "HelloWorld.docx" with the 1st task in the deadline manager.</p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>import</code>, <code>export</code> commands described below do <strong>NOT</strong> support backing up attachments. However they will keep a link to the attachments path if any.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -838,7 +854,7 @@ Format: <code>delete INDEX</code></p>
 Deletes the 2nd task in the deadline manager.</p>
 </li>
 <li>
-<p><code>find Betsy</code><br>
+<p><code>find `OP1 Assignment</code><br>
 <code>delete 1</code><br>
 Deletes the 1st task in the results of the <code>find</code> command.</p>
 </li>
@@ -1001,8 +1017,17 @@ Format: <code>exit</code></p>
 <p>Deadline manager data are saved in the hard disk automatically after any command that changes the data.<br>
 There is no need to save manually.</p>
 </div>
-<div class="paragraph">
-<p>Attachments are merely linked in the deadline manager. A separate copy of the file will not be stored. If the original attachment file has been deleted, deadline manager will fail to retrieve it.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Attachments are merely linked in the deadline manager. A separate copy of the file will not be stored. If the original attachment file has been deleted, deadline manager will fail to retrieve it.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1108,4 +1133,12 @@ e.g.<code>select 2</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-18 15:27:16 UTC</div></div></div></body></html>
+</div>
+<div class="sect1">
+<h2 id="glossary"><a class="link" href="#glossary">6. Glossary</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Subset: a part of a larger group of related things.</p>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-19 04:01:26 UTC</div></div></div></body></html>
