@@ -18,18 +18,18 @@
 <ul class="sectlevel2">
 <li><a href="#viewing-help-code-help-code">3.1. Viewing help : <code>help</code></a></li>
 <li><a href="#adding-a-task-code-add-code">3.2. Adding a task: <code>add</code></a></li>
-<li><a href="#add-a-recurring-task-code-addr-code">3.3. Add a recurring task : <code>addr</code></a></li>
+<li><a href="#adding-a-recurring-task-code-addr-code">3.3. Adding a recurring task : <code>addr</code></a></li>
 <li><a href="#listing-all-tasks-code-list-code">3.4. Listing all tasks : <code>list</code></a></li>
 <li><a href="#editing-a-task-code-edit-code">3.5. Editing a task : <code>edit</code></a></li>
 <li><a href="#locating-tasks-by-name-code-find-code">3.6. Locating tasks by name: <code>find</code></a></li>
 <li><a href="#filtering-a-list-of-tasks-code-filter-code">3.7. Filtering a list of tasks: <code>filter</code></a></li>
 <li><a href="#filtering-a-list-of-tasks-code-search-code">3.8. Filtering a list of tasks: <code>search</code></a></li>
 <li><a href="#sorting-a-list-of-tasks-code-sort-code">3.9. Sorting a list of tasks : <code>sort</code></a></li>
-<li><a href="#resolve-tasks-code-resolve-code-coming-in-v2-0">3.10. Resolve tasks : <code>resolve</code> (coming in v2.0)</a></li>
-<li><a href="#snooze-tasks-code-snooze-code-coming-in-v2-0">3.11. Snooze tasks : <code>snooze</code> (coming in v2.0)</a></li>
-<li><a href="#manage-attachments-of-a-task-code-attachment-code">3.12. Manage attachments of a task : <code>attachment</code></a></li>
+<li><a href="#resolving-tasks-code-resolve-code-coming-in-v2-0">3.10. Resolving tasks : <code>resolve</code> (coming in v2.0)</a></li>
+<li><a href="#snoozing-tasks-code-snooze-code-coming-in-v2-0">3.11. Snoozing tasks : <code>snooze</code> (coming in v2.0)</a></li>
+<li><a href="#managing-attachments-of-a-task-code-attachment-code">3.12. Managing attachments of a task : <code>attachment</code></a></li>
 <li><a href="#importing-a-set-of-tasks-code-import-code">3.13. Importing a set of tasks: <code>import</code></a></li>
-<li><a href="#export-a-set-of-tasks-code-export-code">3.14. Export a set of tasks: <code>export</code></a></li>
+<li><a href="#exporting-a-set-of-tasks-code-export-code">3.14. Exporting a set of tasks: <code>export</code></a></li>
 <li><a href="#deleting-a-task-code-delete-code">3.15. Deleting a task : <code>delete</code></a></li>
 <li><a href="#selecting-a-task-code-select-code">3.16. Selecting a task : <code>select</code></a></li>
 <li><a href="#listing-entered-commands-code-history-code">3.17. Listing entered commands : <code>history</code></a></li>
@@ -205,7 +205,7 @@ Adds a task with name <code>v1.1 milestone</code> with a deadline on 9th October
 </div>
 </div>
 <div class="sect2">
-<h3 id="add-a-recurring-task-code-addr-code"><a class="link" href="#add-a-recurring-task-code-addr-code">3.3. Add a recurring task : <code>addr</code></a></h3>
+<h3 id="adding-a-recurring-task-code-addr-code"><a class="link" href="#adding-a-recurring-task-code-addr-code">3.3. Adding a recurring task : <code>addr</code></a></h3>
 <div class="paragraph">
 <p>Adds a recurring task to the deadline manager.<br>
 Format: <code>addr n/NAME d/DEADLINE p/PRIORITY f/FREQUENCY [t/TAG]&#8230;&#8203;</code></p>
@@ -616,7 +616,7 @@ before those tasks with the tag <code>family</code>, finally followed by those t
 </div>
 </div>
 <div class="sect2">
-<h3 id="resolve-tasks-code-resolve-code-coming-in-v2-0"><a class="link" href="#resolve-tasks-code-resolve-code-coming-in-v2-0">3.10. Resolve tasks : <code>resolve</code> (coming in v2.0)</a></h3>
+<h3 id="resolving-tasks-code-resolve-code-coming-in-v2-0"><a class="link" href="#resolving-tasks-code-resolve-code-coming-in-v2-0">3.10. Resolving tasks : <code>resolve</code> (coming in v2.0)</a></h3>
 <div class="paragraph">
 <p>Deletes a specified task from the deadline manager. The index refers to the entries of a previous call to list or search.<br>
 Format: <code>resolve INDEX</code></p>
@@ -645,7 +645,7 @@ The 1st task displayed by the deadline manager will be deleted.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="snooze-tasks-code-snooze-code-coming-in-v2-0"><a class="link" href="#snooze-tasks-code-snooze-code-coming-in-v2-0">3.11. Snooze tasks : <code>snooze</code> (coming in v2.0)</a></h3>
+<h3 id="snoozing-tasks-code-snooze-code-coming-in-v2-0"><a class="link" href="#snoozing-tasks-code-snooze-code-coming-in-v2-0">3.11. Snoozing tasks : <code>snooze</code> (coming in v2.0)</a></h3>
 <div class="paragraph">
 <p>Hides a specified task from the deadline manager until the time specified in the parameter has elapsed. The index refers to the entries of a previous call to list or search.<br>
 Format: <code>snooze INDEX d/DEADLINE</code></p>
@@ -674,7 +674,7 @@ A task is 'snoozed' as its deadline is now shifted backwards to 20th September 2
 </div>
 </div>
 <div class="sect2">
-<h3 id="manage-attachments-of-a-task-code-attachment-code"><a class="link" href="#manage-attachments-of-a-task-code-attachment-code">3.12. Manage attachments of a task : <code>attachment</code></a></h3>
+<h3 id="managing-attachments-of-a-task-code-attachment-code"><a class="link" href="#managing-attachments-of-a-task-code-attachment-code">3.12. Managing attachments of a task : <code>attachment</code></a></h3>
 <div class="paragraph">
 <p>Allows the user to add, list, delete and retrieve files associated with a specific task.<br>
 Deadline manager does not make a copy or backup the files added. Only the location of the files are stored and it can be modified, renamed, moved or deleted without Deadline manager&#8217;s knowledge. As such, there is no guarantee for a file associated with a specific task to always exist.<br>
@@ -788,7 +788,7 @@ Import tasks from the file <code>cs2103.txt</code> that is defined by the absolu
 </div>
 </div>
 <div class="sect2">
-<h3 id="export-a-set-of-tasks-code-export-code"><a class="link" href="#export-a-set-of-tasks-code-export-code">3.14. Export a set of tasks: <code>export</code></a></h3>
+<h3 id="exporting-a-set-of-tasks-code-export-code"><a class="link" href="#exporting-a-set-of-tasks-code-export-code">3.14. Exporting a set of tasks: <code>export</code></a></h3>
 <div class="paragraph">
 <p>Export the set of tasks that is currently displayed by the Deadline Manager. The exported file will be saved as a file at the provided <code>FILEPATH</code>. <br>
 Format: <code>export FILEPATH</code></p>
@@ -1055,6 +1055,19 @@ e.g. <code>add n/CS2103 Assignment d/11/10/2018 P/2 t/java t/hard</code></p>
 e.g. <code>add n/CS2103 Tutorial d/1/10/2018 f/7 P/4 t/easy</code></p>
 </li>
 <li>
+<p><strong>Attachment (Add)</strong> : <code>attachment INDEX add p\FILEPATH</code></p>
+</li>
+<li>
+<p><strong>Attachment (Delete)</strong> : <code>attachment INDEX delete n/FILENAME</code></p>
+</li>
+<li>
+<p><strong>Attachment (List)</strong> : <code>attachment INDEX list</code></p>
+</li>
+<li>
+<p><strong>Attachment (Retrieve)</strong> : <code>attachment INDEX get n/FILENAME p/FILEPATH</code>
+e.g. <code>attachment 2 get p/C:\Documents\TaskAttachments.zip n/Assignment.zip</code></p>
+</li>
+<li>
 <p><strong>Clear</strong> : <code>clear</code></p>
 </li>
 <li>
@@ -1066,6 +1079,12 @@ e.g. <code>delete 3</code></p>
 e.g. <code>edit 2 n/CS2103 Assignment 2 t/easy</code></p>
 </li>
 <li>
+<p><strong>Exit</strong> : <code>exit</code></p>
+</li>
+<li>
+<p><strong>Export</strong> : <code>export FILEPATH</code></p>
+</li>
+<li>
 <p><strong>Find</strong> : <code>find KEYWORD [MORE_KEYWORDS]</code><br>
 e.g. <code>find CS2103 CS2102</code></p>
 </li>
@@ -1074,61 +1093,42 @@ e.g. <code>find CS2103 CS2102</code></p>
 e.g. <code>filter due&lt;1/10/2018</code></p>
 </li>
 <li>
-<p><strong>Search</strong> : <code>search FILTER_EXPRESSION</code>
-e.g. <code>search due&lt;1/10/2018</code></p>
+<p><strong>Help</strong> : <code>help</code></p>
 </li>
 <li>
-<p><strong>Sort</strong> : <code>sort SORT_COMPARATOR [SORT_COMPARATORS]</code><br>
-e.g. <code>sort due&lt; name&gt;</code></p>
+<p><strong>History</strong> : <code>history</code></p>
+</li>
+<li>
+<p><strong>Import</strong> : <code>import FILEPATH</code></p>
 </li>
 <li>
 <p><strong>List</strong> : <code>list</code></p>
+</li>
+<li>
+<p><strong>Redo</strong> : <code>redo</code></p>
 </li>
 <li>
 <p><strong>Resolve</strong> : <code>resolve INDEX</code><br>
 e.g. <code>resolve 1</code></p>
 </li>
 <li>
-<p><strong>Snooze</strong> : <code>snooze INDEX d/DEADLINE</code><br>
-e.g.  <code>snooze 1 d/31/06/2018</code></p>
-</li>
-<li>
-<p><strong>Add Attachment</strong> : <code>attachment INDEX add p\FILEPATH</code></p>
-</li>
-<li>
-<p><strong>List Attachments</strong> : <code>attachment INDEX list</code></p>
-</li>
-<li>
-<p><strong>Delete Attachment</strong> : <code>attachment INDEX delete n/FILENAME</code></p>
-</li>
-<li>
-<p><strong>Retrieve Attachment</strong> : <code>attachment INDEX get n/FILENAME p/FILEPATH</code>
-e.g. <code>attachment 2 get p/C:\Documents\TaskAttachments.zip n/Assignment.zip</code></p>
-</li>
-<li>
-<p><strong>Import</strong> : <code>import FILEPATH</code></p>
-</li>
-<li>
-<p><strong>Export</strong> : <code>export FILEPATH</code></p>
-</li>
-<li>
-<p><strong>Help</strong> : <code>help</code></p>
+<p><strong>Search</strong> : <code>search FILTER_EXPRESSION</code>
+e.g. <code>search due&lt;1/10/2018</code></p>
 </li>
 <li>
 <p><strong>Select</strong> : <code>select INDEX</code><br>
 e.g.<code>select 2</code></p>
 </li>
 <li>
-<p><strong>History</strong> : <code>history</code></p>
+<p><strong>Snooze</strong> : <code>snooze INDEX d/DEADLINE</code><br>
+e.g.  <code>snooze 1 d/31/06/2018</code></p>
+</li>
+<li>
+<p><strong>Sort</strong> : <code>sort SORT_COMPARATOR [SORT_COMPARATORS]</code><br>
+e.g. <code>sort due&lt; name&gt;</code></p>
 </li>
 <li>
 <p><strong>Undo</strong> : <code>undo</code></p>
-</li>
-<li>
-<p><strong>Redo</strong> : <code>redo</code></p>
-</li>
-<li>
-<p><strong>Exit</strong> : <code>exit</code></p>
 </li>
 </ul>
 </div>
@@ -1137,8 +1137,15 @@ e.g.<code>select 2</code></p>
 <div class="sect1">
 <h2 id="glossary"><a class="link" href="#glossary">6. Glossary</a></h2>
 <div class="sectionbody">
-<div class="paragraph">
+<div class="ulist">
+<ul>
+<li>
+<p>File Path: a string that defines the unique location of a file in the file system.</p>
+</li>
+<li>
 <p>Subset: a part of a larger group of related things.</p>
+</li>
+</ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-23 04:21:54 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-23 06:14:10 UTC</div></div></div></body></html>
