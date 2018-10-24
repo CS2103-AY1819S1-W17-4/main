@@ -971,7 +971,9 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 <p>The deadline supports import and export features. This feature uses 2 components: <code>Storage</code> and <code>Model</code>.</p>
 </div>
 <div class="sect3">
-<h4 id="overview-of-components"><a class="link" href="#overview-of-components">4.3.1. Overview of components</a></h4>
+<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">4.3.1. Current Implementation</a></h4>
+<div class="sect4">
+<h5 id="overview-of-components"><a class="link" href="#overview-of-components">Overview of components</a></h5>
 <div class="paragraph">
 <p>Internally, <code>StorageManager</code> implements the following APIs from <code>ImportExportStorage</code> interface:</p>
 </div>
@@ -1019,8 +1021,8 @@ An ImportExportExceptionEvent is raised if I/O fails for any reason.
 <p>The request events are posted to the <code>EventCenter</code>, which will dispatch to all subscribed methods.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="inter-component-communication"><a class="link" href="#inter-component-communication">4.3.2. Inter-component communication</a></h4>
+<div class="sect4">
+<h5 id="inter-component-communication"><a class="link" href="#inter-component-communication">Inter-component communication</a></h5>
 <div class="paragraph">
 <p>To facilitate communication between the two components, the deadline manager uses the event-driven model.
 An import or export request event is created by <code>ModelManager</code>, and a handler in <code>StorageManager</code> is invoked to handle the event.
@@ -1091,8 +1093,8 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="sequence-flow"><a class="link" href="#sequence-flow">4.3.3. Sequence Flow</a></h4>
+<div class="sect4">
+<h5 id="sequence-flow"><a class="link" href="#sequence-flow">Sequence Flow</a></h5>
 <div class="paragraph">
 <p>Given below is a sequence diagram illustrating the interactions between <code>Model</code> and <code>Storage</code> when exporting.</p>
 </div>
@@ -1140,11 +1142,11 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 <p>Step 6. <code>ModelManager</code> will take the imported data and de-conflict the merged entries.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="merge-deconflict"><a class="link" href="#merge-deconflict">4.3.4. Merge Deconflict</a></h4>
+<div class="sect4">
+<h5 id="import-conflict-resolver"><a class="link" href="#import-conflict-resolver">Import Conflict Resolver</a></h5>
 <div class="paragraph">
 <p>An imported task is deemed conflicting with an existing task if the two tasks compare <code>equal</code> with the internal implementation of Task&#8217;s <code>equal</code> method.
-If the user attempts to import a new task that conflicts with an existing task, the task can be de-conflicted with one of the following algorithms:</p>
+If the user attempts to import a new task that conflicts with an existing task, the task needs to be de-conflicted with one of the following resolver:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1164,6 +1166,82 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">4.3.2. Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-communication-between-code-model-code-and-code-storage-code"><a class="link" href="#aspect-communication-between-code-model-code-and-code-storage-code">Aspect: Communication between <code>Model</code> and <code>Storage</code></a></h5>
+<div class="paragraph">
+<p>Both the <code>Model</code> and the <code>Storage</code> components are required for import/export. However, they are separate components, and we need to establish a method of communication between the two components.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> <code>Model</code> is maintained as being separate from <code>Storage</code>. The event-based style is used: an Import/Export event is created to signal a request, and another Import/Export event is created to signal that the data is ready.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: <code>Storage</code> is decoupled from <code>Model</code>, i.e. changes to <code>Model</code> will not affect changes to <code>Storage</code>, and vice versa. This is a good OOP practice.</p>
+</li>
+<li>
+<p>Cons: It is more difficult to implement and more overhead is incurred in passing data around. Calls are not immediate, and there is no way to immediately tell whether an execution succeeded or failed.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Model executes an import/export method in Storage directly.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: The data from the import/export request can be retrieved immediately and easily.</p>
+</li>
+<li>
+<p>Cons: <code>Model</code> is more tightly coupled with <code>Storage</code>, i.e. <code>Model</code> and <code>Storage</code> will no longer be separate components, but will instead know the inner workings of each other.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-to-resolve-import-conflicts"><a class="link" href="#aspect-how-to-resolve-import-conflicts">Aspect: How to resolve import conflicts</a></h5>
+<div class="paragraph">
+<p>As described in <a href="#Import Deconflict">Import Deconflict</a>, an import conflict arises when the user attempts to import tasks that already exist in Deadline Manager. We need an import conflict resolver to determine how to deal with these tasks.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> An <code>ImportConflictResolver</code> class is implemented to resolve import conflicts. The user specifies which resolver algorithm to use, and the corresponding <code>{Method}ImportConflictResolver</code> object is created to resolve import conflicts.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: This provides more flexibility for user to define how to resolve imports. Additionally, this is better Software Engineering practice as it follows the Single Responsibility Principle: the <code>ImportConflictResolver</code> object is responsible only for its own algorithm.</p>
+</li>
+<li>
+<p>Cons: It is more difficult to implement an entirely separate <code>ImportConflictResolver</code> class, complete with separate sub-classes for different algorithms.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Use an <code>enum</code> to implement ImportConflictResolver. The <code>ImportConflictResolver</code> enum provides a pre-defined selection of algorithms that the user can specify.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: There is no need to implement separate classes. Since the <code>ImportConflictResolver</code> enum is only useful within Model, it reside within Model as a private variable.</p>
+</li>
+<li>
+<p>Cons: If/else statements are required to determine which algorithm should be used. Additionally, an <code>ImportConflictResolver</code> implemented this way cannot be easily reused or extended.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="sort-feature"><a class="link" href="#sort-feature">4.4. Sort feature</a></h3>
 <div class="paragraph">
@@ -1171,7 +1249,7 @@ If the user attempts to import a new task that conflicts with an existing task, 
 It is made up of two main components - <code>SortCommandParser</code> and <code>SortCommand</code></p>
 </div>
 <div class="sect3">
-<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">4.4.1. Current Implementation</a></h4>
+<h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">4.4.1. Current Implementation</a></h4>
 <div class="paragraph">
 <p>The sort command is facilitated by <code>VersionedTaskCollection</code>.</p>
 </div>
@@ -1219,7 +1297,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">4.4.3. Design Considerations</a></h4>
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">4.4.3. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-which-task-list-to-sort"><a class="link" href="#aspect-which-task-list-to-sort">Aspect: Which Task List to Sort</a></h5>
 <div class="ulist">
@@ -1592,7 +1670,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">4.5.6. Design Considerations</a></h4>
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">4.5.6. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-parsing-of-composite-filter-expressions"><a class="link" href="#aspect-parsing-of-composite-filter-expressions">Aspect: Parsing of composite filter expressions</a></h5>
 <div class="ulist">
@@ -1634,7 +1712,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <p>The attachment feature aims to help users organise and keep track of important files needed for the respective tasks. It allows users to associate files in their computer with a particular task. When the user decides to perform the task, this feature provides functionality to identify previously associated files and export it to an appropriate location.</p>
 </div>
 <div class="sect3">
-<h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">4.6.1. Current implementation</a></h4>
+<h4 id="current-implementation-4"><a class="link" href="#current-implementation-4">4.6.1. Current implementation</a></h4>
 <div class="paragraph">
 <p>The attachment feature is mainly implemented by <code>AttachmentCommand</code>. As <code>AttachmentCommand</code> is an all-purpose command that allows users to perform numerous actions related to attachments, a nested abstract class <code>AttachmentAction</code> is defined within <code>AttachmentCommand</code>. There are 4 classes that extend <code>AttachmentAction</code> in order to implement the various actions of the attachment feature. The command line arguments for the attachment command is parsed by <code>AttachmentCommandParser</code>.</p>
 </div>
@@ -1762,7 +1840,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">4.6.4. Design considerations</a></h4>
+<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">4.6.4. Design considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-to-associate-files-to-tasks"><a class="link" href="#aspect-how-to-associate-files-to-tasks">Aspect: How to associate files to tasks</a></h5>
 <div class="ulist">
@@ -3339,4 +3417,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-23 15:56:25 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-24 00:53:27 UTC</div></div></div></body></html>
