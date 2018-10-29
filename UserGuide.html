@@ -21,22 +21,21 @@
 <li><a href="#adding-a-recurring-task-code-addr-code">3.3. Adding a recurring task : <code>addr</code></a></li>
 <li><a href="#listing-all-tasks-code-list-code">3.4. Listing all tasks : <code>list</code></a></li>
 <li><a href="#editing-a-task-code-edit-code">3.5. Editing a task : <code>edit</code></a></li>
-<li><a href="#locating-tasks-by-name-code-find-code">3.6. Locating tasks by name: <code>find</code></a></li>
-<li><a href="#filtering-a-list-of-tasks-code-filter-code">3.7. Filtering a list of tasks: <code>filter</code></a></li>
-<li><a href="#sorting-a-list-of-tasks-code-sort-code">3.8. Sorting a list of tasks : <code>sort</code></a></li>
-<li><a href="#resolving-tasks-code-resolve-code-coming-in-v2-0">3.9. Resolving tasks : <code>resolve</code> (coming in v2.0)</a></li>
-<li><a href="#snoozing-tasks-code-snooze-code-coming-in-v2-0">3.10. Snoozing tasks : <code>snooze</code> (coming in v2.0)</a></li>
-<li><a href="#managing-attachments-of-a-task-code-attachment-code">3.11. Managing attachments of a task : <code>attachment</code></a></li>
-<li><a href="#importing-a-set-of-tasks-code-import-code">3.12. Importing a set of tasks: <code>import</code></a></li>
-<li><a href="#exporting-a-set-of-tasks-code-export-code">3.13. Exporting a set of tasks: <code>export</code></a></li>
-<li><a href="#deleting-a-task-code-delete-code">3.14. Deleting a task : <code>delete</code></a></li>
-<li><a href="#selecting-a-task-code-select-code">3.15. Selecting a task : <code>select</code></a></li>
-<li><a href="#listing-entered-commands-code-history-code">3.16. Listing entered commands : <code>history</code></a></li>
-<li><a href="#undoing-previous-command-code-undo-code">3.17. Undoing previous command : <code>undo</code></a></li>
-<li><a href="#redoing-the-previously-undone-command-code-redo-code">3.18. Redoing the previously undone command : <code>redo</code></a></li>
-<li><a href="#clearing-all-entries-code-clear-code">3.19. Clearing all entries : <code>clear</code></a></li>
-<li><a href="#exiting-the-program-code-exit-code">3.20. Exiting the program : <code>exit</code></a></li>
-<li><a href="#saving-the-data">3.21. Saving the data</a></li>
+<li><a href="#filtering-a-list-of-tasks-code-filter-code">3.6. Filtering a list of tasks: <code>filter</code></a></li>
+<li><a href="#sorting-a-list-of-tasks-code-sort-code">3.7. Sorting a list of tasks : <code>sort</code></a></li>
+<li><a href="#resolving-tasks-code-resolve-code-coming-in-v2-0">3.8. Resolving tasks : <code>resolve</code> (coming in v2.0)</a></li>
+<li><a href="#snoozing-tasks-code-snooze-code-coming-in-v2-0">3.9. Snoozing tasks : <code>snooze</code> (coming in v2.0)</a></li>
+<li><a href="#managing-attachments-of-a-task-code-attachment-code">3.10. Managing attachments of a task : <code>attachment</code></a></li>
+<li><a href="#importing-a-set-of-tasks-code-import-code">3.11. Importing a set of tasks: <code>import</code></a></li>
+<li><a href="#exporting-a-set-of-tasks-code-export-code">3.12. Exporting a set of tasks: <code>export</code></a></li>
+<li><a href="#deleting-a-task-code-delete-code">3.13. Deleting a task : <code>delete</code></a></li>
+<li><a href="#selecting-a-task-code-select-code">3.14. Selecting a task : <code>select</code></a></li>
+<li><a href="#listing-entered-commands-code-history-code">3.15. Listing entered commands : <code>history</code></a></li>
+<li><a href="#undoing-previous-command-code-undo-code">3.16. Undoing previous command : <code>undo</code></a></li>
+<li><a href="#redoing-the-previously-undone-command-code-redo-code">3.17. Redoing the previously undone command : <code>redo</code></a></li>
+<li><a href="#clearing-all-entries-code-clear-code">3.18. Clearing all entries : <code>clear</code></a></li>
+<li><a href="#exiting-the-program-code-exit-code">3.19. Exiting the program : <code>exit</code></a></li>
+<li><a href="#saving-the-data">3.20. Saving the data</a></li>
 </ul>
 </li>
 <li><a href="#faq">4. FAQ</a></li>
@@ -310,60 +309,29 @@ Edits the priority of the 1st task to 1 (highest priority).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="locating-tasks-by-name-code-find-code"><a class="link" href="#locating-tasks-by-name-code-find-code">3.6. Locating tasks by name: <code>find</code></a></h3>
-<div class="paragraph">
-<p>Finds tasks whose names contain any of the given keywords.<br>
-Format: <code>find KEYWORD [MORE_KEYWORDS]</code></p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>The search is case insensitive. e.g <code>hans</code> will match <code>Hans</code></p>
-</li>
-<li>
-<p>The order of the keywords does not matter. e.g. <code>Hans Bo</code> will match <code>Bo Hans</code></p>
-</li>
-<li>
-<p>Only the name is searched.</p>
-</li>
-<li>
-<p>Only full words will be matched e.g. <code>Han</code> will not match <code>Hans</code></p>
-</li>
-<li>
-<p>Persons matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>Hans Bo</code> will return <code>Hans Gruber</code>, <code>Bo Yang</code></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Examples:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>find Assignment</code><br>
-Returns <code>assignment</code> and <code>Assignment 3</code></p>
-</li>
-<li>
-<p><code>find CS2103T Assignment 3</code><br>
-Returns any task having names <code>CS2103T</code>, <code>assignment</code>, or <code>3</code></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="filtering-a-list-of-tasks-code-filter-code"><a class="link" href="#filtering-a-list-of-tasks-code-filter-code">3.7. Filtering a list of tasks: <code>filter</code></a></h3>
+<h3 id="filtering-a-list-of-tasks-code-filter-code"><a class="link" href="#filtering-a-list-of-tasks-code-filter-code">3.6. Filtering a list of tasks: <code>filter</code></a></h3>
 <div class="paragraph">
 <p>Filters the current list of tasks with a specified filter expression.<br>
 Format: <code>filter FILTER_EXPRESSION</code></p>
 </div>
 <div class="paragraph">
 <p>When this command is used, Deadline Manager will display only those tasks which satisfies the given filter expression.<br>
-Filter predicates are the core of the <code>filter</code> command.  Each filter predicate specifies a particular attribute (e.g. deadline, priority) and a value to test this attribute against (e.g. deadline being earlier than 1/10/2018).  Filter predicates are regarded as "indivisible".<br>
-Filter expressions are composed from some number of filter predicates, and the <code>filter</code> command is designed to accept arbitrarily complex filter expressions that can be composed from any number of filter predicates.<br>
+Filter predicates are the core of the <code>filter</code> command.  Each filter predicate specifies a particular attribute (e.g. deadline, priority) and a value to test this attribute against (e.g. deadline being earlier than 1/10/2018).  Filter predicates are regarded as "indivisible".</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Filter predicates are indivisible becuase each filter predicate represents a single rule for filtering - a specified field (e.g. deadline) is compared against some specified value (e.g. 1/10/2018).  There is no way to decompose a filter predicate into smaller parts.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Filter expressions (i.e. the <code>FILTER_EXPRESSION</code> strings) are composed from any number of filter predicates, and they create a composite rule to filter against.  The <code>filter</code> command is designed to accept arbitrarily complex filter expressions that can be composed from any number of filter predicates.<br>
 The format for <code>FILTER_EXPRESSION</code> is defined recursively in the following paragraphs.</p>
 </div>
 <div class="paragraph">
@@ -394,12 +362,27 @@ The format for <code>FILTER_EXPRESSION</code> is defined recursively in the foll
 <p>Parentheses are used for finer control the order that filter expressions are combined.  By default, <code>!</code> has highest precedence (i.e. <code>!</code> is applied first), followed by <code>&amp;</code>, then followed by <code>|</code>.</p>
 </div>
 <div class="paragraph">
+<p>When no boolean operator (<code>&amp;</code>, <code>|</code>, or <code>!</code>) is specified where one is expected, it is implicitly treated as if an <code>&amp;</code> was used.  This is known as the <em>implicit-AND</em> rule.</p>
+</div>
+<div class="paragraph">
 <p>When it is unambiguous, whitespace between the operators and filter expressions may be omitted.</p>
 </div>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Intuitively, the syntax for filter expressions mirrors that of arithmetic expressions such as <code>1+3*4</code> and <code>(1+4+6)*2</code>.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p><code>FILTER_PREDICATE</code> is a string in the following format-: <code>&lt;key&gt;&lt;operator&gt;&lt;phrase&gt;</code>:</p>
+<p><code>FILTER_PREDICATE</code> is a string in the following format: <code>&lt;key&gt;&lt;operator&gt;&lt;phrase&gt;</code>:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -416,6 +399,19 @@ The format for <code>FILTER_EXPRESSION</code> is defined recursively in the foll
 </div>
 <div class="paragraph">
 <p>The operator <code>:</code> is known as the <strong>convenience</strong> operator&#8201;&#8212;&#8201;it is an alias for the operator that intuitively does what you expect for the given <code>key</code>.  More details are given below.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>For simplicity, a filter predicate may also be specified with just the search phrase.  This is known as an <em>any-match predicate</em>. Such a predicate will match any filterable textual or date fields (i.e. name, deadline, and tags) using the convenience operator.  This allows for a simplified syntax that reduces cognitive overhead (especially when used with the implicit-AND rule), e.g. <code>filter assignment cs2103</code> will match tasks that contain <em>both</em> <code>assignment</code> and <code>cs2103</code> in any textual or date field.</p>
+</div>
+<div class="paragraph">
+<p>Numeric fields such as priority and frequency are not matched by an any-match predicate because the integer values used for priority and frequency often match many task names and tags too.</p>
+</div>
+<div class="paragraph">
+<p>An unquoted any-match predicate can only contain alphanumeric characters, <code>_</code>, <code>-</code>, and <code>/</code>.  To use other characters, the search phrase must be placed in quotes.</p>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>The <code>&lt;</code> and <code>&gt;</code> operators are non-strict: Every task that will be shown using <code>=</code> will also be shown using <code>&lt;</code> or <code>&gt;</code>.</p>
@@ -437,10 +433,13 @@ The format for <code>FILTER_EXPRESSION</code> is defined recursively in the foll
 <p>When <code>key</code> is <code>d</code> or <code>due</code>, the task&#8217;s due date is compared, and the search phrase is interpreted as a date.  Dates must be in <code>d/m/y</code> format.  The operator <code>&gt;</code> tests if the task&#8217;s due date is on or after the specified due date.  The operator <code>&lt;</code> tests if the task&#8217;s due date is on or before the specified due date.  The operator <code>=</code> tests if the task&#8217;s due date is exactly equal to the specified due date.  The convenience operator is an alias for <code>&lt;</code>.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared, and the search phrase is interpreted as an integer, representing the priority to be searched.  A priority of zero matches all the tasks with no priority set.  The operator <code>&gt;</code> tests if the task has priority at most as high as the specified priority.  The operator <code>&lt;</code> tests if the task has priority at least as high as the specified priority.  The operator <code>=</code> tests if the task&#8217;s priority is exactly equal to the specified priority.  The convenience operator is an alias for <code>&lt;</code>.  Note that priority 1 is the highest priority, and priority 4 is the lowest priority.</p>
+<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared, and the search phrase is interpreted as an integer, representing the priority to be searched.  A priority of zero matches all the tasks with no priority set.  The operator <code>&gt;</code> tests if the task has priority at least as high as the specified priority.  The operator <code>&lt;</code> tests if the task has priority at most as high as the specified priority.  The operator <code>=</code> tests if the task&#8217;s priority is exactly equal to the specified priority.  The convenience operator is an alias for <code>&gt;</code>.  Note that priority 1 is the highest priority, priority 4 is the lowest priority, and tasks without any priority are considered to be of lower priority than priority 4.  In other words, <code>1 &gt; 2 &gt; 3 &gt; 4 &gt; (no priority)</code>.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared, and the search phrase is interpreted as a (unordered) set of tags.  Multiple tags are separated by commas (see examples below).  The operator <code>&gt;</code> tests if every tag of the given task is contained in the specified set of tags.  The operator <code>&lt;</code> tests if the every specified tag is present for the given task.  The operator <code>=</code> tests if the set of tags for the given task is exactly the same as the set of specified tags.  The convenience operator is an alias for <code>&lt;</code>.</p>
+<p>When <code>key</code> is <code>f</code> or <code>frequency</code>, the task&#8217;s frequency is compared, and the search phrase is interpreted as an integer, representing the frequency to be searched.  A frequency of zero matches all the non-recurring tasks.  The operator <code>&gt;</code> tests if the task has frequency at least as high as the specified frequency.  The operator <code>&lt;</code> tests if the task has frequency at most as high as the specified frequency.  The operator <code>=</code> tests if the task&#8217;s frequency is exactly equal to the specified frequency.  The convenience operator is an alias for <code>&gt;</code>.</p>
+</li>
+<li>
+<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared, and the search phrase is interpreted as a (unordered) set of tags.  Multiple tags are separated by commas (see examples below).  The operator <code>&gt;</code> tests if every tag of the given task is contained in the specified set of tags.  The operator <code>&lt;</code> tests if the every specified tag is present for the given task.  The operator <code>=</code> tests if the set of tags for the given task is exactly the same as the set of specified tags.  The convenience operator is an alias for <code>&lt;</code>.  Note that tag names have to be specified exactly - substrings of the tag name will not work.</p>
 </li>
 <li>
 <p>Any other <code>key</code> will cause Deadline Manager to produce an error.</p>
@@ -471,7 +470,7 @@ Returns a subset of the current list of tasks that have deadlines on or before 1
 Returns a subset of the current list of tasks that have a name that contains "Alex".</p>
 </li>
 <li>
-<p><code>filter name:"Alex Tan"</code>
+<p><code>filter n:"Alex Tan"</code>
 Returns a subset of the current list of tasks that have a name that contains "Alex Tan".</p>
 </li>
 <li>
@@ -479,7 +478,7 @@ Returns a subset of the current list of tasks that have a name that contains "Al
 Returns a subset of the current list of tasks that have priority = 1 (highest priority).</p>
 </li>
 <li>
-<p><code>filter p&lt;3</code>
+<p><code>filter p&gt;3</code>
 Returns a subset of the current list of tasks that have priority = 1, 2, or 3. (Highest priority, second highest priority, or third highest priority.)</p>
 </li>
 <li>
@@ -490,11 +489,39 @@ Returns a subset of the current list of tasks that has the tag "CS2103T".</p>
 <p><code>filter t:CS2103T,CS2101</code>
 Returns a subset of the current list of tasks that has both the tags "CS2103T" and "CS2101".</p>
 </li>
+<li>
+<p><code>filter assignment CS2101</code>
+Returns a subset of the current list of tasks that have a name or tag list that contains "assignment" and a name or tag list that contains "CS2101".</p>
+</li>
+<li>
+<p><code>filter assignment|CS2101</code>
+Returns a subset of the current list of tasks that have a name or tag list that contains "assignment" or "CS2101".</p>
+</li>
+<li>
+<p><code>filter 1/10/2018</code>
+Returns a subset of the current list of tasks that have deadlines on or before 1st October 2018.  (If a task has a name or tag list that contains the string "1/10/2018", it will also be returned.)</p>
+</li>
+<li>
+<p><code>filter ! t:CS2101</code>
+Returns a subset of the current list of tasks that do not have the tag "CS2101".</p>
+</li>
+<li>
+<p><code>filter n:assignment | (p:3 &amp; t:CS2101)</code>
+Returns a subset of the current list of tasks that have a name that contains "assignment", or have priority at least 3 and contains tag "CS2101".</p>
+</li>
+<li>
+<p><code>filter n:assignment||(p:3 t:CS2101)</code>
+Returns a subset of the current list of tasks that have a name that contains "assignment", or have priority at least 3 and contains tag "CS2101".</p>
+</li>
+<li>
+<p><code>filter !n:homework||(p:3 t:CS2101)</code>
+Returns a subset of the current list of tasks that have a name that does not contain "homework", or have priority at least 3 and contains tag "CS2101".</p>
+</li>
 </ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="sorting-a-list-of-tasks-code-sort-code"><a class="link" href="#sorting-a-list-of-tasks-code-sort-code">3.8. Sorting a list of tasks : <code>sort</code></a></h3>
+<h3 id="sorting-a-list-of-tasks-code-sort-code"><a class="link" href="#sorting-a-list-of-tasks-code-sort-code">3.7. Sorting a list of tasks : <code>sort</code></a></h3>
 <div class="paragraph">
 <p>Sorts the lists of all the tasks which the user is currently viewing. Generally meant to be used in combination with <code>filter</code>.<br></p>
 </div>
@@ -606,7 +633,7 @@ before those tasks with the tag <code>family</code>, finally followed by those t
 </div>
 </div>
 <div class="sect2">
-<h3 id="resolving-tasks-code-resolve-code-coming-in-v2-0"><a class="link" href="#resolving-tasks-code-resolve-code-coming-in-v2-0">3.9. Resolving tasks : <code>resolve</code> (coming in v2.0)</a></h3>
+<h3 id="resolving-tasks-code-resolve-code-coming-in-v2-0"><a class="link" href="#resolving-tasks-code-resolve-code-coming-in-v2-0">3.8. Resolving tasks : <code>resolve</code> (coming in v2.0)</a></h3>
 <div class="paragraph">
 <p>Deletes a specified task from the deadline manager. The index refers to the entries of a previous call to list or search.<br>
 Format: <code>resolve INDEX</code></p>
@@ -635,7 +662,7 @@ The 1st task displayed by the deadline manager will be deleted.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="snoozing-tasks-code-snooze-code-coming-in-v2-0"><a class="link" href="#snoozing-tasks-code-snooze-code-coming-in-v2-0">3.10. Snoozing tasks : <code>snooze</code> (coming in v2.0)</a></h3>
+<h3 id="snoozing-tasks-code-snooze-code-coming-in-v2-0"><a class="link" href="#snoozing-tasks-code-snooze-code-coming-in-v2-0">3.9. Snoozing tasks : <code>snooze</code> (coming in v2.0)</a></h3>
 <div class="paragraph">
 <p>Hides a specified task from the deadline manager until the time specified in the parameter has elapsed. The index refers to the entries of a previous call to list or search.<br>
 Format: <code>snooze INDEX d/DEADLINE</code></p>
@@ -664,7 +691,7 @@ A task is 'snoozed' as its deadline is now shifted backwards to 20th September 2
 </div>
 </div>
 <div class="sect2">
-<h3 id="managing-attachments-of-a-task-code-attachment-code"><a class="link" href="#managing-attachments-of-a-task-code-attachment-code">3.11. Managing attachments of a task : <code>attachment</code></a></h3>
+<h3 id="managing-attachments-of-a-task-code-attachment-code"><a class="link" href="#managing-attachments-of-a-task-code-attachment-code">3.10. Managing attachments of a task : <code>attachment</code></a></h3>
 <div class="paragraph">
 <p>Allows the user to add, list, delete and retrieve files associated with a specific task.<br>
 Deadline manager does not make a copy or backup the files added. Only the location of the files are stored and it can be modified, renamed, moved or deleted without Deadline manager&#8217;s knowledge. As such, there is no guarantee for a file associated with a specific task to always exist.<br>
@@ -745,7 +772,7 @@ The <code>import</code>, <code>export</code> commands described below do <strong
 </div>
 </div>
 <div class="sect2">
-<h3 id="importing-a-set-of-tasks-code-import-code"><a class="link" href="#importing-a-set-of-tasks-code-import-code">3.12. Importing a set of tasks: <code>import</code></a></h3>
+<h3 id="importing-a-set-of-tasks-code-import-code"><a class="link" href="#importing-a-set-of-tasks-code-import-code">3.11. Importing a set of tasks: <code>import</code></a></h3>
 <div class="paragraph">
 <p>Imports tasks that were previous generated by an export command. Tasks will be retrieved from the provided <code>FILENAME</code> location.</p>
 </div>
@@ -830,7 +857,7 @@ Fails and returns an error as <code>cs2101/timetable.xml</code> is not a valid f
 </div>
 </div>
 <div class="sect2">
-<h3 id="exporting-a-set-of-tasks-code-export-code"><a class="link" href="#exporting-a-set-of-tasks-code-export-code">3.13. Exporting a set of tasks: <code>export</code></a></h3>
+<h3 id="exporting-a-set-of-tasks-code-export-code"><a class="link" href="#exporting-a-set-of-tasks-code-export-code">3.12. Exporting a set of tasks: <code>export</code></a></h3>
 <div class="paragraph">
 <p>Exports the tasks that is currently displayed by the Deadline Manager. The tasks will be saved as a file at the provided <code>FILENAME</code> location. <br>
 Format: <code>export f/FILENAME [r/overwrite]</code></p>
@@ -883,7 +910,7 @@ Fails and returns an error as <code>cs2103.txt</code> is not in the same directo
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-task-code-delete-code"><a class="link" href="#deleting-a-task-code-delete-code">3.14. Deleting a task : <code>delete</code></a></h3>
+<h3 id="deleting-a-task-code-delete-code"><a class="link" href="#deleting-a-task-code-delete-code">3.13. Deleting a task : <code>delete</code></a></h3>
 <div class="paragraph">
 <p>Deletes the specified task from the deadline manager.<br>
 Format: <code>delete INDEX</code></p>
@@ -924,7 +951,7 @@ Deletes the 1st task in the results of the <code>find</code> command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="selecting-a-task-code-select-code"><a class="link" href="#selecting-a-task-code-select-code">3.15. Selecting a task : <code>select</code></a></h3>
+<h3 id="selecting-a-task-code-select-code"><a class="link" href="#selecting-a-task-code-select-code">3.14. Selecting a task : <code>select</code></a></h3>
 <div class="paragraph">
 <p>Selects the task identified by the index number used in the displayed task list.<br>
 Format: <code>select INDEX</code></p>
@@ -962,7 +989,7 @@ Selects the 1st task in the results of the <code>find</code> command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">3.16. Listing entered commands : <code>history</code></a></h3>
+<h3 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">3.15. Listing entered commands : <code>history</code></a></h3>
 <div class="paragraph">
 <p>Lists all the commands that you have entered in reverse chronological order.<br>
 Format: <code>history</code></p>
@@ -983,7 +1010,7 @@ Format: <code>history</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">3.17. Undoing previous command : <code>undo</code></a></h3>
+<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">3.16. Undoing previous command : <code>undo</code></a></h3>
 <div class="paragraph">
 <p>Restores the deadline manager to the state before the previous <em>undoable</em> command was executed.<br>
 Format: <code>undo</code></p>
@@ -1028,7 +1055,7 @@ The <code>undo</code> command fails as there are no undoable commands executed p
 </div>
 </div>
 <div class="sect2">
-<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">3.18. Redoing the previously undone command : <code>redo</code></a></h3>
+<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">3.17. Redoing the previously undone command : <code>redo</code></a></h3>
 <div class="paragraph">
 <p>Reverses the most recent <code>undo</code> command.<br>
 Format: <code>redo</code></p>
@@ -1060,21 +1087,21 @@ The <code>redo</code> command fails as there are no <code>undo</code> commands e
 </div>
 </div>
 <div class="sect2">
-<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">3.19. Clearing all entries : <code>clear</code></a></h3>
+<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">3.18. Clearing all entries : <code>clear</code></a></h3>
 <div class="paragraph">
 <p>Clears all task entries from the deadline manager.<br>
 Format: <code>clear</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">3.20. Exiting the program : <code>exit</code></a></h3>
+<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">3.19. Exiting the program : <code>exit</code></a></h3>
 <div class="paragraph">
 <p>Exits the program.<br>
 Format: <code>exit</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.21. Saving the data</a></h3>
+<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.20. Saving the data</a></h3>
 <div class="paragraph">
 <p>Deadline manager data are saved in the hard disk automatically after any command that changes the data.<br>
 There is no need to save manually.</p>
@@ -1210,4 +1237,4 @@ e.g. <code>sort due&lt; name&gt;</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-28 15:27:05 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-29 06:57:11 UTC</div></div></div></body></html>
