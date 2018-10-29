@@ -1724,7 +1724,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <div class="sect3">
 <h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">4.5.6. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-parsing-of-composite-filter-expressions"><a class="link" href="#aspect-parsing-of-composite-filter-expressions">4.5.6.1. Aspect: Parsing of composite filter expressions</a></h5>
+<h5 id="aspect-how-to-parse-composite-filter-expressions"><a class="link" href="#aspect-how-to-parse-composite-filter-expressions">4.5.6.1. Aspect: How to parse composite filter expressions</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1749,6 +1749,72 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 </li>
 <li>
 <p>Cons: Filter command will be limited in expressiveness.  As the order of operations do not follow usual programming languages or mathematical expressions, users need to spend more time to understand the parsing format before use, and they might use the command erroneously.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-whether-to-support-simplified-filter-semantics"><a class="link" href="#aspect-whether-to-support-simplified-filter-semantics">4.5.6.2. Aspect: Whether to support simplified filter semantics</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Support simplified filter semantics (implicit-AND and any-match).</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Reduces cognitive overhead and typing time for most common cases, and makes <code>filter</code> feel like a standard keyword search function.</p>
+</li>
+<li>
+<p>Cons: Not possible to detect when user accidentally omits the boolean operator or filter field.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Only support the unsimplified version.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easier to implement, can display an error if the user accidentally omits a boolean operator or filter field.</p>
+</li>
+<li>
+<p>Cons: More verbose filter expressions which may require higher cognitive overhead.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-what-the-convenience-operator-should-do"><a class="link" href="#aspect-what-the-convenience-operator-should-do">4.5.6.3. Aspect: What the convenience operator should do</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Support a convenience operator that is an alias of the most common filter operator for each field.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Reduces cognitive overhead as the convenience operator is usually the expected behaviour for most applications.</p>
+</li>
+<li>
+<p>Cons: Users might be surprised that the convenience operator is an alias for a different operator depending on the field identifier.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Support a convenience operator that is an alias of a fixed operator regardless of field.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easier for users to remember what the convenience operator does.</p>
+</li>
+<li>
+<p>Cons: Convenience operator is not really <em>convenient</em>&#8201;&#8212;&#8201;the behaviour might be surprising or awkward for some fields.</p>
 </li>
 </ul>
 </div>
@@ -3469,4 +3535,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-29 10:04:33 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-29 15:13:21 UTC</div></div></div></body></html>
