@@ -1659,6 +1659,9 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 </table>
 </div>
 <div class="paragraph">
+<p>A non-quoted test phrase only allows alphanumeric characters and the characters <code>_</code>, <code>-</code>, <code>/</code>, and <code>,</code>.  (The <code>/</code> character allows dates to work, and the <code>,</code> character allows tag lists to work.)  The string tokenizer provides the bindings to facilitate this check.  If other characters are required, then the test phrase must be placed in quotes (either single or double quotes are acceptable, but they must match).</p>
+</div>
+<div class="paragraph">
 <p>These three parts are described in the following sections.</p>
 </div>
 <div class="sect4">
@@ -1784,7 +1787,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <p>Each eligible field is compared as if using the convenience operator.  A match in <em>any</em> eligible field of a task will cause the task to match this filter unit.  Errors in interpreting the test phrase in the context of a field are simply treated as a non-match of the field (e.g. the test phrase <code>Assignment</code> cannot be interpreted as a deadline, so the deadline field will be skipped when attempting to match this test phrase).</p>
 </div>
 <div class="paragraph">
-<p>As with the full syntax, the simplified syntax supports quoting the test phrase if special characters are required.  A non-quoted test phrase only allows alphanumeric characters and the characters <code>_</code>, <code>-</code>, and <code>/</code>.  (The <code>/</code> character allows dates to work without quotes.)</p>
+<p>As with the full syntax, the simplified syntax supports quoting the test phrase if special characters are required.</p>
 </div>
 </div>
 </div>
@@ -3641,4 +3644,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 15:00:19 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 15:01:11 UTC</div></div></div></body></html>
