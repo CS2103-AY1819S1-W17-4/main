@@ -87,8 +87,8 @@ This <strong>Developer Guide</strong> help you get started with contributing to 
 </li>
 <li><a href="#attachment-feature">4.6. Attachment feature</a>
 <ul class="sectlevel3">
-<li><a href="#current-implementation-4">4.6.1. Current implementation</a></li>
-<li><a href="#sequence-flow-3">4.6.2. Sequence Flow</a></li>
+<li><a href="#overview-2">4.6.1. Overview</a></li>
+<li><a href="#current-implementation-4">4.6.2. Current Implementation</a></li>
 <li><a href="#attachmentaction-and-implementing-classes">4.6.3. AttachmentAction and implementing classes</a></li>
 <li><a href="#design-considerations-5">4.6.4. Design considerations</a></li>
 </ul>
@@ -1032,10 +1032,10 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 <div class="ulist">
 <ul>
 <li>
-<p><code>importTaskCollection</code>:  Imports and returns a <code>TaskCollection</code> given a filename</p>
+<p><code>importTaskCollection</code>:  Given a filename, imports and returns a <code>TaskCollection</code>.</p>
 </li>
 <li>
-<p><code>exportTaskCollection</code>: Exports and writes to a file given a <code>TaskCollection</code>.</p>
+<p><code>exportTaskCollection</code>: Given a <code>TaskCollection</code>, exports and writes to a specified file.</p>
 </li>
 </ul>
 </div>
@@ -1830,13 +1830,13 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <p>The attachment feature aims to help users organise and keep track of important files needed for the respective tasks. It allows users to associate files in their computer with a particular task. When the user decides to perform the task, this feature provides functionality to identify previously associated files and export it to an appropriate location.</p>
 </div>
 <div class="sect3">
-<h4 id="current-implementation-4"><a class="link" href="#current-implementation-4">4.6.1. Current implementation</a></h4>
+<h4 id="overview-2"><a class="link" href="#overview-2">4.6.1. Overview</a></h4>
 <div class="paragraph">
 <p>The attachment feature is mainly implemented by <code>AttachmentCommand</code>. As <code>AttachmentCommand</code> is an all-purpose command that allows users to perform numerous actions related to attachments, a nested abstract class <code>AttachmentAction</code> is defined within <code>AttachmentCommand</code>. There are 4 classes that extend <code>AttachmentAction</code> in order to implement the various actions of the attachment feature. The command line arguments for the attachment command is parsed by <code>AttachmentCommandParser</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="sequence-flow-3"><a class="link" href="#sequence-flow-3">4.6.2. Sequence Flow</a></h4>
+<h4 id="current-implementation-4"><a class="link" href="#current-implementation-4">4.6.2. Current Implementation</a></h4>
 <div class="paragraph">
 <p>Given below is a sequence of steps, illustrating the interaction between <code>AttachmentCommandParser</code>, <code>AttachmentCommand</code> and classes that implement <code>AttachmentAction</code> after a user enters a relevant command.</p>
 </div>
@@ -1855,6 +1855,11 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <div class="paragraph">
 <p>Given below is another sequence of steps, illustrating the interaction between <code>AttachmentCommand</code> and classes that implement <code>AttachmentAction</code> when the <code>AttachmentCommand#execute</code> method is invoked by the <code>LogicManager</code>.</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="images/AttachmentExecuteSequenceDiagram.png" alt="AttachmentExecuteSequenceDiagram" width="800">
+</div>
+</div>
 <div class="paragraph">
 <p>Step 1. The task identified by the user is retrieved from the <code>Model</code>.</p>
 </div>
@@ -1862,24 +1867,24 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <p>Step 2. The <code>perform</code> method of the <code>AttachmentAction</code> is invoked, with the task retrieved in Step 1 as the parameter.</p>
 </div>
 <div class="paragraph">
-<p>Step 3. The <code>Model</code> is updated with the <code>Task</code> object returned by the <code>perform</code> method in Step 2.</p>
+<p>Step 3. The invoked <code>AttachmentAction</code> performs specific application logic which is different for each action. Then, a <code>ActionResult</code> object containing a <code>Task</code> and a message is returned to the <code>execute</code> method.</p>
 </div>
 <div class="paragraph">
-<p>Step 4. The <code>resultMessage</code> method of <code>AttachmentAction</code> is invoked. The returned value is used to construct a <code>CommandResult</code> object and returned to the <code>LogicManager</code>.</p>
+<p>Step 4. The <code>Model</code> is updated with the <code>Task</code> object retrieved from the returned <code>ActionResult</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 5. The message to be shown to the user is retrieved from the returned <code>ActionResult</code>. Then, it is used to create a <code>CommandResult</code> object which is to be returned to the the <code>LogicManager</code>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="attachmentaction-and-implementing-classes"><a class="link" href="#attachmentaction-and-implementing-classes">4.6.3. AttachmentAction and implementing classes</a></h4>
 <div class="paragraph">
-<p><code>AttachmentAction</code> is an abstract static class nested within <code>AttachmentCommand</code>. It defines the following 2 APIs:</p>
+<p><code>AttachmentAction</code> is an abstract static class nested within <code>AttachmentCommand</code>. It defines and requires implementing classes to implement the following method:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>public abstract Task perform(Task taskToEdit)</code> This method is invoked by <code>AttachmentCommand</code> to perform the action on the task provided. Since <code>Task</code> is immutable, a new task with the modified values should be returned by the method. Implementing classes would need to implement this method with the logic for the respective actions.</p>
-</li>
-<li>
-<p><code>public String resultMessage()</code> This method will be invoked by <code>AttachmentCommand</code> to retrieve the response message after a call to <code>perform</code>. It would be good for implementing classes to override the default implementation to provide a more customized response message.</p>
+<p><code>public abstract ActionResult perform(Task taskToEdit)</code> This method is invoked by <code>AttachmentCommand</code> to perform the action on the task provided. <code>ActionResult</code> is immutable and contains two properties: a <code>Task</code> and a <code>message</code> which can be used by implementing classes to return the updated <code>Task</code> as well as any <code>message</code> that should be displayed to the user. Since <code>Task</code> is immutable, a new task with the modified values should be returned by the method, instead of modifying <code>taskToEdit</code>. Since this is an abstract method,implementing classes would be required to implement this method with the logic for the respective actions.</p>
 </li>
 </ul>
 </div>
@@ -2018,6 +2023,19 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 </li>
 <li>
 <p>Cons: Cumbersome for the user to type the full path to identify the file.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 3</strong> Prompt the user for an identifier for each attachment added.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Can be customized by the user to manage multiple files with the same file name in the same task.</p>
+</li>
+<li>
+<p>Cons: Cumbersome for the user to type the identifier for every time they want to add attachments to a task.</p>
 </li>
 </ul>
 </div>
@@ -3535,4 +3553,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 12:04:42 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 13:26:49 UTC</div></div></div></body></html>
