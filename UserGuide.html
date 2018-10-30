@@ -382,7 +382,7 @@ Intuitively, the syntax for filter expressions mirrors that of arithmetic expres
 <div class="ulist">
 <ul>
 <li>
-<p>where <code>key</code> is an alphanumeric string that describes the attribute being compared. Example - <code>priority</code>, <code>tag</code> and <code>name</code></p>
+<p>where <code>key</code> is an alphabetic string that describes the attribute being compared. Example - <code>priority</code>, <code>tag</code> and <code>name</code></p>
 </li>
 <li>
 <p>where <code>operator</code> is one of <code>:</code>, <code>=</code>, <code>&lt;</code>, <code>&gt;</code></p>
@@ -391,6 +391,9 @@ Intuitively, the syntax for filter expressions mirrors that of arithmetic expres
 <p>where <code>phrase</code> is a string that describes what to search (this is called the search phrase)</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>An unquoted <code>phrase</code> string can contain only alphanumeric characters, <code>_</code>, <code>-</code>, <code>/</code>, and <code>-</code>.  To use other characters, the search phrase must be placed in quotes (both single (<code>'</code>) and double (<code>"</code>) quotes work, but the opening and closing quotes must match).</p>
 </div>
 <div class="paragraph">
 <p>The operator <code>:</code> is known as the <strong>convenience</strong> operator&#8201;&#8212;&#8201;it is an alias for the operator that intuitively does what you expect for the given <code>key</code>.  More details are given below.</p>
@@ -402,9 +405,6 @@ Intuitively, the syntax for filter expressions mirrors that of arithmetic expres
 </div>
 <div class="paragraph">
 <p>Numeric fields such as priority and frequency are not matched by an any-match predicate because the integer values used for priority and frequency often match many task names and tags too.</p>
-</div>
-<div class="paragraph">
-<p>An unquoted any-match predicate can only contain alphanumeric characters, <code>_</code>, <code>-</code>, and <code>/</code>.  To use other characters, the search phrase must be placed in quotes.</p>
 </div>
 </div>
 </div>
@@ -434,7 +434,7 @@ Intuitively, the syntax for filter expressions mirrors that of arithmetic expres
 <p>When <code>key</code> is <code>f</code> or <code>frequency</code>, the task&#8217;s frequency (i.e. the number of days between consecutive occurrences of that task) is compared, and the search phrase is interpreted as an integer, representing the frequency to be searched.  A non-recurring task is treated as if it has a frequency that is infinitely large (i.e. <code>f&gt;100</code> also includes all non-recurring tasks).  The operator <code>&gt;</code> tests if the task has a recurrence interval larger than or equal to the specified number of days.  The operator <code>&lt;</code> tests if the task has a recurrence interval smaller than or equal to the specified number of days.  The operator <code>=</code> tests if the task has a recurrence interval exactly equal to the specified number of days.  The convenience operator is an alias for <code>&lt;</code>.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared, and the search phrase is interpreted as a (unordered) set of tags.  Multiple tags are separated by commas (see examples below).  The operator <code>&gt;</code> tests if every tag of the given task is contained in the specified set of tags.  The operator <code>&lt;</code> tests if the every specified tag is present for the given task.  The operator <code>=</code> tests if the set of tags for the given task is exactly the same as the set of specified tags.  The convenience operator is an alias for <code>&lt;</code>.  Note that tag names have to be specified exactly - substrings of the tag name will not work.</p>
+<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared, and the search phrase is interpreted as a (unordered) set of tags.  Multiple tags are separated by commas (see examples below).  The operator <code>&gt;</code> tests if every tag of the given task is contained in the specified set of tags.  The operator <code>&lt;</code> tests if the every specified tag is present for the given task.  The operator <code>=</code> tests if the set of tags for the given task is exactly the same as the set of specified tags.  The convenience operator is an alias for <code>&lt;</code>.  Note that tag names have to be specified exactly&#8201;&#8212;&#8201;substrings of the tag name will not work.</p>
 </li>
 <li>
 <p>Any other <code>key</code> will cause Deadline Manager to produce an error.</p>
@@ -1535,4 +1535,4 @@ e.g. <code>sort due&lt; name&gt;</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 15:04:25 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 15:14:18 UTC</div></div></div></body></html>
