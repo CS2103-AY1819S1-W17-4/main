@@ -56,46 +56,47 @@ This <strong>Developer Guide</strong> help you get started with contributing to 
 <li><a href="#implementation">4. Implementation</a>
 <ul class="sectlevel2">
 <li><a href="#add-feature">4.1. Add feature</a></li>
-<li><a href="#undo-redo-feature">4.2. Undo/Redo feature</a>
+<li><a href="#complete-feature">4.2. Complete feature</a></li>
+<li><a href="#undo-redo-feature">4.3. Undo/Redo feature</a>
 <ul class="sectlevel3">
-<li><a href="#current-implementation">4.2.1. Current Implementation</a></li>
-<li><a href="#design-considerations">4.2.2. Design Considerations</a></li>
+<li><a href="#current-implementation">4.3.1. Current Implementation</a></li>
+<li><a href="#design-considerations">4.3.2. Design Considerations</a></li>
 </ul>
 </li>
-<li><a href="#import-and-export-feature">4.3. Import and Export feature</a>
+<li><a href="#import-and-export-feature">4.4. Import and Export feature</a>
 <ul class="sectlevel3">
-<li><a href="#current-implementation-2">4.3.1. Current Implementation</a></li>
-<li><a href="#design-considerations-2">4.3.2. Design Considerations</a></li>
+<li><a href="#current-implementation-2">4.4.1. Current Implementation</a></li>
+<li><a href="#design-considerations-2">4.4.2. Design Considerations</a></li>
 </ul>
 </li>
-<li><a href="#sort-feature">4.4. Sort feature</a>
+<li><a href="#sort-feature">4.5. Sort feature</a>
 <ul class="sectlevel3">
-<li><a href="#current-implementation-3">4.4.1. Current Implementation</a></li>
-<li><a href="#sequence-flow-2">4.4.2. Sequence Flow</a></li>
-<li><a href="#design-considerations-3">4.4.3. Design Considerations</a></li>
+<li><a href="#current-implementation-3">4.5.1. Current Implementation</a></li>
+<li><a href="#sequence-flow-2">4.5.2. Sequence Flow</a></li>
+<li><a href="#design-considerations-3">4.5.3. Design Considerations</a></li>
 </ul>
 </li>
-<li><a href="#filter-feature">4.5. Filter feature</a>
+<li><a href="#filter-feature">4.6. Filter feature</a>
 <ul class="sectlevel3">
-<li><a href="#overview">4.5.1. Overview</a></li>
-<li><a href="#string-tokenizer">4.5.2. String tokenizer</a></li>
-<li><a href="#boolean-expression-parser">4.5.3. Boolean expression parser</a></li>
-<li><a href="#filter-unit-parser">4.5.4. Filter unit parser</a></li>
-<li><a href="#field-specific-parser">4.5.5. Field-specific parser</a></li>
-<li><a href="#design-considerations-4">4.5.6. Design Considerations</a></li>
+<li><a href="#overview">4.6.1. Overview</a></li>
+<li><a href="#string-tokenizer">4.6.2. String tokenizer</a></li>
+<li><a href="#boolean-expression-parser">4.6.3. Boolean expression parser</a></li>
+<li><a href="#filter-unit-parser">4.6.4. Filter unit parser</a></li>
+<li><a href="#field-specific-parser">4.6.5. Field-specific parser</a></li>
+<li><a href="#design-considerations-4">4.6.6. Design Considerations</a></li>
 </ul>
 </li>
-<li><a href="#attachment-feature">4.6. Attachment feature</a>
+<li><a href="#attachment-feature">4.7. Attachment feature</a>
 <ul class="sectlevel3">
-<li><a href="#overview-2">4.6.1. Overview</a></li>
-<li><a href="#current-implementation-4">4.6.2. Current Implementation</a></li>
-<li><a href="#attachmentaction-and-implementing-classes">4.6.3. AttachmentAction and implementing classes</a></li>
-<li><a href="#design-considerations-5">4.6.4. Design considerations</a></li>
+<li><a href="#overview-2">4.7.1. Overview</a></li>
+<li><a href="#current-implementation-4">4.7.2. Current Implementation</a></li>
+<li><a href="#attachmentaction-and-implementing-classes">4.7.3. AttachmentAction and implementing classes</a></li>
+<li><a href="#design-considerations-5">4.7.4. Design considerations</a></li>
 </ul>
 </li>
-<li><a href="#proposed-snooze-tasks">4.7. [Proposed] Snooze tasks</a></li>
-<li><a href="#logging">4.8. Logging</a></li>
-<li><a href="#Implementation-Configuration">4.9. Configuration</a></li>
+<li><a href="#proposed-snooze-tasks">4.8. [Proposed] Snooze tasks</a></li>
+<li><a href="#logging">4.9. Logging</a></li>
+<li><a href="#Implementation-Configuration">4.10. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">5. Documentation</a>
@@ -812,13 +813,27 @@ Return data and errors are also passed back by firing events.</p>
 <div class="sect2">
 <h3 id="add-feature"><a class="link" href="#add-feature">4.1. Add feature</a></h3>
 <div class="paragraph">
-<p>Working in progress.</p>
+<p>The <code>add</code> command enables the user to create
+a new task with a name and a deadline. The user can
+also provide additional information like priority,
+frequency and tags.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">4.2. Undo/Redo feature</a></h3>
+<h3 id="complete-feature"><a class="link" href="#complete-feature">4.2. Complete feature</a></h3>
+<div class="paragraph">
+<p>The <code>complete</code> command allows the user
+to delete (if the task is not recurred)
+or shift the deadline to the next occurrence
+(if the task is recurred). Thanks to this command,
+the user no longer needs to decide if he/she needs
+to use <code>delete</code> command or <code>snooze</code> command.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">4.3. Undo/Redo feature</a></h3>
 <div class="sect3">
-<h4 id="current-implementation"><a class="link" href="#current-implementation">4.2.1. Current Implementation</a></h4>
+<h4 id="current-implementation"><a class="link" href="#current-implementation">4.3.1. Current Implementation</a></h4>
 <div class="paragraph">
 <p>The undo/redo mechanism is facilitated by <code>VersionedTaskCollection</code>.
 It extends <code>TaskCollection</code> with an undo/redo history, stored internally as an <code>taskCollectionStateList</code> and <code>currentStatePointer</code>.
@@ -948,9 +963,9 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">4.2.2. Design Considerations</a></h4>
+<h4 id="design-considerations"><a class="link" href="#design-considerations">4.3.2. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">4.2.2.1. Aspect: How undo &amp; redo executes</a></h5>
+<h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">4.3.2.1. Aspect: How undo &amp; redo executes</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -983,7 +998,7 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-data-structure-to-support-the-undo-redo-commands"><a class="link" href="#aspect-data-structure-to-support-the-undo-redo-commands">4.2.2.2. Aspect: Data structure to support the undo/redo commands</a></h5>
+<h5 id="aspect-data-structure-to-support-the-undo-redo-commands"><a class="link" href="#aspect-data-structure-to-support-the-undo-redo-commands">4.3.2.2. Aspect: Data structure to support the undo/redo commands</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1018,14 +1033,14 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 </div>
 </div>
 <div class="sect2">
-<h3 id="import-and-export-feature"><a class="link" href="#import-and-export-feature">4.3. Import and Export feature</a></h3>
+<h3 id="import-and-export-feature"><a class="link" href="#import-and-export-feature">4.4. Import and Export feature</a></h3>
 <div class="paragraph">
 <p>The deadline manager supports import and export features. This feature uses 2 components: <code>Storage</code> and <code>Model</code>.</p>
 </div>
 <div class="sect3">
-<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">4.3.1. Current Implementation</a></h4>
+<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">4.4.1. Current Implementation</a></h4>
 <div class="sect4">
-<h5 id="overview-of-components"><a class="link" href="#overview-of-components">4.3.1.1. Overview of components</a></h5>
+<h5 id="overview-of-components"><a class="link" href="#overview-of-components">4.4.1.1. Overview of components</a></h5>
 <div class="paragraph">
 <p>Internally, <code>StorageManager</code> implements the following APIs from <code>ImportExportStorage</code> interface:</p>
 </div>
@@ -1074,7 +1089,7 @@ An ImportExportExceptionEvent is raised if I/O fails for any reason.
 </div>
 </div>
 <div class="sect4">
-<h5 id="inter-component-communication"><a class="link" href="#inter-component-communication">4.3.1.2. Inter-component communication</a></h5>
+<h5 id="inter-component-communication"><a class="link" href="#inter-component-communication">4.4.1.2. Inter-component communication</a></h5>
 <div class="paragraph">
 <p>To facilitate communication between the two components, the deadline manager uses the event-driven model.
 An import or export request event is created by <code>ModelManager</code>, and a handler in <code>StorageManager</code> is invoked to handle the event.
@@ -1146,7 +1161,7 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 </div>
 </div>
 <div class="sect4">
-<h5 id="sequence-flow"><a class="link" href="#sequence-flow">4.3.1.3. Sequence Flow</a></h5>
+<h5 id="sequence-flow"><a class="link" href="#sequence-flow">4.4.1.3. Sequence Flow</a></h5>
 <div class="paragraph">
 <p>Given below is a sequence diagram illustrating the interactions between <code>Model</code> and <code>Storage</code> when exporting.</p>
 </div>
@@ -1195,7 +1210,7 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 </div>
 </div>
 <div class="sect4">
-<h5 id="import-conflict-resolver"><a class="link" href="#import-conflict-resolver">4.3.1.4. Import Conflict Resolver</a></h5>
+<h5 id="import-conflict-resolver"><a class="link" href="#import-conflict-resolver">4.4.1.4. Import Conflict Resolver</a></h5>
 <div class="paragraph">
 <p>An imported task is deemed conflicting with an existing task if the two tasks compare <code>equal</code> with the internal implementation of Task&#8217;s <code>equal</code> method.
 If the user attempts to import a new task that conflicts with an existing task, the task needs to be de-conflicted with one of the following resolver:</p>
@@ -1219,9 +1234,9 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">4.3.2. Design Considerations</a></h4>
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">4.4.2. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-communication-between-code-model-code-and-code-storage-code"><a class="link" href="#aspect-communication-between-code-model-code-and-code-storage-code">4.3.2.1. Aspect: Communication between <code>Model</code> and <code>Storage</code></a></h5>
+<h5 id="aspect-communication-between-code-model-code-and-code-storage-code"><a class="link" href="#aspect-communication-between-code-model-code-and-code-storage-code">4.4.2.1. Aspect: Communication between <code>Model</code> and <code>Storage</code></a></h5>
 <div class="paragraph">
 <p>Both the <code>Model</code> and the <code>Storage</code> components are required for import/export. However, they are separate components, and we need to establish a method of communication between the two components.</p>
 </div>
@@ -1257,7 +1272,7 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-how-to-resolve-import-conflicts"><a class="link" href="#aspect-how-to-resolve-import-conflicts">4.3.2.2. Aspect: How to resolve import conflicts</a></h5>
+<h5 id="aspect-how-to-resolve-import-conflicts"><a class="link" href="#aspect-how-to-resolve-import-conflicts">4.4.2.2. Aspect: How to resolve import conflicts</a></h5>
 <div class="paragraph">
 <p>As described in <a href="#Import Deconflict">Import Deconflict</a>, an import conflict arises when the user attempts to import tasks that already exist in Deadline Manager. We need an import conflict resolver to determine how to deal with these tasks.</p>
 </div>
@@ -1295,13 +1310,13 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </div>
 </div>
 <div class="sect2">
-<h3 id="sort-feature"><a class="link" href="#sort-feature">4.4. Sort feature</a></h3>
+<h3 id="sort-feature"><a class="link" href="#sort-feature">4.5. Sort feature</a></h3>
 <div class="paragraph">
 <p>The sort command enables the user to sort the tasks currently being shown according to user defined custom comparator.
 It is made up of two main components - <code>SortCommandParser</code> and <code>SortCommand</code></p>
 </div>
 <div class="sect3">
-<h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">4.4.1. Current Implementation</a></h4>
+<h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">4.5.1. Current Implementation</a></h4>
 <div class="paragraph">
 <p>The sort command is facilitated by <code>VersionedTaskCollection</code>.</p>
 </div>
@@ -1328,7 +1343,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </div>
 </div>
 <div class="sect3">
-<h4 id="sequence-flow-2"><a class="link" href="#sequence-flow-2">4.4.2. Sequence Flow</a></h4>
+<h4 id="sequence-flow-2"><a class="link" href="#sequence-flow-2">4.5.2. Sequence Flow</a></h4>
 <div class="paragraph">
 <p>Given below is a sequence of steps, illustrating the interaction between <code>SortCommandParser</code>, <code>SortCommand</code> and <code>ModelManager</code></p>
 </div>
@@ -1349,9 +1364,9 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">4.4.3. Design Considerations</a></h4>
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">4.5.3. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-which-task-list-to-sort"><a class="link" href="#aspect-which-task-list-to-sort">4.4.3.1. Aspect: Which Task List to Sort</a></h5>
+<h5 id="aspect-which-task-list-to-sort"><a class="link" href="#aspect-which-task-list-to-sort">4.5.3.1. Aspect: Which Task List to Sort</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1386,7 +1401,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </div>
 </div>
 <div class="sect2">
-<h3 id="filter-feature"><a class="link" href="#filter-feature">4.5. Filter feature</a></h3>
+<h3 id="filter-feature"><a class="link" href="#filter-feature">4.6. Filter feature</a></h3>
 <div class="paragraph">
 <p>The deadline manager supports a very expressive filtering system.  The filtering system can be utilized with the <code>filter</code> command.</p>
 </div>
@@ -1404,7 +1419,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </ul>
 </div>
 <div class="sect3">
-<h4 id="overview"><a class="link" href="#overview">4.5.1. Overview</a></h4>
+<h4 id="overview"><a class="link" href="#overview">4.6.1. Overview</a></h4>
 <div class="paragraph">
 <p>When a user invokes the <code>filter</code> command (e.g. <code>filter t:CS2101 &amp; n:Assignment</code>), the following steps are taken by the program:</p>
 </div>
@@ -1487,7 +1502,7 @@ The second component in the list above also accepts a filter unit that contains 
 </div>
 </div>
 <div class="sect3">
-<h4 id="string-tokenizer"><a class="link" href="#string-tokenizer">4.5.2. String tokenizer</a></h4>
+<h4 id="string-tokenizer"><a class="link" href="#string-tokenizer">4.6.2. String tokenizer</a></h4>
 <div class="paragraph">
 <p>This is represented by the class <code>seedu.address.logic.parser.StringTokenizer</code>.</p>
 </div>
@@ -1536,7 +1551,7 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 </div>
 </div>
 <div class="sect3">
-<h4 id="boolean-expression-parser"><a class="link" href="#boolean-expression-parser">4.5.3. Boolean expression parser</a></h4>
+<h4 id="boolean-expression-parser"><a class="link" href="#boolean-expression-parser">4.6.3. Boolean expression parser</a></h4>
 <div class="paragraph">
 <p>This is represented by the generic class <code>seedu.address.logic.parser.BooleanExpressionParser&lt;T&gt;</code>, and it is a general boolean expression parser that is designed to be unaware of the syntax of individual filter units.</p>
 </div>
@@ -1580,7 +1595,7 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 </div>
 </div>
 <div class="sect3">
-<h4 id="filter-unit-parser"><a class="link" href="#filter-unit-parser">4.5.4. Filter unit parser</a></h4>
+<h4 id="filter-unit-parser"><a class="link" href="#filter-unit-parser">4.6.4. Filter unit parser</a></h4>
 <div class="paragraph">
 <p>The filter unit parser is written as a lambda expression inside the <code>FilterCommandParser</code> class.  There are two reasons for this:</p>
 </div>
@@ -1647,7 +1662,7 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 <p>These three parts are described in the following sections.</p>
 </div>
 <div class="sect4">
-<h5 id="field-identifier"><a class="link" href="#field-identifier">4.5.4.1. Field identifier</a></h5>
+<h5 id="field-identifier"><a class="link" href="#field-identifier">4.6.4.1. Field identifier</a></h5>
 <div class="paragraph">
 <p>There are four filterable fields in a task, and each of these fields correspond to one or more field identifiers:</p>
 </div>
@@ -1675,7 +1690,7 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 </div>
 </div>
 <div class="sect4">
-<h5 id="test-phrase"><a class="link" href="#test-phrase">4.5.4.2. Test phrase</a></h5>
+<h5 id="test-phrase"><a class="link" href="#test-phrase">4.6.4.2. Test phrase</a></h5>
 <div class="paragraph">
 <p>This is the value or keyword that tasks are compared to, and the syntax of this field depends on the field identifier of this filter unit.</p>
 </div>
@@ -1718,7 +1733,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 </div>
 </div>
 <div class="sect4">
-<h5 id="filter-operator"><a class="link" href="#filter-operator">4.5.4.3. Filter operator</a></h5>
+<h5 id="filter-operator"><a class="link" href="#filter-operator">4.6.4.3. Filter operator</a></h5>
 <div class="paragraph">
 <p>The filter operator specifies exactly <em>how</em> the task should be compared to the test phrase.</p>
 </div>
@@ -1758,7 +1773,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 </div>
 </div>
 <div class="sect4">
-<h5 id="simplified-filter-unit-syntax"><a class="link" href="#simplified-filter-unit-syntax">4.5.4.4. Simplified filter unit syntax</a></h5>
+<h5 id="simplified-filter-unit-syntax"><a class="link" href="#simplified-filter-unit-syntax">4.6.4.4. Simplified filter unit syntax</a></h5>
 <div class="paragraph">
 <p>The simplified filter unit syntax elides the field identifier and the filter operator.  A filter unit (specified with the simplified syntax) is tested against all <em>eligible</em> fields.</p>
 </div>
@@ -1774,7 +1789,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 </div>
 </div>
 <div class="sect3">
-<h4 id="field-specific-parser"><a class="link" href="#field-specific-parser">4.5.5. Field-specific parser</a></h4>
+<h4 id="field-specific-parser"><a class="link" href="#field-specific-parser">4.6.5. Field-specific parser</a></h4>
 <div class="paragraph">
 <p>As field-specific parsers have to be implemented differently for each filterable field, the design choice was made to place each field-specific parser in its respective field class.  More precisely, each field-specific parser is implemented as a static method (<code>makeFilter()</code>) in its field class.</p>
 </div>
@@ -1795,9 +1810,9 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">4.5.6. Design Considerations</a></h4>
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">4.6.6. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-to-parse-composite-filter-expressions"><a class="link" href="#aspect-how-to-parse-composite-filter-expressions">4.5.6.1. Aspect: How to parse composite filter expressions</a></h5>
+<h5 id="aspect-how-to-parse-composite-filter-expressions"><a class="link" href="#aspect-how-to-parse-composite-filter-expressions">4.6.6.1. Aspect: How to parse composite filter expressions</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1830,7 +1845,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-whether-to-support-simplified-filter-semantics"><a class="link" href="#aspect-whether-to-support-simplified-filter-semantics">4.5.6.2. Aspect: Whether to support simplified filter semantics</a></h5>
+<h5 id="aspect-whether-to-support-simplified-filter-semantics"><a class="link" href="#aspect-whether-to-support-simplified-filter-semantics">4.6.6.2. Aspect: Whether to support simplified filter semantics</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1863,7 +1878,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-what-the-convenience-operator-should-do"><a class="link" href="#aspect-what-the-convenience-operator-should-do">4.5.6.3. Aspect: What the convenience operator should do</a></h5>
+<h5 id="aspect-what-the-convenience-operator-should-do"><a class="link" href="#aspect-what-the-convenience-operator-should-do">4.6.6.3. Aspect: What the convenience operator should do</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1898,18 +1913,18 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect2">
-<h3 id="attachment-feature"><a class="link" href="#attachment-feature">4.6. Attachment feature</a></h3>
+<h3 id="attachment-feature"><a class="link" href="#attachment-feature">4.7. Attachment feature</a></h3>
 <div class="paragraph">
 <p>The attachment feature aims to help users organise and keep track of important files needed for the respective tasks. It allows users to associate files in their computer with a particular task. When the user decides to perform the task, this feature provides functionality to identify previously associated files and export it to an appropriate location.</p>
 </div>
 <div class="sect3">
-<h4 id="overview-2"><a class="link" href="#overview-2">4.6.1. Overview</a></h4>
+<h4 id="overview-2"><a class="link" href="#overview-2">4.7.1. Overview</a></h4>
 <div class="paragraph">
 <p>The attachment feature is mainly implemented by <code>AttachmentCommand</code>. As <code>AttachmentCommand</code> is an all-purpose command that allows users to perform numerous actions related to attachments, a nested abstract class <code>AttachmentAction</code> is defined within <code>AttachmentCommand</code>. There are 4 classes that extend <code>AttachmentAction</code> in order to implement the various actions of the attachment feature. The command line arguments for the attachment command is parsed by <code>AttachmentCommandParser</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="current-implementation-4"><a class="link" href="#current-implementation-4">4.6.2. Current Implementation</a></h4>
+<h4 id="current-implementation-4"><a class="link" href="#current-implementation-4">4.7.2. Current Implementation</a></h4>
 <div class="paragraph">
 <p>Given below is a sequence of steps, illustrating the interaction between <code>AttachmentCommandParser</code>, <code>AttachmentCommand</code> and classes that implement <code>AttachmentAction</code> after a user enters a relevant command.</p>
 </div>
@@ -1950,7 +1965,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect3">
-<h4 id="attachmentaction-and-implementing-classes"><a class="link" href="#attachmentaction-and-implementing-classes">4.6.3. AttachmentAction and implementing classes</a></h4>
+<h4 id="attachmentaction-and-implementing-classes"><a class="link" href="#attachmentaction-and-implementing-classes">4.7.3. AttachmentAction and implementing classes</a></h4>
 <div class="paragraph">
 <p><code>AttachmentAction</code> is an abstract static class nested within <code>AttachmentCommand</code>. It defines and requires implementing classes to implement the following method:</p>
 </div>
@@ -1962,7 +1977,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </ul>
 </div>
 <div class="sect4">
-<h5 id="addattachmentaction"><a class="link" href="#addattachmentaction">4.6.3.1. AddAttachmentAction</a></h5>
+<h5 id="addattachmentaction"><a class="link" href="#addattachmentaction">4.7.3.1. AddAttachmentAction</a></h5>
 <div class="paragraph">
 <p><code>AddAttachmentAction</code> implements <code>AttachmentAction</code> and provides the implementations required for the user to associate a file with a task. In other words, it adds an attachment to a task. The constructor class takes in a single parameter, <code>filePath</code>, denoting the path to the file to be associated with the task. The <code>perform</code> method of <code>AddAttachmentAction</code> executes the following:</p>
 </div>
@@ -1984,7 +1999,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect4">
-<h5 id="listattachmentaction"><a class="link" href="#listattachmentaction">4.6.3.2. ListAttachmentAction</a></h5>
+<h5 id="listattachmentaction"><a class="link" href="#listattachmentaction">4.7.3.2. ListAttachmentAction</a></h5>
 <div class="paragraph">
 <p><code>ListAttachmentAction</code> implements <code>AttachmentAction</code> and provides the implementations required for the user to list all the files associated with a task. In other words, it provides a listing of all attachments that are added to the task. The constructor class requries no parameters. The <code>perform</code> method of <code>ListAttachmentAction</code> executes the following:</p>
 </div>
@@ -2000,7 +2015,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect4">
-<h5 id="deleteattachmentaction"><a class="link" href="#deleteattachmentaction">4.6.3.3. DeleteAttachmentAction</a></h5>
+<h5 id="deleteattachmentaction"><a class="link" href="#deleteattachmentaction">4.7.3.3. DeleteAttachmentAction</a></h5>
 <div class="paragraph">
 <p><code>DeleteAttachmentAction</code> implements <code>AttachmentAction</code> and provides the implementations required for the user to unassociate a file that was previously associated with the task as attachment. In other words, it removes an attachment from a task. The constructor class takes in a single parameter, <code>fileName</code>, denoting the name of the attachment that is to be unassociated with the task. The <code>perform</code> method of <code>DeleteAttachmentAction</code> executes the following:</p>
 </div>
@@ -2016,7 +2031,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect4">
-<h5 id="getattachmentaction"><a class="link" href="#getattachmentaction">4.6.3.4. GetAttachmentAction</a></h5>
+<h5 id="getattachmentaction"><a class="link" href="#getattachmentaction">4.7.3.4. GetAttachmentAction</a></h5>
 <div class="paragraph">
 <p><code>GetAttachmentAction</code> implements <code>AttachmentAction</code> and provides the implementations required for the user to retrieve a file that was previously associated with the task as attachment. In other words, it allows users to copy an attachment from a task out to the file system. The constructor class takes in two parameters, <code>filename</code>, denoting the name of the attachment and <code>savePath</code>, denoting the path to copy the attachment to. The <code>perform</code> method of <code>GetAttachmentAction</code> executes the following:</p>
 </div>
@@ -2036,9 +2051,9 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">4.6.4. Design considerations</a></h4>
+<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">4.7.4. Design considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-to-associate-files-to-tasks"><a class="link" href="#aspect-how-to-associate-files-to-tasks">4.6.4.1. Aspect: How to associate files to tasks</a></h5>
+<h5 id="aspect-how-to-associate-files-to-tasks"><a class="link" href="#aspect-how-to-associate-files-to-tasks">4.7.4.1. Aspect: How to associate files to tasks</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -2071,7 +2086,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-how-to-identify-attachments-within-a-task"><a class="link" href="#aspect-how-to-identify-attachments-within-a-task">4.6.4.2. Aspect: How to identify attachments within a task</a></h5>
+<h5 id="aspect-how-to-identify-attachments-within-a-task"><a class="link" href="#aspect-how-to-identify-attachments-within-a-task">4.7.4.2. Aspect: How to identify attachments within a task</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -2119,20 +2134,20 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-snooze-tasks"><a class="link" href="#proposed-snooze-tasks">4.7. [Proposed] Snooze tasks</a></h3>
+<h3 id="proposed-snooze-tasks"><a class="link" href="#proposed-snooze-tasks">4.8. [Proposed] Snooze tasks</a></h3>
 <div class="paragraph">
 <p><em>{This section is a work-in-progress. Snooze will only be implemented in v2.0 and this section will be updated in due time.}</em></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">4.8. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">4.9. Logging</a></h3>
 <div class="paragraph">
 <p>The Deadline Manager uses <code>java.util.logging</code> for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 4.9, &#8220;Configuration&#8221;</a>)</p>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 4.10, &#8220;Configuration&#8221;</a>)</p>
 </li>
 <li>
 <p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
@@ -2163,7 +2178,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect2">
-<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">4.9. Configuration</a></h3>
+<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">4.10. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -3626,4 +3641,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 14:55:51 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 14:59:20 UTC</div></div></div></body></html>
