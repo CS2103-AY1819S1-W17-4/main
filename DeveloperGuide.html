@@ -1442,12 +1442,24 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <p>A boolean expression parser that understands the high-level syntax of the filter expression and digests the filter expression into filter units</p>
 </li>
 <li>
-<p>A parser that splits each filter unit (e.g. <code>t:CS2101</code>) into its three constituent parts (e.g. <code>t</code>, <code>:</code>, <code>CS2101</code>)&#8201;&#8212;&#8201;this is the lambda expression in the sequence diagram below, which resides in the <code>FilterCommandParser</code> class</p>
+<p>A parser that splits each filter unit (e.g. <code>t:CS2101</code>) into its three constituent parts if possible (e.g. <code>t</code>, <code>:</code>, <code>CS2101</code>)&#8201;&#8212;&#8201;this is the lambda expression in the sequence diagram below, which resides in the <code>FilterCommandParser</code> class</p>
 </li>
 <li>
 <p>A method for each field (e.g. <code>Name</code>, <code>Deadline</code>, <code>Priority</code>, <code>Set&lt;Tag&gt;</code>) that interprets the parts from the previous part in the context of that particular field, and returns the predicate that is required &#8201;&#8212;&#8201;this is referred to as the <em>field-specific parser</em>, and is implemented as a static method in each filterable field</p>
 </li>
 </ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The second component in the list above also accepts a filter unit that contains the third part alone (e.g. <code>CS2101</code>) without the other two parts.  This is known as the <em>simplified filter unit syntax</em>, and will be explained in more detail below.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>A general string tokenizer (this is the <code>StringTokenizer</code> class in the <code>parser</code> subdirectory) is shared by parts 1 and 2 to split the filter expression into tokens.</p>
@@ -1526,7 +1538,7 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 <div class="sect3">
 <h4 id="boolean-expression-parser"><a class="link" href="#boolean-expression-parser">4.5.3. Boolean expression parser</a></h4>
 <div class="paragraph">
-<p>This is represented by the class <code>seedu.address.logic.parser.BooleanExpressionParser&lt;T&gt;</code>, and it is a general boolean expression parser that is designed to be unaware of the syntax of individual filter units.</p>
+<p>This is represented by the generic class <code>seedu.address.logic.parser.BooleanExpressionParser&lt;T&gt;</code>, and it is a general boolean expression parser that is designed to be unaware of the syntax of individual filter units.</p>
 </div>
 <div class="paragraph">
 <p>The following operators are recognized (highest precedence first):</p>
@@ -1545,7 +1557,7 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 </ul>
 </div>
 <div class="paragraph">
-<p>Parentheses (<code>(</code> and <code>)</code>) are also recognized and respected, and they may be nested to arbitrary depth.</p>
+<p>Parentheses (<code>(</code> and <code>)</code>) are also recognized and respected, and they may be nested to arbitrary depth.  When two predicates are adjacent, the <code>&amp;</code> operator is inserted between them.  This allows for simpler filter expressions (especially when combined with the simplified filter unit syntax).</p>
 </div>
 <div class="paragraph">
 <p>The boolean expression parser uses the <a href="https://en.wikipedia.org/wiki/Shunting-yard_algorithm">shunting yard algorithm</a> to provide precedence-respecting parsing of the filter expression.</p>
@@ -1583,7 +1595,20 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 </ul>
 </div>
 <div class="paragraph">
-<p>The following diagram describes the syntax of a filter unit:</p>
+<p>There are two possible ways to express a filter unit:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The full syntax&#8201;&#8212;&#8201;this allows for maximum customization of the filter unit</p>
+</li>
+<li>
+<p>The simplified syntax&#8201;&#8212;&#8201;this improves terseness and reduces cognitive overhead</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The following diagram is describes a filter unit that is specified using the full syntax:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1591,7 +1616,7 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 </div>
 </div>
 <div class="paragraph">
-<p>As shown in the diagram above, a filter unit consists of three parts:</p>
+<p>As shown in the diagram above, a filter unit (using the full syntax) consists of three parts:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1605,6 +1630,18 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 <p>The filter operator, which describes the how the identified field is compared to the test phrase (more details below)</p>
 </li>
 </ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The simplified syntax only contains the test phrase, and is explained in a separate section below.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>These three parts are described in the following sections.</p>
@@ -1624,6 +1661,9 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 </li>
 <li>
 <p><code>p</code> or <code>priority</code>&#8201;&#8212;&#8201;the priority of the task</p>
+</li>
+<li>
+<p><code>f</code> or <code>frequency</code>&#8201;&#8212;&#8201;the frequency of the task (in days)</p>
 </li>
 <li>
 <p><code>t</code> or <code>tag</code>&#8201;&#8212;&#8201;the set of tags associated with the task</p>
@@ -1654,6 +1694,9 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 <p>Priority: Any valid priority value (i.e. any integer between 0 and 4 inclusive)</p>
 </li>
 <li>
+<p>Frequency: Any valid frequency value (i.e. any non-negative integer that does not exceed the maximum bounds of an integer)</p>
+</li>
+<li>
 <p>Tag set: Any comma-separated list of tags, where each tag can be any text string (e.g. <code>CS2101,CS2103T</code>)</p>
 </li>
 </ul>
@@ -1680,7 +1723,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <p>The filter operator specifies exactly <em>how</em> the task should be compared to the test phrase.</p>
 </div>
 <div class="paragraph">
-<p>For fields that are intrinsically ordered (i.e. deadline and priority), the <code>&lt;</code>, <code>=</code>, and <code>&gt;</code> operators have their usual mathematical meaning, except that the operators <code>&lt;</code> and <code>&gt;</code> are non-strict.  This means that <code>p&gt;2</code> will return a superset of the tasks returned by <code>p=2</code>.</p>
+<p>For fields that are intrinsically ordered (i.e. deadline, priority and frequency), the <code>&lt;</code>, <code>=</code>, and <code>&gt;</code> operators have their usual mathematical meaning, except that the operators <code>&lt;</code> and <code>&gt;</code> are non-strict.  This means that <code>p&gt;2</code> will return a superset of the tasks returned by <code>p=2</code>.</p>
 </div>
 <div class="paragraph">
 <p>For textual fields (i.e. name), the <code>&lt;</code>, <code>=</code>, <code>&gt;</code> operators represent <em>substring</em>, <em>equivalence</em>, and <em>superstring</em> relations respectively.</p>
@@ -1706,19 +1749,49 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <p>Priority: <code>:</code> is an alias for <code>&gt;</code></p>
 </li>
 <li>
+<p>Frequency: <code>:</code> is an alias for <code>&lt;</code></p>
+</li>
+<li>
 <p>Tag set: <code>:</code> is an alias for <code>&gt;</code></p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="simplified-filter-unit-syntax"><a class="link" href="#simplified-filter-unit-syntax">4.5.4.4. Simplified filter unit syntax</a></h5>
+<div class="paragraph">
+<p>The simplified filter unit syntax elides the field identifier and the filter operator.  A filter unit (specified with the simplified syntax) is tested against all <em>eligible</em> fields.</p>
+</div>
+<div class="paragraph">
+<p>All textual and date fields are <em>eligible</em>.  This means that the name, deadline, and tags fields are tested against when the simplified syntax is used.  Numeric fields (i.e. priority and frequency) are omitted because they often inadvertently match a test phrase (e.g. when the user attempts to search for tasks which have a name or tag that contains numbers).</p>
+</div>
+<div class="paragraph">
+<p>Each eligible field is compared as if using the convenience operator.  A match in <em>any</em> eligible field of a task will cause the task to match this filter unit.  Errors in interpreting the test phrase in the context of a field are simply treated as a non-match of the field (e.g. the test phrase <code>Assignment</code> cannot be interpreted as a deadline, so the deadline field will be skipped when attempting to match this test phrase).</p>
+</div>
+<div class="paragraph">
+<p>As with the full syntax, the simplified syntax supports quoting the test phrase if special characters are required.  A non-quoted test phrase only allows alphanumeric characters and the characters <code>_</code>, <code>-</code>, and <code>/</code>.  (The <code>/</code> character allows dates to work without quotes.)</p>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="field-specific-parser"><a class="link" href="#field-specific-parser">4.5.5. Field-specific parser</a></h4>
 <div class="paragraph">
-<p>As field-specific parsers have to be implemented differently for each filterable field, the design choice was made to place each field-specific parser in its respective field class.  More precisely, each field-specific parser is implemented as a static method in its field class.</p>
+<p>As field-specific parsers have to be implemented differently for each filterable field, the design choice was made to place each field-specific parser in its respective field class.  More precisely, each field-specific parser is implemented as a static method (<code>makeFilter()</code>) in its field class.</p>
 </div>
 <div class="paragraph">
 <p>When each filter unit is parsed, it invokes the field-specific parser for the given field identifier.  The field-specific parser then creates and returns a predicate from the given filter operator and test phrase.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Priority values do not compare in the same order as their values as integers.  Priority values have this order (from highest to lowest priority): 1 &gt; 2 &gt; 3 &gt; 4 &gt; 0.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -3553,4 +3626,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 13:54:09 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 14:15:49 UTC</div></div></div></body></html>
