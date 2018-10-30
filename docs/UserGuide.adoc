@@ -64,20 +64,14 @@ Format: `help`
 
 === Adding a task: `add`
 Adds a task to the deadline manager +
-Format: `add n/NAME [P/PRIORITY] [f/FREQUENCY] d/DEADLINE [t/TAG]...`
+Format: `add n/NAME d/DEADLINE [P/PRIORITY] [t/TAG]...`
 
 [TIP]
 A task can have any number of tags (including 0)
 
 ****
-* `DEADLINE` should be a date in the format DD/MM/YYYY. Examples of valid
-dates are: 29/03/2018, 29/3/2018, 1/1/2018.
-* `PRIORITY` should only be 0, 1, 2, 3, or 4.
-The lower the number, the higher the priority of the task.
-(1 = Highest Priority, 4 = Lowest Priority)
-* `FREQUENCY` should be a non-negative integer (number of days).
-Zero frequency denotes a non-recurring task.
-Non-zero frequency denotes a recurring task.
+* `DEADLINE` should be a date in the format DD/MM/YYYY. Examples of valid dates are: 29/03/2018, 29/3/2018, 1/1/2018.
+* `PRIORITY` should only be 0, 1, 2, 3, or 4. The lower the number, the higher the priority of the task. (1 = Highest Priority, 4 = Lowest Priority)
 ****
 
 [TIP]
@@ -90,23 +84,24 @@ Adds a task with name `Assignment 2` with a deadline on 1st January 2018 with pr
 * `add n/v1.1 milestone d/9/10/2018 t/CS2103T t/Project p/2` +
 Adds a task with name `v1.1 milestone` with a deadline on 9th October 2018 with priority 2 (second highest priority). It is additionally tagged with 2 tags: `CS2103T` and `Project`.
 
-=== Completing a task : `complete`
-Completes an existing task in the deadline manager.
-If the task is not recurred (the frequency is equal to 0),
-the task will be deleted.
-Otherwise, the deadline will be moved
-to the next occurrence. +
-Format: `complete INDEX`
+//TODO: Kien
+=== Adding a recurring task : `addr`
+Adds a recurring task to the deadline manager. +
+Format: `addr n/NAME d/DEADLINE p/PRIORITY f/FREQUENCY [t/TAG]...`
+
+[TIP]
+A task can have any number of tags (including 0)
 
 ****
-* `INDEX` refers to the index number shown in the displayed task list.
-The index *must be a positive integer* 1, 2, 3, ...
+* `DEADLINE` should be the first time that this task should trigger. It should be a date in the format DD/MM/YYYY. Examples of valid dates are: 29/03/2018, 29/3/2018, 1/1/2018.
+* `FREQUENCY` (in number of days), should be how frequently the task should recur.
+* `PRIORITY` should only be 0, 1, 2, 3, or 4. The lower the number, the higher the priority of the task. (1 = Highest Priority, 4 = Lowest Priority)
 ****
 
 Examples:
 
-* `complete 1` +
-Completes the first task in the displayed task list.
+* `add n/CS2103T Tutorials d/8/9/2018 p/3 f/7 t/CS2103T` +
+Adds a recurring task named `CS2103T Tutorials` with the first occurrence in 8th September 2018 and repeats every 7 days. The task is also labelled with priority 3 (second lowest) and tagged with `CS2103T`.
 
 === Listing all tasks : `list`
 
@@ -115,7 +110,7 @@ Format: `list`
 
 === Editing a task : `edit`
 Edits an existing task in the deadline manager. +
-Format: `edit INDEX [n/NAME] [P/PRIORITY] [f/FREQUENCY] [d/DEADLINE] [t/TAG]...`
+Format: `edit INDEX [n/NAME] [d/DEADLINE] [p/PRIORITY] [t/TAG]...`
 
 ****
 * Edits the task at the specified `INDEX`. The index refers to the index number shown in the displayed task list. The index *must be a positive integer* 1, 2, 3, ...
@@ -132,7 +127,7 @@ Examples:
 Edits the deadline of the 1st task to 3rd October 2018.
 * `edit 2 n/v1.2 Milestone t/` +
 Edits the name of the 2nd task to be `v1.2 Milestone` and clears all existing tags.
-* `edit 1 P/1` +
+* `edit 1 p/1` +
 Edits the priority of the 1st task to 1 (highest priority).
 
 === Filtering a list of tasks: `filter`
