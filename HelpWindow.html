@@ -310,8 +310,12 @@ Edits the priority of the 1st task to 1 (highest priority).</p>
 Format: <code>filter FILTER_EXPRESSION</code></p>
 </div>
 <div class="paragraph">
-<p>When this command is used, Deadline Manager will display only those tasks which satisfy the given filter expression.<br>
-Filter predicates are the core of the <code>filter</code> command.  Each filter predicate specifies a particular attribute (e.g. deadline, priority) and a value to test this attribute against (e.g. deadline being earlier than 1/10/2018).  Filter predicates are regarded as "indivisible".</p>
+<p>When this command is used, Deadline Manager will display only those tasks which satisfy the given filter expression.</p>
+</div>
+<div class="sect3">
+<h4 id="overview"><a class="link" href="#overview">3.6.1. Overview</a></h4>
+<div class="paragraph">
+<p>Filter predicates are the core of the <code>filter</code> command.  Each filter predicate specifies a testable condition that, for every task, may evaluate to either <code>true</code> or <code>false</code> (e.g. whether the deadline is earlier than 1/10/2018).  Filter predicates are regarded as "indivisible".</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -320,49 +324,22 @@ Filter predicates are the core of the <code>filter</code> command.  Each filter 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Filter predicates are indivisible becuase each filter predicate represents a single rule for filtering - a specified field (e.g. deadline) is compared against some specified value (e.g. 1/10/2018).  There is no way to decompose a filter predicate into smaller parts.
+Filter predicates are indivisible because each filter predicate represents a single rule for filtering - for example, a specified field (e.g. deadline) is compared against some specified value (e.g. 1/10/2018).  There is no way to decompose a filter predicate into smaller testable conditions.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Filter expressions (i.e. the <code>FILTER_EXPRESSION</code> strings) are composed from any number of filter predicates, and they create a composite rule to filter against.  The <code>filter</code> command is designed to accept arbitrarily complex filter expressions that can be composed from any number of filter predicates.<br>
-The format for <code>FILTER_EXPRESSION</code> is defined recursively in the following paragraphs.</p>
+<p>Most of the time, the simplified filter syntax is sufficient to find the needed task(s).  However, when there are many tasks in the deadline manager and the simplified syntax returns too many results, or when an exact subset of tasks are required for exporting (see the <code>export</code> command), the simplified syntax becomes too imprecise to use.  For these use cases, the <code>filter</code> command also supports a fully-featured expression parser that is extremely expressive.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="simplified-filter-syntax"><a class="link" href="#simplified-filter-syntax">3.6.2. Simplified filter syntax</a></h4>
+<div class="paragraph">
+<p>Tasks can be filtered by typing <code>filter</code> followed by one or more space-separated keywords (e.g. <code>filter homework</code>, <code>filter assignment CS2103</code>, or <code>filter badminton utown 3/10/2018</code>).  Such a filter expression would display only those tasks that contain textual or date fields (i.e. name, deadline, and tags) that matches <strong>every</strong> keyword (e.g. <code>filter assignment CS2103</code> will match a task with name <code>Assignment 1</code> <strong>and</strong> tags <code>CS2103</code> and <code>easy</code>).</p>
 </div>
 <div class="paragraph">
-<p><code>FILTER_EXPRESSION</code> is a string in the following format:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>FILTER_PREDICATE</code>&#8201;&#8212;&#8201;This filter expression contains a single filter predicate</p>
-</li>
-<li>
-<p><code>FILTER_EXPRESSION &amp; FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical conjunction (i.e. AND) of two other filter expressions.  The operator <code>&amp;</code> may be substituted with <code>&amp;&amp;</code>.</p>
-</li>
-<li>
-<p><code>FILTER_EXPRESSION | FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical disjunction (i.e. OR) of two other filter expressions.  The operator <code>|</code> may be substituted with <code>||</code>.</p>
-</li>
-<li>
-<p><code>! FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical negation (i.e. NOT) of two other filter expressions.</p>
-</li>
-<li>
-<p><code>( FILTER_EXPRESSION )</code>&#8201;&#8212;&#8201;This filter expression is surrounded by parentheses.</p>
-</li>
-</ul>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="paragraph">
-<p>Parentheses are used for finer control the order that filter expressions are combined.  By default, <code>!</code> has highest precedence (i.e. <code>!</code> is applied first), followed by <code>&amp;</code>, then followed by <code>|</code>.</p>
-</div>
-<div class="paragraph">
-<p>When no boolean operator (<code>&amp;</code>, <code>|</code>, or <code>!</code>) is specified where one is expected, it is implicitly treated as if an <code>&amp;</code> was used.  This is known as the <em>implicit-AND</em> rule.</p>
-</div>
-<div class="paragraph">
-<p>When it is unambiguous, whitespace between the operators and filter expressions may be omitted.</p>
-</div>
-</div>
+<p>Numeric fields such as priority and frequency are not matched because the integer values used for priority and frequency often match many task names and tags too.  To filter by priority and frequency, the field must be specified explicitly (see the section on <em>Controlling the field being matched</em> below).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -371,48 +348,110 @@ The format for <code>FILTER_EXPRESSION</code> is defined recursively in the foll
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Intuitively, the syntax for filter expressions mirrors that of arithmetic expressions such as <code>1+3*4</code> and <code>(1+4+6)*2</code>.
+An unquoted keyword can contain only alphanumeric characters, <code>_</code>, <code>-</code>, <code>/</code>, and <code>,</code>.  To use other characters (including whitespace), the keyword must be placed in quotes (both single (<code>'</code>) and double (<code>"</code>) quotes work, but the opening and closing quotes must match).
 </td>
 </tr>
 </table>
 </div>
+<div class="sidebarblock">
+<div class="content">
 <div class="paragraph">
-<p><code>FILTER_PREDICATE</code> is a string in the following format: <code>&lt;key&gt;&lt;operator&gt;&lt;phrase&gt;</code>:</p>
+<p>Matching of each eligible field:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>where <code>key</code> is an alphabetic string that describes the attribute being compared. Example - <code>priority</code>, <code>tag</code> and <code>name</code></p>
+<p>When matching task names, a task is considered to match if the given keywords is a substring (case-insensitive) of the task name (the given keyword need not be a whole word in the task name - e.g. <code>test</code> and <code>case</code> will both match <code>Testcase</code>).</p>
 </li>
 <li>
-<p>where <code>operator</code> is one of <code>:</code>, <code>=</code>, <code>&lt;</code>, <code>&gt;</code></p>
+<p>When matching deadlines, a task is considered to match if its deadline is on or earlier than the specified date.</p>
 </li>
 <li>
-<p>where <code>phrase</code> is a string that describes what to search (this is called the search phrase)</p>
+<p>When matching tags, a task is considered to match it contains the specified tag (the tag name must be exact - e.g. <code>CS</code> and <code>cs2101</code> will not match <code>CS2101</code>).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>filter homework</code>
+Returns a subset of the current list of tasks that have a name or tag list that contains "homework".  Note that "homework" cannot be interpreted as a valid date, so the deadline field is ignored.</p>
+</li>
+<li>
+<p><code>filter assignment CS2103</code>
+Returns a subset of the current list of tasks that have a name or tag list that contains "assignment" and a name or tag list that contains "CS2103".  Note that neither "assignment" or "CS2103" can be interpreted as a valid date, so the deadline field is ignored for both keywords.</p>
+</li>
+<li>
+<p><code>filter badminton utown 3/10/2018</code>
+Returns a subset of the current list of tasks that have a name or tag list that contains "badminton", a name or tag list that contains "utown", and a name, tag list, or deadline that matches "3/10/2018".  Note that any deadline on or before 3 October 2018 will match "3/10/2018".</p>
+</li>
+<li>
+<p><code>filter 1/10/2018</code>
+Returns a subset of the current list of tasks that have a name, tag list, or deadline on or before 1st October 2018.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="controlling-the-field-being-matched"><a class="link" href="#controlling-the-field-being-matched">3.6.3. Controlling the field being matched</a></h4>
+<div class="paragraph">
+<p>Each keyword can instead be written as a <em>full predicate</em>, which is a string of the following format: <code>&lt;key&gt;&lt;operator&gt;&lt;phrase&gt;</code>. The following diagram is an example of a typical full predicate:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/FilterUnitDiagram.png" alt="FilterUnitDiagram" width="200">
+</div>
+</div>
+<div class="paragraph">
+<p>Each of the three parts of a full predicate means the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>key</code> is an alphabetic string that describes the attribute being compared. For example: <code>priority</code>, <code>tag</code> and <code>name</code>.</p>
+</li>
+<li>
+<p><code>operator</code> is one of <code>:</code>, <code>=</code>, <code>&lt;</code>, <code>&gt;</code>.</p>
+</li>
+<li>
+<p><code>phrase</code> is a string that describes what to search (this is called the search phrase, and it is similar to the <em>keyword</em> in the simplified syntax).</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>An unquoted <code>phrase</code> string can contain only alphanumeric characters, <code>_</code>, <code>-</code>, <code>/</code>, and <code>-</code>.  To use other characters, the search phrase must be placed in quotes (both single (<code>'</code>) and double (<code>"</code>) quotes work, but the opening and closing quotes must match).</p>
+<p>As with the simplified syntax, an unquoted <code>phrase</code> string can contain only alphanumeric characters, <code>_</code>, <code>-</code>, <code>/</code>, and <code>,</code>.  To use other characters (including whitespace), the search phrase must be placed in quotes (both single (<code>'</code>) and double (<code>"</code>) quotes work, but the opening and closing quotes must match).</p>
 </div>
 <div class="paragraph">
-<p>The operator <code>:</code> is known as the <strong>convenience</strong> operator&#8201;&#8212;&#8201;it is an alias for the operator that intuitively does what you expect for the given <code>key</code>.  More details are given below.</p>
+<p>The operator <code>:</code> is known as the <strong>convenience</strong> operator&#8201;&#8212;&#8201;it is an alias for the operator that intuitively "does what you expect" for the given <code>key</code>.  More details are given below in the context of each key.</p>
 </div>
-<div class="sidebarblock">
-<div class="content">
-<div class="paragraph">
-<p>For simplicity, a filter predicate may also be specified with just the search phrase.  This is known as an <em>any-match predicate</em>. Such a predicate will match any filterable textual or date fields (i.e. name, deadline, and tags) using the convenience operator.  This allows for a simplified syntax that reduces cognitive overhead (especially when used with the implicit-AND rule), e.g. <code>filter assignment cs2103</code> will match tasks that contain <em>both</em> <code>assignment</code> and <code>cs2103</code> in any textual or date field.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>&lt;</code> and <code>&gt;</code> operators are non-strict: Every task that will be shown using <code>=</code> will also be shown using <code>&lt;</code> or <code>&gt;</code>.
+</td>
+</tr>
+</table>
 </div>
-<div class="paragraph">
-<p>Numeric fields such as priority and frequency are not matched by an any-match predicate because the integer values used for priority and frequency often match many task names and tags too.</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>The <code>&lt;</code> and <code>&gt;</code> operators are non-strict: Every task that will be shown using <code>=</code> will also be shown using <code>&lt;</code> or <code>&gt;</code>.</p>
-</div>
-<div class="paragraph">
-<p>In general, both <code>key</code> and <code>phrase</code> do not need to be placed in quotes.  However, if whitespace or special chracters (i.e. those that have a meaning for compositing filter expressions) are part of <code>phrase</code>, then <code>phrase</code> must be in quotes (either single or double quotes will work, but the opening and closing quotes must be of the same type).</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This full predicate syntax can be mixed arbitrary with the keyword syntax described in the previous section.  For example, <code>badminton n:utown 3/10/2018</code> is allowed.
+</td>
+</tr>
+</table>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -422,7 +461,7 @@ Intuitively, the syntax for filter expressions mirrors that of arithmetic expres
 <div class="ulist">
 <ul>
 <li>
-<p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared.  Comparision is case-insensitive.  The operator <code>&gt;</code> tests if the search phrase is contained within the task name.  The operator <code>&lt;</code> tests if the task name is contained within the search phrase.  The operator <code>=</code> tests if the search phrase is exactly the same as the task name.  The convenience operator is an alias for <code>&gt;</code>.</p>
+<p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared.  Comparison is case-insensitive.  The operator <code>&gt;</code> tests if the search phrase is contained within the task name.  The operator <code>&lt;</code> tests if the task name is contained within the search phrase.  The operator <code>=</code> tests if the search phrase is exactly the same as the task name.  The convenience operator is an alias for <code>&gt;</code>.</p>
 </li>
 <li>
 <p>When <code>key</code> is <code>d</code> or <code>due</code>, the task&#8217;s due date is compared, and the search phrase is interpreted as a date.  Dates must be in <code>d/m/y</code> format.  The operator <code>&gt;</code> tests if the task&#8217;s due date is on or after the specified due date.  The operator <code>&lt;</code> tests if the task&#8217;s due date is on or before the specified due date.  The operator <code>=</code> tests if the task&#8217;s due date is exactly equal to the specified due date.  The convenience operator is an alias for <code>&lt;</code>.</p>
@@ -442,6 +481,18 @@ Intuitively, the syntax for filter expressions mirrors that of arithmetic expres
 </ul>
 </div>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The behaviour of the simplified syntax mirrors that of the convenience operator.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -492,17 +543,73 @@ Returns a subset of the current list of tasks that has the tag "CS2103T".</p>
 <p><code>filter t:CS2103T,CS2101</code>
 Returns a subset of the current list of tasks that has both the tags "CS2103T" and "CS2101".</p>
 </li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="composing-filter-predicates"><a class="link" href="#composing-filter-predicates">3.6.4. Composing filter predicates</a></h4>
+<div class="paragraph">
+<p>In the simplified filter syntax, multiple space-separated keywords mean that <em>every</em> keyword must match some field in the task, effectively expressing a logical conjunction (i.e. AND).  To allow for full flexibility, logical disjunction (i.e. OR), logical negation (i.e. NOT), and arbitrary compositions of logical operations may also be expressed, and they are described below:</p>
+</div>
+<div class="paragraph">
+<p>Filter expressions (i.e. the <code>FILTER_EXPRESSION</code> strings) are composed from any number of filter predicates, and they create a composite rule to filter against.  The <code>filter</code> command is designed to accept arbitrarily complex filter expressions that can be composed from any number of filter predicates.<br>
+The format for <code>FILTER_EXPRESSION</code> is defined recursively in the following paragraphs.</p>
+</div>
+<div class="paragraph">
+<p><code>FILTER_EXPRESSION</code> is a string in the following format:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p><code>filter assignment CS2101</code>
-Returns a subset of the current list of tasks that have a name or tag list that contains "assignment" and a name or tag list that contains "CS2101".</p>
+<p><code>FILTER_PREDICATE</code>&#8201;&#8212;&#8201;This filter expression contains a single filter predicate (each filter predicate can use either the full predicate or the keyword syntax)</p>
 </li>
+<li>
+<p><code>FILTER_EXPRESSION &amp; FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical conjunction (i.e. AND) of two other filter expressions.  The operator <code>&amp;</code> may be substituted with <code>&amp;&amp;</code>.</p>
+</li>
+<li>
+<p><code>FILTER_EXPRESSION | FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical disjunction (i.e. OR) of two other filter expressions.  The operator <code>|</code> may be substituted with <code>||</code>.</p>
+</li>
+<li>
+<p><code>! FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical negation (i.e. NOT) of two other filter expressions.</p>
+</li>
+<li>
+<p><code>( FILTER_EXPRESSION )</code>&#8201;&#8212;&#8201;This filter expression is surrounded by parentheses.</p>
+</li>
+</ul>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>Parentheses are used for finer control the order that filter expressions are combined.  By default, <code>!</code> has highest precedence (i.e. <code>!</code> is applied first), followed by <code>&amp;</code>, then followed by <code>|</code>.  Parentheses may be nested to arbitrary depth, and in any valid manner.</p>
+</div>
+<div class="paragraph">
+<p>When no boolean operator (<code>&amp;</code>, <code>|</code>, or <code>!</code>) is specified where one is expected, it is implicitly treated as if an <code>&amp;</code> was used.  This allows the simplified syntax to work as it currently does.</p>
+</div>
+<div class="paragraph">
+<p>When it is unambiguous, whitespace between the operators and filter expressions may be omitted.</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Intuitively, the syntax for filter expressions mirrors that of arithmetic expressions such as <code>1+3*4</code> and <code>(1+4+6)*2</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
 <p><code>filter assignment|CS2101</code>
 Returns a subset of the current list of tasks that have a name or tag list that contains "assignment" or "CS2101".</p>
-</li>
-<li>
-<p><code>filter 1/10/2018</code>
-Returns a subset of the current list of tasks that have deadlines on or before 1st October 2018.  (If a task has a name or tag list that contains the string "1/10/2018", it will also be returned.)</p>
 </li>
 <li>
 <p><code>filter ! t:CS2101</code>
@@ -521,6 +628,7 @@ Returns a subset of the current list of tasks that have a name that contains "as
 Returns a subset of the current list of tasks that have a name that does not contain "homework", or have priority at least 3 and contains tag "CS2101".</p>
 </li>
 </ul>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1535,4 +1643,4 @@ e.g. <code>sort due&lt; name&gt;</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-01 10:28:48 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-01 11:51:02 UTC</div></div></div></body></html>
