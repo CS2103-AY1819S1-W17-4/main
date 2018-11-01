@@ -1,0 +1,724 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>Lin Si Jie - Project Portfolio</title><link rel="stylesheet" href="../stylesheets/gh-pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="../index.html">DeadlineManager</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link" href="../DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link active" href="../AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="../ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/CS2103-AY1819S1-W17-4/main"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>Lin Si Jie - Project Portfolio</h1></div><div id="content"><div class="sect1">
+<h2 id="project-deadline-manager"><a class="link" href="#project-deadline-manager">PROJECT: Deadline Manager</a></h2>
+<div class="sectionbody">
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Deadline Manager is a tool written for students in NUS School of Computing to better manage their deadlines and priorities. Interacting through a Command Line Interface (CLI), users can easily manage their schedules and focus on what is most important to them.</p>
+</div>
+<div class="paragraph">
+<p>Written in Java, Deadline Manager builds upon AddressBook - Level 4, a code base originally designed to teach Software Engineering principles. For more information and to take our project for a test run, please visit our home page [<a href="https://cs2103-ay1819s1-w17-4.github.io/main">on GitHub</a>].</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="summary-of-contributions"><a class="link" href="#summary-of-contributions">Summary of contributions</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Major enhancement</strong>: added <strong>the ability to import/export Deadline Manager</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: allows users to export a selection/subset of tasks to a file. This file can be shared with friends, who can then import it to their own Deadline Manager. Furthermore, users can export their tasks as Comma Separated Values (CSV) format, which is compatible with other major Calendar applications. This enables users to switch seamlessly to various services such as Google Calendar.</p>
+</li>
+<li>
+<p>Justification: This feature is essential to our Deadline Manager. Our Deadline Manager caters specifically to the study environment in School of Computing. As most assignments/deadlines are common to the entire module, the ability to import/export tasks allows students to share and remind each other of their schedules. Furthermore, through import/export, professors can also make use of Deadline Manager to update and remind students of upcoming assessments. The ability to export as CSV format further improves the user experience, as users can switch seamlessly to other major Calendar services such as Google Calendar.</p>
+</li>
+<li>
+<p>Highlights: //TO-DO. Talk abt import resolver</p>
+</li>
+<li>
+<p>Credits: Referenced <a href="https://support.google.com/calendar/answer/37118?hl=en">CSV format compatible with Google Calendar</a> to understand the specifications for exporting in CSV format.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: changed how parameters are parsed by the app.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: Previously, the app ignores repeated parameters (e.g. specify <code>name</code> more than once), which can be confusing for the user. Made changes to the parser so that an appropriate error will be thrown instead.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2103-AY1819S1-W17-4/main/commits?author=sijie123">Commits</a>]</p>
+</li>
+<li>
+<p><strong>Other contributions</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Project management:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Set up project repository and labels for Issue Tracker.</p>
+</li>
+<li>
+<p>Managed releases <code>v1.2</code> and <code>v1.3</code> on GitHub</p>
+</li>
+<li>
+<p>Contributed to user stories on GitHub Issue Tracker (<a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/1">#1</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/2">#2</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/3">#3</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/4">#4</a>)</p>
+</li>
+<li>
+<p>Reported and resolved bugs in Deadline Manager (<a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/147">#147</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/170">#170</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/191">#191</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Enhancements to existing features:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Added additional checks to detect potential errors in file I/O operations (e.g. saving).</p>
+</li>
+<li>
+<p>Refactored unit test for <code>AddCommandTest</code> by creating  <code>ModelStub</code>, a class containing scaffolding code common to other instances of <code>CommandTest</code>. (<a href="https://github.com/CS2103-AY1819S1-W17-4/main/blob/master/src/test/java/seedu/address/logic/commands/ModelStub.java">ModelStub.java</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Documentation:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Rewrote introduction chapters and add more signposting for Developer Guide, so that Developer Guide is more structured and easier to understand: <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/129/files">#129</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Community:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Reviewed Pull Requests (with non-trivial review comments): <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/169">#169</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/206">#206</a></p>
+</li>
+<li>
+<p>Reported bugs and suggested fixes in the original se-edu addressbook-level2 (Pull Requests: <a href="https://github.com/se-edu/addressbook-level2/pull/431">#431</a>, <a href="https://github.com/se-edu/addressbook-level2/pull/436">436</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tools:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Integrated TravisCI to the project to the team repo.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-user-guide"><a class="link" href="#contributions-to-the-user-guide">Contributions to the User Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="exporting-a-set-of-tasks-code-export-code"><a class="link" href="#exporting-a-set-of-tasks-code-export-code">Exporting a set of tasks: <code>export</code></a></h3>
+<div class="paragraph">
+<p>Exports the tasks that is currently displayed by the Deadline Manager. The tasks will be saved as a file at the provided <code>FILENAME</code> location.</p>
+</div>
+<div class="paragraph">
+<p>Deadline Manager provides two different formats to export in.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>eXtensible Markup Language (XML) format: XML is a format that Deadline Manager is fully compatible with. If exported as XML format, tasks can be <a href="#importing-a-set-of-tasks-code-import-code">imported</a> back into another copy of Deadline Manager.</p>
+</li>
+<li>
+<p>Comma Separated Values (CSV) format: CSV is a format that is supported by most calendar applications. If exported as CSV format, tasks can be imported into other applications like Google Calendar. Currently, Deadline Manager can only export names and deadlines of tasks.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Format: <code>export [csv] p/FILEPATH [r/overwrite]</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>If the <code>csv</code> option is specified, Deadline Manager will export tasks in CSV format. Otherwise, it will export in XML format.</p>
+</li>
+<li>
+<p><code>FILEPATH</code> refers to a location on your computer. The <code>FILEPATH</code> must be enclosed within quotes (<code>"</code>). Deadline Manager will export to the specified location. You can provide a relative location (file.txt) or an absolute location (C:\Folder\file.txt).</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can omit the quotes if your <code>FILEPATH</code> consists of only alphanumeric and fullstop (<code>.</code>) characters.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If there is an existing file at the provided location, the write command will fail, in order to protect your data.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can override the default behaviour by specifying r/overwrite. This will allow you to overwrite files even if they already exist. Use with caution so as not to overwrite important data.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>export p/cs2101.xml</code><br>
+Creates and exports tasks to <code>cs2101.xml</code> in the same folder as Deadline Manager. This file can be used in <a href="#importing-a-set-of-tasks-code-import-code">import</a> later.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following is a step-by-step guide on how the export command behaves.</p>
+</div>
+<div id="img-exportdemo1" class="imageblock">
+<div class="content">
+<img src="../images/userguide/exportdemo_1.PNG" alt="ExportDemo" width="790">
+</div>
+<div class="title">Figure 2.1: Command box.</div>
+</div>
+<div class="paragraph">
+<p>In Figure 2.1 above, the user enters the <code>export p/cs2101.xml</code> command into the command box.</p>
+</div>
+<div id="img-exportdemo2" class="imageblock">
+<div class="content">
+<img src="../images/userguide/exportdemo_2.png" alt="ExportDemo2" width="790">
+</div>
+<div class="title">Figure 2.2: Result of export command</div>
+</div>
+<div class="paragraph">
+<p>In Figure 2.2 above, when the user presses enter, Deadline Manager exports the file and display a success message. The exported file is located at cs2101.xml, and contains the tasks displayed in the deadline manager, namely "CS2101 Oral Presentation" in the screenshot above.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>export p/cs2101.txt</code> (Exports a file successfully)<br>
+  <code>export p/cs2101.txt</code><br>
+Fails and returns an error as <code>cs2101.txt</code> already exists when the second command is run. In order to protect your data, the second export command fails.</p>
+</li>
+</ul>
+</div>
+<div id="img-exportdemo3" class="imageblock">
+<div class="content">
+<img src="../images/userguide/exportdemo_3.png" alt="ExportDemo3" width="790">
+</div>
+<div class="title">Figure 2.3: Sample error message</div>
+</div>
+<div class="paragraph">
+<p>Figure 2.3 above shows the error message when the user attempts to export to a file that already exists. Deadline Manager will not overwrite any existing file so as to protect your data.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can overwrite the file by specifying r/overwrite. The command would be <code>export p/cs2101.txt r/overwrite</code> in this case.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>export csv p/cs2103.csv</code><br>
+Creates and exports tasks to <code>cs2103.csv</code> as CSV format. This file is compatible with most calendar applications and can be imported into Google Calendar.</p>
+</li>
+<li>
+<p><code>export p/"C:\Documents\cs2103.txt"</code><br>
+Creates and exports tasks to <code>cs2103.txt</code> in the <code>C:\Documents</code> folder.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="importing-a-set-of-tasks-code-import-code"><a class="link" href="#importing-a-set-of-tasks-code-import-code">Importing a set of tasks: <code>import</code></a></h3>
+<div class="paragraph">
+<p>Imports tasks that were previously generated by an export command. Deadline Manager will attempt to retrieve tasks from the provided <code>FILEPATH</code> location.</p>
+</div>
+<div class="paragraph">
+<p>Format: <code>import p/FILEPATH [r/all | r/overwrite | r/skip]</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>FILEPATH refers to a location on your computer. The FILEPATH must be enclosed within quotes ("). Deadline Manager will attempt to import from the specified location. You can provide a relative location (file.txt) or an absolute location (C:\Folder\file.txt).</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can omit the quotes if your <code>FILEPATH</code> consists of only alphanumeric and fullstop (<code>.</code>) characters.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Additionally, the file must be in a readable XML format.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Currently, Deadline Manager does not support importing from a CSV file. This feature will be made available in v2.0.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Additionally, optional commands can provided to specify what Deadline Manager should do when there is an import conflict.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+An import conflict occurs when you try to import a task, but a similar task already exists in your Deadline Manager. When this happens, Deadline Manager needs to know what you want to do with these tasks,
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can input either one of three commands to specify how to resolve an import conflict:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>r/all</code>: Imports the new task, and keeps both the existing and incoming tasks.</p>
+</li>
+<li>
+<p><code>r/overwrite</code>: Imports the new task, and overwrites/discards the existing task.</p>
+</li>
+<li>
+<p><code>r/skip</code>: Does not import the conflicting task, but keeps the existing task instead.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you do not specify any command, Deadline Manager uses <code>r/skip</code> by default, i.e. it will ignore new tasks that cause import conflicts.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>(Assuming that we have previously exported to <code>cs2101.xml</code>)<br>
+<code>import p/cs2101.xml r/all</code><br>
+Imports all tasks from <code>cs2101.xml</code>. Even if an incoming task exists in Deadline Manager, it is still imported.</p>
+<div class="paragraph">
+<p>.User prepares to import from cs2101.xml</p>
+</div>
+<div id="img-importdemo2" class="paragraph">
+<p>image::userguide/importdemo_2.png[ExportDemo, width="790"]
+In Figure 3.1, we assume that the user has previously exported to cs2101.xml, containing another copy of "CS2101 Oral Presentation". The user now attempts to import from cs2101.xml.</p>
+</div>
+</li>
+</ul>
+</div>
+<div id="img-importdemo3" class="imageblock">
+<div class="content">
+<img src="../images/userguide/importdemo_3.png" alt="ExportDemo" width="790">
+</div>
+<div class="title">Figure 3.3: Result of import command with /all</div>
+</div>
+<div class="paragraph">
+<p>Figure 3.2 shows the success message after importing from cs2101.xml. Note that the r/all command causes duplicate copies to be saved.</p>
+</div>
+<div class="paragraph">
+<p>*
+<code>import p/cs2101.xml</code><br>
+Imports all tasks from <code>cs2101.xml</code>. Since the r/all parameter is not specified, if an incoming task already exists in Deadline Manager, it is skipped.</p>
+</div>
+<div id="img-importdemo" class="imageblock">
+<div class="content">
+<img src="../images/userguide/importdemo_4.PNG" alt="ExportDemo" width="790">
+</div>
+<div class="title">Figure 3.4: Result of import command with no additional parameters</div>
+</div>
+<div class="paragraph">
+<p>Figure 3.4 shows the success message after importing from cs2101.xml. As cs2101.xml contains a duplicate copy of "CS2101 Oral Presentation", nothing new is imported.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>import p/"C:\Documents\cs2101.xml" r/all</code><br>
+Imports all tasks from <code>C:\Documents\cs2101.xml</code>. Even if an incoming task exists in Deadline Manager, it is still imported.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-developer-guide"><a class="link" href="#contributions-to-the-developer-guide">Contributions to the Developer Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="import-and-export-feature"><a class="link" href="#import-and-export-feature">Import and Export feature</a></h3>
+<div class="paragraph">
+<p>The deadline manager supports import and export features. This feature uses 2 components: <code>Storage</code> and <code>Model</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
+<div class="sect4">
+<h5 id="overview-of-components"><a class="link" href="#overview-of-components">Overview of components</a></h5>
+<div class="paragraph">
+<p>Internally, <code>StorageManager</code> implements the following APIs from <code>ImportExportStorage</code> interface:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>importTaskCollection</code>:  Given a filename, imports and returns a <code>TaskCollection</code>.</p>
+</li>
+<li>
+<p><code>exportTaskCollection</code>: Given a <code>TaskCollection</code>, exports and writes to a specified file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Internally, it uses the same API as reading and saving the working taskCollection file.
+However, additional checks are performed to ensure that the user does not inadvertently overwrite the current working file, or import and corrupt the current working file.
+<code>StorageManager</code> only handles the I/O from file, and the data read and written is handled by <code>Model</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+An ImportExportExceptionEvent is raised if I/O fails for any reason.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>ModelManager implements the following APIs necessary for Import and Export:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>importTaskCollection</code>: Creates and posts a new import request event</p>
+</li>
+<li>
+<p><code>exportTaskCollection</code>: Creates and posts a new export request event.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The request events are posted to the <code>EventCenter</code>, which will dispatch to all subscribed methods.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="inter-component-communication"><a class="link" href="#inter-component-communication">Inter-component communication</a></h5>
+<div class="paragraph">
+<p>To facilitate communication between the two components, the deadline manager uses the event-driven model.
+An import or export request event is created by <code>ModelManager</code>, and a handler in <code>StorageManager</code> is invoked to handle the event.
+After data has been successfully read or written, the response is placed in another event for <code>ModelManager</code> to process.</p>
+</div>
+<div class="paragraph">
+<p>To achieve the above, <code>ModelManager</code> indicates an import/export request by creating these events:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ImportRequestEvent</code>: Requests for a new import from file.</p>
+</li>
+<li>
+<p><code>ExportRequestEvent</code>: Requests to create a new export to file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>ModelManager</code> implements these additional methods to handle the responses from <code>Storage</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>handleImportDataAvailableEvent</code>: Processes the read task collection and merges tasks into the current collection.</p>
+</li>
+<li>
+<p><code>handleImportExportExceptionEvent</code>: Indicates internally that the last import/export request has failed.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It is the responsibility of the <code>Model</code> to feedback to the user in the case of an exception.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Similarly, <code>StorageManager</code> returns the result of imports and errors with the following events:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ImportExportExceptionEvent</code>: Indicates that an error has occurred with import or export.</p>
+</li>
+<li>
+<p><code>ImportDataAvailableEvent</code>: Indicates that the requested task collection has been read from disk.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>StorageManager</code> implements these additional methods to handle requests from <code>Model</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>handleImportRequestEvent</code>: Processes an import event and reads from file.</p>
+</li>
+<li>
+<p><code>handleExportRequestEvent</code>: Processes an export event and writes to file.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="sequence-flow"><a class="link" href="#sequence-flow">Sequence Flow</a></h5>
+<div class="paragraph">
+<p>Given below is a sequence diagram illustrating the interactions between <code>Model</code> and <code>Storage</code> when exporting.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ExportSequenceDiagram.png" alt="ExportSequenceDiagram" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Step 1. The user executes export to file <code>dataFile</code>. The export command calls ModelManager&#8217;s <code>exportTaskCollection</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The <code>ModelManager</code> posts the <code>ExportRequestEvent</code> to the <code>EventsCenter</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>EventsCenter</code> will dispatch the <code>ExportRequestEvent</code> to <code>Storage</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. <code>Storage</code> will handle the <code>ExportRequestEvent</code> and write to file.</p>
+</div>
+<div class="paragraph">
+<p>Given below is a sequence diagram illustrating the interactions between <code>Model</code> and <code>Storage</code> when importing.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ImportSequenceDiagram.png" alt="ImportSequenceDiagram" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Step 1. The user executes import from file <code>dataFile</code>. The import command calls ModelManager&#8217;s <code>importTaskCollection</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The <code>ModelManager</code> posts the <code>ImportRequestEvent</code> to the <code>EventsCenter</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>EventsCenter</code> will dispatch the <code>ImportRequestEvent</code> to <code>Storage</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. <code>Storage</code> will handle the <code>ImportRequestEvent</code>, read from file, then post a new <code>ImportDataAvailableEvent</code> to <code>EventsCenter</code> to signal that data is available.</p>
+</div>
+<div class="paragraph">
+<p>Step 5. The <code>EventsCenter</code> will dispatch the <code>ImportDataAvailableEvent</code> back to <code>ModelManager</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 6. <code>ModelManager</code> will take the imported data and de-conflict the merged entries.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="import-conflict-resolver"><a class="link" href="#import-conflict-resolver">Import Conflict Resolver</a></h5>
+<div class="paragraph">
+<p>An imported task is deemed conflicting with an existing task if the two tasks compare <code>equal</code> with the internal implementation of Task&#8217;s <code>equal</code> method.
+If the user attempts to import a new task that conflicts with an existing task, the task needs to be de-conflicted with one of the following resolver:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>IgnoreResolver</code>: Discards the incoming task in favour of the existing task.</p>
+</li>
+<li>
+<p><code>OverwriteResolver</code>: Updates the existing task to reflect the values of the incoming task.</p>
+</li>
+<li>
+<p><code>DuplicateResolver</code>: Keep both copies.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The user can specify the deconflict algorithm with flags. By default, the <code>IgnoreResolver</code> is used.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-communication-between-code-model-code-and-code-storage-code"><a class="link" href="#aspect-communication-between-code-model-code-and-code-storage-code">Aspect: Communication between <code>Model</code> and <code>Storage</code></a></h5>
+<div class="paragraph">
+<p>Both the <code>Model</code> and the <code>Storage</code> components are required for import/export. However, they are separate components, and we need to establish a method of communication between the two components.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> <code>Model</code> is maintained as being separate from <code>Storage</code>. The event-based style is used: an Import/Export event is created to signal a request, and another Import/Export event is created to signal that the data is ready.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: <code>Storage</code> is decoupled from <code>Model</code>, i.e. changes to <code>Model</code> will not affect changes to <code>Storage</code>, and vice versa. This is a good OOP practice.</p>
+</li>
+<li>
+<p>Cons: It is more difficult to implement and more overhead is incurred in passing data around. Calls are not immediate, and there is no way to immediately tell whether an execution succeeded or failed.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Model executes an import/export method in Storage directly.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: The data from the import/export request can be retrieved immediately and easily.</p>
+</li>
+<li>
+<p>Cons: <code>Model</code> is more tightly coupled with <code>Storage</code>, i.e. <code>Model</code> and <code>Storage</code> will no longer be separate components, but will instead know the inner workings of each other.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-to-resolve-import-conflicts"><a class="link" href="#aspect-how-to-resolve-import-conflicts">Aspect: How to resolve import conflicts</a></h5>
+<div class="paragraph">
+<p>As described in <a href="#Import Deconflict">Import Deconflict</a>, an import conflict arises when the user attempts to import tasks that already exist in Deadline Manager. We need an import conflict resolver to determine how to deal with these tasks.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> An <code>ImportConflictResolver</code> class is implemented to resolve import conflicts. The user specifies which resolver algorithm to use, and the corresponding <code>{Method}ImportConflictResolver</code> object is created to resolve import conflicts.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: This provides more flexibility for user to define how to resolve imports. Additionally, this is better Software Engineering practice as it follows the Single Responsibility Principle: the <code>ImportConflictResolver</code> object is responsible only for its own algorithm.</p>
+</li>
+<li>
+<p>Cons: It is more difficult to implement an entirely separate <code>ImportConflictResolver</code> class, complete with separate sub-classes for different algorithms.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Use an <code>enum</code> to implement ImportConflictResolver. The <code>ImportConflictResolver</code> enum provides a pre-defined selection of algorithms that the user can specify.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: There is no need to implement separate classes. Since the <code>ImportConflictResolver</code> enum is only useful within Model, it reside within Model as a private variable.</p>
+</li>
+<li>
+<p>Cons: If/else statements are required to determine which algorithm should be used. Additionally, an <code>ImportConflictResolver</code> implemented this way cannot be easily reused or extended.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-01 10:28:48 UTC</div></div></div></body></html>
