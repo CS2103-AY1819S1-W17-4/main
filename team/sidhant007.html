@@ -1,0 +1,549 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>Sidhant Bansal - Project Portfolio</title><link rel="stylesheet" href="../stylesheets/gh-pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="../index.html">DeadlineManager</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link" href="../DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link active" href="../AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="../ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/CS2103-AY1819S1-W17-4/main"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>Sidhant Bansal - Project Portfolio</h1></div><div id="content"><div class="sect1">
+<h2 id="project-deadline-manager"><a class="link" href="#project-deadline-manager">PROJECT: Deadline Manager</a></h2>
+<div class="sectionbody">
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Deadline Manager is a tool written for students in NUS School of Computing to better manage their deadlines and priorities. Interacting through a Command Line Interface (CLI), users can easily manage their schedules and focus on what is most important to them.</p>
+</div>
+<div class="paragraph">
+<p>Written in Java, Deadline Manager builds upon AddressBook - Level 4, a code base originally designed to teach Software Engineering principles. For more information and to take our project for a test run, please visit our home page [<a href="https://cs2103-ay1819s1-w17-4.github.io/main">on GitHub</a>].</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="summary-of-contributions"><a class="link" href="#summary-of-contributions">Summary of contributions</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Major enhancement</strong>: Added <strong>the ability to sort tasks of the Deadline Manager in a user-defined manner</strong>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: It allows the users to sort the tasks using a user-defined sort comparator. A single sort comparator can be composed of multiple comparators, where each comparator is based on a certain attribute of the tasks.</p>
+</li>
+<li>
+<p>Justification: This feature is a very important feature for the Deadline Manager because if a user has a lot of deadlines/tasks due and they only want to focus on the most important ones. The sort functionality enables them to view those deadlines which are more important at the top of the list followed by the those which are less important.</p>
+</li>
+<li>
+<p>Highlights: The sort functionality supports chaining of comparators, which enables the user to fine-tune how they want the sorting to work. Example - If a user has a lot of tasks with the same due date, the sort function supports them to first sort by due date and then by priority which means all those tasks with the same due date can be sorted by priority within themselves.</p>
+</li>
+<li>
+<p>Credits: Referenced <a href="https://www.codejava.net/java-core/collections/sorting-a-list-by-multiple-attributes-example" class="bare">https://www.codejava.net/java-core/collections/sorting-a-list-by-multiple-attributes-example</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: Implemented natural comparison for some of the attributes of the task (Ex. Priority, Name)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: Allows comparison for the different attributes of the task. Primarily used for filtering and sorting tasks.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2103-AY1819S1-W17-4/main/commits?author=sidhant007">Commits</a>]</p>
+</li>
+<li>
+<p><strong>Other contributions</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Project management:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Contributed to user stories on GitHub issue tracker</p>
+</li>
+<li>
+<p>Manage milestones on GitHub</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Enhancements to existing features:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Significant modification of Address Book&#8217;s code base for use in Deadline Manager:</p>
+</li>
+<li>
+<p>Renaming of class and variable names (<a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/126">#126</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Community:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Reviewed Pull Requests (with non-trivial review comments): <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/169">#169</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/206">#206</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-user-guide"><a class="link" href="#contributions-to-the-user-guide">Contributions to the User Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="sorting-a-list-of-tasks-code-sort-code"><a class="link" href="#sorting-a-list-of-tasks-code-sort-code">Sorting a list of tasks : <code>sort</code></a></h3>
+<div class="paragraph">
+<p>Sorts the lists of all the tasks which the user is currently viewing. Generally meant to be used in combination with <code>filter</code>.<br></p>
+</div>
+<div class="paragraph">
+<p>When this command is used, Deadline Manager will sort all the currently displayed tasks according to the user specified comparison method.<br>
+Sort comparators are the core of the <code>sort</code> command.  Each sort comparator specifies a particular attribute (Example - <code>name</code>, <code>priority</code>) and a comparison direction, i.e ascending or descending.</p>
+</div>
+<div class="paragraph">
+<p>The entire sorting command is composed of a chain of sort comparators. This chain helps the user to define which tasks to show earlier and which ones to show latter.<br></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>What this means is that in case two tasks are in tie according to the first comparator, then the decision to place which task first is determined by the next comparator, and so on.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Format: <code>sort SORT_COMPARATOR [SORT_COMPARATORS]&#8230;&#8203;</code><br></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The syntax of sort command requires to be followed strictly. There should not be extra spaces or trailing spaces.<br>
+Also when curly braces are opened or closed for sorting by tags, the first and the last tag name mentioned should NOT be preceded and followed by spaces respectively.
+</td>
+</tr>
+</table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Format of <code>SORT_COMPARATOR</code>: <code>(n|name|d|due|p|priority)(&lt;|&gt;)</code> OR <code>(t|tag)(&lt;|&gt;){TAG1 TAG2 TAG3 &#8230;&#8203;}</code></p>
+</li>
+<li>
+<p>Sorts the list by the 1st comparator, in case of ties, it sorts by 2nd comparator and so on.</p>
+</li>
+<li>
+<p>Meaning of the operators for each valid key:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared. Comparison is case-insensitive.</p>
+</li>
+<li>
+<p>When <code>key</code> is <code>d</code> or <code>due</code>, the task&#8217;s due date is compared.</p>
+</li>
+<li>
+<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared. Note that 1 is the highest priority and 4 is the lowest priority.</p>
+</li>
+<li>
+<p>When <code>key</code> is <code>f</code> or <code>frequency</code>, the task&#8217;s frequency (i.e. the number of days between consecutive occurrences of that task) is compared.  A non-recurring task is treated as if it has a frequency that is infinitely large.</p>
+</li>
+<li>
+<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For sorting by tags the user has to specify which tags are more important and which are less important.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Any other <code>key</code> will cause Deadline Manager to produce an error.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>&lt; stands for sorting in ascending order and &gt; stands for sorting in descending order</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sort n&gt;</code><br>
+Sorts the current list of tasks in view in descending order by name, where sorting is done in alphabetical order.</p>
+</li>
+<li>
+<p><code>sort due&lt; name&gt;</code><br>
+Sorts the current list of tasks in view in ascending order by due date, where ties are broken by descending order of names.</p>
+</li>
+<li>
+<p><code>sort priority&lt;</code><br>
+Sorts the current list of tasks in view in ascending order by priority.</p>
+</li>
+<li>
+<p><code>sort frequency&lt;</code><br>
+Sorts the current list of tasks in view in ascending order by frequency.</p>
+</li>
+<li>
+<p><code>sort tag&lt;{cs2100 family cs2103t}</code><br>
+Sorts the current list of tasks in view in ascending order by tags. In this case all the tasks with the tag <code>cs2100</code> will be placed
+before those tasks with the tag <code>family</code>, finally followed by those tasks with the tag <code>cs2103t</code>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+In case a task does not belong to any of the tags mentioned it will be placed at the bottom of the sorted list.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+In case a task contains more than one tag specified in the comparator, then it will be attempted to be sorted according to those tags first which place it former in the sorted list.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sorting-a-list-of-tasks-code-sort-code-2"><a class="link" href="#sorting-a-list-of-tasks-code-sort-code-2">Sorting a list of tasks : <code>sort</code></a></h3>
+<div class="paragraph">
+<p>Sorts the lists of all the tasks which the user is currently viewing. Generally meant to be used in combination with <code>filter</code>.<br></p>
+</div>
+<div class="paragraph">
+<p>When this command is used, Deadline Manager will sort all the currently displayed tasks according to the user specified comparison method.<br>
+Sort comparators are the core of the <code>sort</code> command.  Each sort comparator specifies a particular attribute (Example - <code>name</code>, <code>priority</code>) and a comparison direction, i.e ascending or descending.</p>
+</div>
+<div class="paragraph">
+<p>The entire sorting command is composed of a chain of sort comparators. This chain helps the user to define which tasks to show earlier and which ones to show latter.<br></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>What this means is that in case two tasks are in tie according to the first comparator, then the decision to place which task first is determined by the next comparator, and so on.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Format: <code>sort SORT_COMPARATOR [SORT_COMPARATORS]&#8230;&#8203;</code><br></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The syntax of sort command requires to be followed strictly. There should not be extra spaces or trailing spaces.<br>
+Also when curly braces are opened or closed for sorting by tags, the first and the last tag name mentioned should NOT be preceded and followed by spaces respectively.
+</td>
+</tr>
+</table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Format of <code>SORT_COMPARATOR</code>: <code>(n|name|d|due|p|priority)(&lt;|&gt;)</code> OR <code>(t|tag)(&lt;|&gt;){TAG1 TAG2 TAG3 &#8230;&#8203;}</code></p>
+</li>
+<li>
+<p>Sorts the list by the 1st comparator, in case of ties, it sorts by 2nd comparator and so on.</p>
+</li>
+<li>
+<p>Meaning of the operators for each valid key:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared. Comparison is case-insensitive.</p>
+</li>
+<li>
+<p>When <code>key</code> is <code>d</code> or <code>due</code>, the task&#8217;s due date is compared.</p>
+</li>
+<li>
+<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared. Note that 1 is the highest priority and 4 is the lowest priority.</p>
+</li>
+<li>
+<p>When <code>key</code> is <code>f</code> or <code>frequency</code>, the task&#8217;s frequency (i.e. the number of days between consecutive occurrences of that task) is compared.  A non-recurring task is treated as if it has a frequency that is infinitely large.</p>
+</li>
+<li>
+<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For sorting by tags the user has to specify which tags are more important and which are less important.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Any other <code>key</code> will cause Deadline Manager to produce an error.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>&lt; stands for sorting in ascending order and &gt; stands for sorting in descending order</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sort n&gt;</code><br>
+Sorts the current list of tasks in view in descending order by name, where sorting is done in alphabetical order.</p>
+</li>
+<li>
+<p><code>sort due&lt; name&gt;</code><br>
+Sorts the current list of tasks in view in ascending order by due date, where ties are broken by descending order of names.</p>
+</li>
+<li>
+<p><code>sort priority&lt;</code><br>
+Sorts the current list of tasks in view in ascending order by priority.</p>
+</li>
+<li>
+<p><code>sort frequency&lt;</code><br>
+Sorts the current list of tasks in view in ascending order by frequency.</p>
+</li>
+<li>
+<p><code>sort tag&lt;{cs2100 family cs2103t}</code><br>
+Sorts the current list of tasks in view in ascending order by tags. In this case all the tasks with the tag <code>cs2100</code> will be placed
+before those tasks with the tag <code>family</code>, finally followed by those tasks with the tag <code>cs2103t</code>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+In case a task does not belong to any of the tags mentioned it will be placed at the bottom of the sorted list.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+In case a task contains more than one tag specified in the comparator, then it will be attempted to be sorted according to those tags first which place it former in the sorted list.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-developer-guide"><a class="link" href="#contributions-to-the-developer-guide">Contributions to the Developer Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="sort-feature"><a class="link" href="#sort-feature">Sort feature</a></h3>
+<div class="paragraph">
+<p>The sort command enables the user to sort the tasks currently being shown according to user defined custom comparator.
+It is made up of two main components - <code>SortCommandParser</code> and <code>SortCommand</code></p>
+</div>
+<div class="sect3">
+<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
+<div class="paragraph">
+<p>The sort command is facilitated by <code>VersionedTaskCollection</code>.</p>
+</div>
+<div class="paragraph">
+<p>The sort command exposes the operation <code>updateSortedTaskList</code> to sort the task list.</p>
+</div>
+<div class="paragraph">
+<p>It is the responsibility of <code>SortCommandParser</code> to parse the user input into a comparator which can compare between two tasks.</p>
+</div>
+<div class="paragraph">
+<p>Then the comparator is passed onto the <code>SortCommand</code> which sorts the <code>versionedTaskCollection</code> according to the comparator.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A <code>NullPointerException</code> is raised in case the <code>SortCommand</code> receives a <code>null</code> comparator.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="sequence-flow"><a class="link" href="#sequence-flow">Sequence Flow</a></h4>
+<div class="paragraph">
+<p>Given below is a sequence of steps, illustrating the interaction between <code>SortCommandParser</code>, <code>SortCommand</code> and <code>ModelManager</code></p>
+</div>
+<div class="paragraph">
+<p>Step 1. The user executes the sort command with a comparator typed by user.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The <code>SortCommandParser</code> receives the command with the user comparator given as a string.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>SortCommandParser</code> parses the string into a valid comparator and calls the <code>SortCommand</code> with this comparator provided.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SortOperationSequenceDiagram.png" alt="SortOperationSequenceDiagram" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Figure 10 illustrates the sequence diagram for Sort Command</p>
+</div>
+<div class="paragraph">
+<p>Step 4. The <code>SortCommand</code> calls the <code>updateSortedTaskList</code> API method of <code>ModelManager</code></p>
+</div>
+<div class="paragraph">
+<p>Step 5. The method <code>updateSortedTaskList</code> sorts the <code>versionTaskCollection</code> using JavaFx sort method</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-which-task-list-to-sort"><a class="link" href="#aspect-which-task-list-to-sort">Aspect: Which Task List to Sort</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> The entire <code>versionedTaskList</code> is sorted using JavaFx inbuilt sort method</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easy to implement.</p>
+</li>
+<li>
+<p>Cons: May have performance issues in terms of slow running.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> The sorting is done ONLY on the viewable <code>filteredTasks</code> list.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Will be more efficient in terms of time complexity.</p>
+</li>
+<li>
+<p>Cons: Requires significant changes to the codebase since sorting the <code>filteredTasks</code> requires it to be modifiable.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-to-sort-mechanism-for-tags"><a class="link" href="#aspect-how-to-sort-mechanism-for-tags">Aspect: How to sort mechanism for Tags</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> The sort command takes in user input so that the user can specify the priority order of tags.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Provides immense flexibility to the user. Also follows Law of Demeter / Law of Least Knowledge since the <code>Tag</code> model itself does NOT know that it can be compared.</p>
+</li>
+<li>
+<p>Cons: The flexibility comes at the cost of making sorting by tags complex for newbie users.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> The sorting is done in a pre-defined manner, example sorting tasks according to their alphabetical order of tags.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easier to implement and simpler for newbie users.</p>
+</li>
+<li>
+<p>Cons: Might not be useful for the user in many situations. Disobeys the Law of Demeter / Law of Least Knowledge since the <code>Tag</code> model will know that it can be compared with other tags.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-02 03:59:22 UTC</div></div></div></body></html>
