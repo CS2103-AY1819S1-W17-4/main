@@ -642,7 +642,7 @@ The second component in the list above also accepts a filter unit that contains 
 </div>
 </div>
 <div class="paragraph">
-<p>The above diagram shows the simplified sequence of operations to parse a filter expression into a predicate for non-set fields.  Take note of the following simplifications in the sequence diagram above:</p>
+<p>The above diagram shows the simplified sequence of operations to parse a filter expression into a predicate for non-set-based fields.  Take note of the following simplifications in the sequence diagram above:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -805,6 +805,11 @@ The <code>StringTokenizer</code> class is also used in two other places&#8201;&#
 <div class="paragraph">
 <p>The following diagram is describes a filter unit that is specified using the extended full syntax for sets:</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/FilterUnitDiagramSet.png" alt="FilterUnitDiagramSet" width="250">
+</div>
+</div>
 <div class="paragraph">
 <p>As shown in the diagram above, a filter unit (using the full syntax or extended syntax) consists of these parts:</p>
 </div>
@@ -962,25 +967,10 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <div class="sect4">
 <h5 id="set-operator"><a class="link" href="#set-operator">Set operator</a></h5>
 <div class="paragraph">
-<p>Set-based fields can specify an additional level of comparison - how the task&#8217;s set compares with the specified set.  It is distinct from the filter operator because the filter operator is used to compare each individual item in the set (in the context of the given field), while the set operator is used to compare at the set level (which is same regardless of the given field).</p>
+<p>Set-based fields can specify an additional level of comparison - how the task&#8217;s set compares with the specified set.  It is distinct from the filter operator because the filter operator is used to compare each individual item in the set (in the context of the given field), while the set operator is used to compare at the set level (which is same regardless of which field is being compared).</p>
 </div>
 <div class="paragraph">
-<p>For set-based fields (e.g. tags), the <code>&lt;</code>, <code>=</code>, <code>&gt;</code> set operators represent <em>subset</em>, <em>equivalence</em>, and <em>superset</em> relations respectively.  Each individual item is compared using the specified filter operator as specified in the previous <em>Filter operator</em> section.</p>
-</div>
-<div class="paragraph">
-<p>Just like the filter operator, there is a convenience set operator (<code>:</code>), and it is an alias for <code>&gt;</code>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The set operator is orthogonal to the filter operator, and hence they may be combined in any way.  Furthermore, when the set operator is omitted for a set-based field, the convenience set operator is implied.
-</td>
-</tr>
-</table>
+<p>For set-based fields (e.g. tags), the filter unit parser does not invoke the field-specific parser directly.  Instead, control goes through the set parser, which is described in the <em>Set parser</em> section below.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1002,7 +992,36 @@ The set operator is orthogonal to the filter operator, and hence they may be com
 <div class="sect3">
 <h4 id="set-parser"><a class="link" href="#set-parser">Set parser</a></h4>
 <div class="paragraph">
-<p>The set parser is implemented in the <code>makeFilter()</code> method of the <code>seedu.address.model.util.SetUtil</code> class.  It parses the comma-separated list (i.e. the test phrase) using a new instance of <code>StringTokenizer</code>, and then uses reflection to invoke the relevant field-specific parser for each item in the comma-separated list.</p>
+<p>The set parser tokenizes the given test phrase, and feeds each item into the field-specific parser separately.</p>
+</div>
+<div class="paragraph">
+<p>The <code>&lt;</code>, <code>=</code>, <code>&gt;</code> set operators represent <em>subset</em>, <em>equivalence</em>, and <em>superset</em> relations respectively.  Each individual item is compared using the specified filter operator as specified in the previous <em>Filter operator</em> section.</p>
+</div>
+<div class="paragraph">
+<p>Just like the filter operator, there is a convenience set operator (<code>:</code>), and it is an alias for <code>&gt;</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The set operator is orthogonal to the filter operator, and hence they may be combined in any way.  Furthermore, when the set operator is omitted for a set-based field, the convenience set operator is implied.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The set parser is implemented in the <code>makeFilter()</code> method of the <code>seedu.address.model.util.SetUtil</code> class.  It parses the comma-separated list (i.e. the test phrase) using a new instance of <code>StringTokenizer</code>, and then uses reflection to invoke the relevant field-specific parser for each item in the comma-separated list.  This is illustrated in the sequence diagram below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/FilterOperationSequenceDiagramSet.png" alt="FilterOperationSequenceDiagramSet" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>As with the sequence diagram for non-set-based fields, the above diagram is simplified and omits details about how the test phrase is split into tokens using a new <code>StringTokenizer</code> instance.  "Field" represents any filterable set-based field&#8201;&#8212;&#8201;<code>Tag</code> or <code>Attachment</code>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1237,4 +1256,4 @@ In total, there are around 15 distinct kinds of error conditions when parsing a 
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-06 15:25:14 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-06 15:55:43 UTC</div></div></div></body></html>
