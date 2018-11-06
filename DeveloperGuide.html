@@ -82,8 +82,10 @@ This <strong>Developer Guide</strong> help you get started with contributing to 
 <li><a href="#string-tokenizer">4.6.2. String tokenizer</a></li>
 <li><a href="#boolean-expression-parser">4.6.3. Boolean expression parser</a></li>
 <li><a href="#filter-unit-parser">4.6.4. Filter unit parser</a></li>
-<li><a href="#field-specific-parser">4.6.5. Field-specific parser</a></li>
-<li><a href="#design-considerations-4">4.6.6. Design Considerations</a></li>
+<li><a href="#set-parser">4.6.5. Set parser</a></li>
+<li><a href="#field-specific-parser">4.6.6. Field-specific parser</a></li>
+<li><a href="#error-messages">4.6.7. Error messages</a></li>
+<li><a href="#design-considerations-4">4.6.8. Design Considerations</a></li>
 </ul>
 </li>
 <li><a href="#attachment-feature">4.7. Attachment Feature</a>
@@ -1490,7 +1492,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <p>In the rest of this guide that describes the filtering system, we use the term <em>filter expression</em> to refer to the full filter operation that the user typed (e.g. <code>t:CS2101 &amp; n:Assignment</code>, or even <code>t:CS2101 &amp; ( n:Assignment | n:Homework) &amp; p&lt;3</code>), and the term <em>filter unit</em> to refer to substrings of the filter expression that represent single indivisible predicates (e.g. <code>t:CS2101</code>, or <code>n:Homework</code>).</p>
 </div>
 <div class="paragraph">
-<p>There are three components to parsing the filter operation:</p>
+<p>There are four components to parsing the filter operation:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1498,10 +1500,13 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <p>A boolean expression parser that understands the high-level syntax of the filter expression and digests the filter expression into filter units</p>
 </li>
 <li>
-<p>A parser that splits each filter unit (e.g. <code>t:CS2101</code>) into its three constituent parts if possible (e.g. <code>t</code>, <code>:</code>, <code>CS2101</code>)&#8201;&#8212;&#8201;this is the lambda expression in the sequence diagram below, which resides in the <code>FilterCommandParser</code> class</p>
+<p>A parser that splits each filter unit (e.g. <code>t:CS2101</code>) into its three (or four) constituent parts if possible (e.g. <code>t</code>, <code>:</code>, <code>CS2101</code>)&#8201;&#8212;&#8201;this is the lambda expression in the sequence diagram below, which resides in the <code>FilterCommandParser</code> class</p>
 </li>
 <li>
-<p>A method for each field (e.g. <code>Name</code>, <code>Deadline</code>, <code>Priority</code>, <code>Set&lt;Tag&gt;</code>) that interprets the parts from the previous part in the context of that particular field, and returns the predicate that is required &#8201;&#8212;&#8201;this is referred to as the <em>field-specific parser</em>, and is implemented as a static method in each filterable field</p>
+<p>A parser that splits set-based fields (e.g. <code>CS2101,CS2103</code>) into individual keywords (this applies only to set-based fields (tags and attachments))&#8201;&#8212;&#8201;this is referred to as the <em>set parser</em>, and is implemented as a static method in a utility class</p>
+</li>
+<li>
+<p>A method for each field (e.g. <code>Name</code>, <code>Deadline</code>, <code>Priority</code>, <code>Tag</code>) that interprets the the parts of the splitted filter unit in the context of that particular field, and returns the predicate that is required &#8201;&#8212;&#8201;this is referred to as the <em>field-specific parser</em>, and is implemented as a static method in each filterable field</p>
 </li>
 </ol>
 </div>
@@ -1512,7 +1517,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The second component in the list above also accepts a filter unit that contains the third part alone (e.g. <code>CS2101</code>) without the other two parts.  This is known as the <em>simplified filter unit syntax</em>, and will be explained in more detail below.
+The second component in the list above also accepts a filter unit that contains the third part alone (e.g. <code>CS2101</code>) without the other two parts&#8201;&#8212;&#8201;this is known as the <em>simplified filter unit syntax</em>.  Also, when filtering by a set-based field, the filter unit can be splitted into four parts instead of three (e.g. <code>t=:CS2101,CS2103</code> will be plitted as <code>t</code>, <code>=</code>, <code>:</code>, <code>CS2101,CS2103</code>), and the additional symbol (<code>=</code> in this case) is used to specify how sets are compared.  These will be explained in more detail below.
 </td>
 </tr>
 </table>
@@ -1526,20 +1531,32 @@ The second component in the list above also accepts a filter unit that contains 
 </div>
 </div>
 <div class="paragraph">
-<p>The above diagram shows the simplified sequence of operations to parse a filter expression into a predicate.  Take note of the following simplifications in the sequence diagram above:</p>
+<p>The above diagram shows the simplified sequence of operations to parse a filter expression into a predicate for non-set fields.  Take note of the following simplifications in the sequence diagram above:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>"Field" represents any filterable field&#8201;&#8212;&#8201;<code>Name</code>, <code>Deadline</code>, <code>Priority</code>, or <code>Tag</code>.  For tags, filtering is more complicated as there can be any number of tags on a task, but the above sequence diagram still gives a rough idea of how parsing works.</p>
+<p>"Field" represents any filterable field&#8201;&#8212;&#8201;<code>Name</code>, <code>Deadline</code>, <code>Priority</code>, or <code>Frequency</code>.</p>
 </li>
 <li>
 <p>Strictly speaking, the "loop" is not actually a loop.  As the boolean expression parser parses the filter expression, it invokes the lambda expression whenever a filter unit is encountered.  For simplicity, the sequence diagram above hides the complexity within the boolean expression parser.</p>
 </li>
 </ul>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Set-based fields are described in the <em>Set parser</em> section.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p>The sections below describe the string tokenizer and the aforementioned three compoments in more detail.</p>
+<p>The sections below describe the string tokenizer and the aforementioned four components in more detail.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1576,7 +1593,7 @@ This class is not to be confused with <code>java.util.StringTokenizer</code>.
 </ul>
 </div>
 <div class="paragraph">
-<p>When unambiguous, adjacent tokens need not be separated by whitespace.  This is usually the case when consuming a token specified by a regular expression.</p>
+<p>When unambiguous, adjacent tokens need not be separated by whitespace.  This is usually the case when consuming a token specified by a regular expression.  This works because when consuming a token, it is often possible to know where the token ends even in the absense of whitespace (e.g. when encountering a matching closing quote or an operator symbol).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1585,7 +1602,7 @@ This class is not to be confused with <code>java.util.StringTokenizer</code>.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The string tokenizer class is also used to parse comma-separated tag expressions.
+The <code>StringTokenizer</code> class is also used in two other places&#8201;&#8212;&#8201;in the <code>ArgumentTokenizer</code> class to tokenize arguments specified in the usual syntax for most other commands (e.g. <code>add n/Assignment 2 d/1/1/2018 p/1</code>), and in the <code>SetUtil</code> class to parse comma-separated set-based filter expressions (i.e. tags and attachments).
 </td>
 </tr>
 </table>
@@ -1651,12 +1668,15 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 </ul>
 </div>
 <div class="paragraph">
-<p>There are two possible ways to express a filter unit:</p>
+<p>There are three possible ways to express a filter unit:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>The full syntax&#8201;&#8212;&#8201;this allows for maximum customization of the filter unit</p>
+<p>The full syntax&#8201;&#8212;&#8201;this allows for specifying the field for comparison and the method of comparison to be used</p>
+</li>
+<li>
+<p>The extended full syntax for sets&#8201;&#8212;&#8201;this is like the full syntax, but enhanced with a way to specify how to compare sets</p>
 </li>
 <li>
 <p>The simplified syntax&#8201;&#8212;&#8201;this improves terseness and reduces cognitive overhead</p>
@@ -1668,11 +1688,14 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/FilterUnitDiagram.png" alt="FilterUnitDiagram" width="400">
+<img src="images/FilterUnitDiagram.png" alt="FilterUnitDiagram" width="200">
 </div>
 </div>
 <div class="paragraph">
-<p>As shown in the diagram above, a filter unit (using the full syntax) consists of three parts:</p>
+<p>The following diagram is describes a filter unit that is specified using the extended full syntax for sets:</p>
+</div>
+<div class="paragraph">
+<p>As shown in the diagram above, a filter unit (using the full syntax or extended syntax) consists of these parts:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1683,7 +1706,10 @@ The string tokenizer class is also used to parse comma-separated tag expressions
 <p>The test phrase, which represents the value or keyword that tasks are being compared to</p>
 </li>
 <li>
-<p>The filter operator, which describes the how the identified field is compared to the test phrase (more details below)</p>
+<p>The filter operator, which describes how the identified field is compared to the test phrase (for set-based fields, this describes how each item (tag or attachment) in the identified field is compared to each item in the test phrase) (more details below)</p>
+</li>
+<li>
+<p>(For the extended syntax only) The set operator, which describes the how the set of items (tags or attachments) in the identified field is compared to the set of items in the test phrase, when regarded as a set (more details below)</p>
 </li>
 </ol>
 </div>
@@ -1708,7 +1734,7 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 <div class="sect4">
 <h5 id="field-identifier"><a class="link" href="#field-identifier">4.6.4.1. Field identifier</a></h5>
 <div class="paragraph">
-<p>There are four filterable fields in a task, and each of these fields correspond to one or more field identifiers:</p>
+<p>There are six filterable fields in a task, and each of these fields correspond to two or more field identifiers:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1726,6 +1752,9 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 </li>
 <li>
 <p><code>t</code> or <code>tag</code>&#8201;&#8212;&#8201;the set of tags associated with the task</p>
+</li>
+<li>
+<p><code>a</code> or <code>attachment</code>&#8201;&#8212;&#8201;the set of attachments associated with the task</p>
 </li>
 </ul>
 </div>
@@ -1758,6 +1787,9 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 <li>
 <p>Tag set: Any comma-separated list of tags, where each tag can be any text string (e.g. <code>CS2101,CS2103T</code>)</p>
 </li>
+<li>
+<p>Attachment set: Any comma-separated list of attachments, where each attachment can be any text string (e.g. <code>helloworld.txt,Main.java</code>)</p>
+</li>
 </ul>
 </div>
 <div class="admonitionblock note">
@@ -1773,7 +1805,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 </table>
 </div>
 <div class="paragraph">
-<p>Tags that contain spaces may be specified by placing quotes around those tags.  This means that the whole test phrase must also be quoted with a different type of quote (e.g. <code>t:"CS2101,CS2103T,'Oral Presentation'"</code>).</p>
+<p>Set-based fields that contain spaces may be specified by placing quotes around those the item with spaces.  This means that the whole test phrase must also be quoted with a different type of quote (e.g. <code>t:"CS2101,CS2103T,'Oral Presentation'"</code>).</p>
 </div>
 </div>
 <div class="sect4">
@@ -1785,10 +1817,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <p>For fields that are intrinsically ordered (i.e. deadline, priority and frequency), the <code>&lt;</code>, <code>=</code>, and <code>&gt;</code> operators have their usual mathematical meaning, except that the operators <code>&lt;</code> and <code>&gt;</code> are non-strict.  This means that <code>p&gt;2</code> will return a superset of the tasks returned by <code>p=2</code>.</p>
 </div>
 <div class="paragraph">
-<p>For textual fields (i.e. name), the <code>&lt;</code>, <code>=</code>, <code>&gt;</code> operators represent <em>substring</em>, <em>equivalence</em>, and <em>superstring</em> relations respectively.</p>
-</div>
-<div class="paragraph">
-<p>For set-based fields (i.e. tags), the <code>&lt;</code>, <code>=</code>, <code>&gt;</code> operators represent <em>subset</em>, <em>equivalence</em>, and <em>superset</em> relations respectively.  Individual tags are compared for equivalence, so it is currently not possible to filter by a substring of a tag.</p>
+<p>For textual fields (e.g. name, tag), the <code>&lt;</code>, <code>=</code>, <code>&gt;</code> operators represent <em>substring</em>, <em>equivalence</em>, and <em>superstring</em> relations respectively.</p>
 </div>
 <div class="paragraph">
 <p>As most users do not usually require such fine-grained control over the filter operator, the <code>:</code> operator, known as the <em>convenience</em> operator, is provided as well.  The convenience operator is an alias for one of the other filter operators, and the choice of filter operator depends on the field identifier.  For each field, the filter operator that is expected to be most commonly used is chosen as the target for the convenience operator.</p>
@@ -1813,19 +1842,46 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <li>
 <p>Tag set: <code>:</code> is an alias for <code>&gt;</code></p>
 </li>
+<li>
+<p>Attachment set: <code>:</code> is an alias for <code>&gt;</code></p>
+</li>
 </ul>
 </div>
 </div>
 <div class="sect4">
-<h5 id="simplified-filter-unit-syntax"><a class="link" href="#simplified-filter-unit-syntax">4.6.4.4. Simplified filter unit syntax</a></h5>
+<h5 id="set-operator"><a class="link" href="#set-operator">4.6.4.4. Set operator</a></h5>
+<div class="paragraph">
+<p>Set-based fields can specify an additional level of comparison - how the task&#8217;s set compares with the specified set.  It is distinct from the filter operator because the filter operator is used to compare each individual item in the set (in the context of the given field), while the set operator is used to compare at the set level (which is same regardless of the given field).</p>
+</div>
+<div class="paragraph">
+<p>For set-based fields (e.g. tags), the <code>&lt;</code>, <code>=</code>, <code>&gt;</code> set operators represent <em>subset</em>, <em>equivalence</em>, and <em>superset</em> relations respectively.  Each individual item is compared using the specified filter operator as specified in the previous <em>Filter operator</em> section.</p>
+</div>
+<div class="paragraph">
+<p>Just like the filter operator, there is a convenience set operator (<code>:</code>), and it is an alias for <code>&gt;</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The set operator is orthogonal to the filter operator, and hence they may be combined in any way.  Furthermore, when the set operator is omitted for a set-based field, the convenience set operator is implied.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="simplified-filter-unit-syntax"><a class="link" href="#simplified-filter-unit-syntax">4.6.4.5. Simplified filter unit syntax</a></h5>
 <div class="paragraph">
 <p>The simplified filter unit syntax elides the field identifier and the filter operator.  A filter unit (specified with the simplified syntax) is tested against all <em>eligible</em> fields.</p>
 </div>
 <div class="paragraph">
-<p>All textual and date fields are <em>eligible</em>.  This means that the name, deadline, and tags fields are tested against when the simplified syntax is used.  Numeric fields (i.e. priority and frequency) are omitted because they often inadvertently match a test phrase (e.g. when the user attempts to search for tasks which have a name or tag that contains numbers).</p>
+<p>All textual and date fields are <em>eligible</em>.  This means that the name, deadline, tags, and attachments fields are tested against when the simplified syntax is used.  Numeric fields (i.e. priority and frequency) are omitted because they often inadvertently match a test phrase (e.g. when the user attempts to search for tasks which have a name or tag that contains numbers).</p>
 </div>
 <div class="paragraph">
-<p>Each eligible field is compared as if using the convenience operator.  A match in <em>any</em> eligible field of a task will cause the task to match this filter unit.  Errors in interpreting the test phrase in the context of a field are simply treated as a non-match of the field (e.g. the test phrase <code>Assignment</code> cannot be interpreted as a deadline, so the deadline field will be skipped when attempting to match this test phrase).</p>
+<p>Each eligible field is compared as if using the convenience operator (for both the filter operator and set operator, if necessary).  A match in <em>any</em> eligible field of a task will cause the task to match this filter unit.  Errors in interpreting the test phrase in the context of a field are simply treated as a non-match of the field instead of a hard error (e.g. the test phrase <code>Assignment</code> cannot be interpreted as a deadline, so the deadline field will be skipped when attempting to match this test phrase).</p>
 </div>
 <div class="paragraph">
 <p>As with the full syntax, the simplified syntax supports quoting the test phrase if special characters are required.</p>
@@ -1833,7 +1889,28 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 </div>
 </div>
 <div class="sect3">
-<h4 id="field-specific-parser"><a class="link" href="#field-specific-parser">4.6.5. Field-specific parser</a></h4>
+<h4 id="set-parser"><a class="link" href="#set-parser">4.6.5. Set parser</a></h4>
+<div class="paragraph">
+<p>The set parser is implemented in the <code>makeFilter()</code> method of the <code>seedu.address.model.util.SetUtil</code> class.  It parses the comma-separated list (i.e. the test phrase) using a new instance of <code>StringTokenizer</code>, and then uses reflection to invoke the relevant field-specific parser for each item in the comma-separated list.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Reflection is required here because the <code>makeFilter()</code> method is static, and the correct <code>makeFilter()</code> method has to be chosen at runtime (based on the given field).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The resultant predicates returned by the field-specific parser are then combined based on the given set operator.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="field-specific-parser"><a class="link" href="#field-specific-parser">4.6.6. Field-specific parser</a></h4>
 <div class="paragraph">
 <p>As field-specific parsers have to be implemented differently for each filterable field, the design choice was made to place each field-specific parser in its respective field class.  More precisely, each field-specific parser is implemented as a static method (<code>makeFilter()</code>) in its field class.</p>
 </div>
@@ -1854,9 +1931,55 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">4.6.6. Design Considerations</a></h4>
+<h4 id="error-messages"><a class="link" href="#error-messages">4.6.7. Error messages</a></h4>
+<div class="paragraph">
+<p>As the filter expression syntax can be rather complicated, detecting syntax errors and displaying useful error messages help the user to rectify those errors quickly.  When a parse error is detected, the filter command is designed to the offending token and provides an error message customised for that error.</p>
+</div>
+<div class="paragraph">
+<p>Error conditions are signalled via checked exceptions that inherit from <code>seedu.address.logic.parser.tokenizer.exception.TokenizationException</code>.  Those error conditions that are associated with a particular character range in the filter expression inherit from <code>seedu.address.logic.parser.tokenizer.exception.TokenizationMismatchException</code>, which provides the facilities for storing the start and end indices of the offending character range.  <code>TokenizationMismatchException</code> itself inherits from <code>TokenizationException</code>.  Checked exceptions were chosen because they allow the compiler to enforce that every possible exception is caught, and creating a subclass for each kind of error condition allows for the precise specification (in the <code>throws</code> clause) of the kind of error conditions that can happen in each and every method.</p>
+</div>
+<div class="paragraph">
+<p>The following inheritance diagram shows the inheritance hierarchy of each kind of exception that can be thrown from parsing a filter expression:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/FilterParserErrorInheritanceDiagram.png" alt="FilterParserErrorInheritanceDiagram" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>In the diagram above, the blue classes are exceptions thrown by <code>StringTokenizer</code>, while the red classes are exceptions thrown by <code>BooleanExpressionParser</code>.  In order to reduce coupling between <code>StringTokenizer</code> and <code>BooleanExpressionParser</code>, and to be able to distinguish (by type-based <code>catch</code> clauses) the end-of-string exceptions of those components, they do not shared the same class for end-of-string exceptions.</p>
+</div>
+<div class="paragraph">
+<p><code>TokenizationInvalidPredicateException</code> is a wrapper class for <code>InvalidPredicateException</code>, which is thrown when the field-specific parser or set parser encounters an error.  The diagram below shows the different exceptions that may be thrown to indicate the types of issues that may be encountered when parsing a filter unit, and how they may be propagated to <code>FilterCommandParser</code> via wrapping by <code>TokenizationInvalidPredicateException</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/FilterParserErrorPredicateInheritanceDiagram.png" alt="FilterParserErrorPredicateInheritanceDiagram" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>The filter unit parser is responsible for constructing a <code>TokenizationInvalidPredicateException</code> from any thrown <code>InvalidPredicateException</code> and associating the <code>TokenizationInvalidPredicateException</code> with the offending character range (which will be one of the three parts (or four, if using the extended set syntax) of the filter unit).</p>
+</div>
+<div class="paragraph">
+<p>Each error message gets translated into a <em>styled</em> message string (encapsulated as <code>ParseException</code>) by <code>FilterCommandParser</code>, and that message string is propagated to the UI via the event system.  The message string is styled such that the offending character range is coloured red and underlined in the <code>ResultDisplay</code> panel that is visible to the user.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In total, there are around 15 distinct kinds of error conditions when parsing a filter expression, and each of these error conditions produce a customised message that is displayed to the user.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">4.6.8. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-how-to-parse-composite-filter-expressions"><a class="link" href="#aspect-how-to-parse-composite-filter-expressions">4.6.6.1. Aspect: How to parse composite filter expressions</a></h5>
+<h5 id="aspect-how-to-parse-composite-filter-expressions"><a class="link" href="#aspect-how-to-parse-composite-filter-expressions">4.6.8.1. Aspect: How to parse composite filter expressions</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1889,7 +2012,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-whether-to-support-simplified-filter-semantics"><a class="link" href="#aspect-whether-to-support-simplified-filter-semantics">4.6.6.2. Aspect: Whether to support simplified filter semantics</a></h5>
+<h5 id="aspect-whether-to-support-simplified-filter-semantics"><a class="link" href="#aspect-whether-to-support-simplified-filter-semantics">4.6.8.2. Aspect: Whether to support simplified filter semantics</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1922,7 +2045,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-what-the-convenience-operator-should-do"><a class="link" href="#aspect-what-the-convenience-operator-should-do">4.6.6.3. Aspect: What the convenience operator should do</a></h5>
+<h5 id="aspect-what-the-convenience-operator-should-do"><a class="link" href="#aspect-what-the-convenience-operator-should-do">4.6.8.3. Aspect: What the convenience operator should do</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1947,6 +2070,52 @@ Priority values do not compare in the same order as their values as integers.  P
 </li>
 <li>
 <p>Cons: Convenience operator is not really <em>convenient</em>&#8201;&#8212;&#8201;the behaviour might be surprising or awkward for some fields.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-to-signal-exceptional-conditions-when-parsing-filter-expressions"><a class="link" href="#aspect-how-to-signal-exceptional-conditions-when-parsing-filter-expressions">4.6.8.4. Aspect: How to signal exceptional conditions when parsing filter expressions</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Use a different type of checked exception for every possible type of failure condition.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Every possible failure condition is listed in the <code>throws</code> clause of all methods&#8201;&#8212;&#8201;developers can easily tell how exactly each aspect of parsing could fail, and Java will statically check that every possible failure condition is handled (which makes it impossible to overlook any failure conditions).</p>
+</li>
+<li>
+<p>Cons: Method signatures are more verbose.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Use a single checked exception for all possible failure conditions, and distinguish errors by the message string instead.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Less verbose method signatures, and yet the benefit of checked exceptions is retained.</p>
+</li>
+<li>
+<p>Cons: Developers can only tell what exact failure conditions are possible by inspecting the whole call graph of the method.  Furthermore, it is difficult to distinguish different error conditions in order to customize and show relevant messages to the user.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 3:</strong> Use unchecked exceptions.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Simplest method signatures.</p>
+</li>
+<li>
+<p>Cons: Easy to overlook possible failure conditions when modifying the code.</p>
 </li>
 </ul>
 </div>
@@ -3686,4 +3855,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-06 01:57:05 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-06 11:03:12 UTC</div></div></div></body></html>
