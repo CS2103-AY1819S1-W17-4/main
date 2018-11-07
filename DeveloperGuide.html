@@ -1485,6 +1485,18 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <div class="paragraph">
 <p>Step 3 is performed by the <code>FilterCommand</code> class.  It is a simple operation that simply delegates the task to <code>Model#updateFilteredPersonList()</code>.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+When executing any <em>modifying</em> commands on a filtered list, the filter will be removed after that command (so all tasks will be shown).  Modifying commands are those commands that modify the deadline manager&#8217;s content (e.g. <code>add</code>, <code>delete</code>, <code>edit</code> and <code>clear</code>).  This design decision has been made because modifying a task might cause a task to no longer remain satisfy a filter.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>The overwhelming majority of code for the filtering system comes from step 2, which is performed by the <code>FilterCommandParser</code> class.  The ability to parse complex filter descriptions into usable predicates forms the core of the filtering feature, and this ability makes the filtering system very flexible.</p>
 </div>
@@ -3874,4 +3886,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-06 17:20:01 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-07 09:38:28 UTC</div></div></div></body></html>
