@@ -132,6 +132,29 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 </div>
 </div>
 </div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Deadline Format</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Deadline dates are accepted by various commands in Deadline Manager.  A deadline is only precise to a single day (it does not store the exact time within a day).</p>
+</li>
+<li>
+<p>Dates are expressed in the format "D/M/YYYY".  Examples of valid dates are: 29/03/2018, 29/3/2018, 1/1/2018.  The year is <em>never</em> interpreted relative to the current century: 29/3/12 is interpreted as 11 January 0012.</p>
+</li>
+<li>
+<p>Dates can also be expressed without the year, i.e. in the format "D/M".  Examples of valid dates in this format are: 29/03, 29/3, 1/1.  The current year (at the instant the command is executed) will be used.</p>
+</li>
+<li>
+<p>The minimum year allowed is 1 (i.e. non-positive years are not allowed).  The maximum year allowed is rather large (more than 6 digits, but limited by Java&#8217;s internal <code>Date</code> representation), but it will definitely work with year values less than 1000000.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="viewing-help-code-help-code"><a class="link" href="#viewing-help-code-help-code">3.1. Viewing help : <code>help</code></a></h3>
 <div class="paragraph">
@@ -1780,4 +1803,4 @@ e.g. <code>sort due&lt; name&gt;</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-07 09:38:28 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-08 15:51:08 UTC</div></div></div></body></html>
