@@ -384,7 +384,7 @@ Filter predicates are indivisible because each filter predicate represents a sin
 </table>
 </div>
 <div class="paragraph">
-<p><strong>Most of the time, the simplified filter syntax is sufficient to find the needed task(s)&#8201;&#8212;&#8201;reading only the <em>Simplified filter syntax</em> section is sufficient for most basic use cases.  We recommended that you read that section first and determine if you still need greater expressiveness, before reading the reset of the documentation contained in this guide.</strong></p>
+<p><strong>Most of the time, the simplified filter syntax (<a href="#simplified-filter-syntax">Section 3.6.2, &#8220;Simplified filter syntax&#8221;</a>) is sufficient to find the needed task(s) for most basic use cases.  We recommended that you read that section first and determine if you still need greater expressiveness, before reading the reset of the documentation contained in this guide.</strong></p>
 </div>
 <div class="paragraph">
 <p>However, when there are many tasks in the deadline manager and the simplified syntax returns too many results, or when an exact subset of tasks are required for exporting (see the <code>export</code> command), the simplified syntax becomes may be too imprecise to use.  For these use cases, the <code>filter</code> command also supports a fully-featured expression parser that is extremely expressive.</p>
@@ -396,7 +396,7 @@ Filter predicates are indivisible because each filter predicate represents a sin
 <p>Tasks can be filtered by typing <code>filter</code> followed by one or more space-separated keywords (e.g. <code>filter homework</code>, <code>filter assignment CS2103</code>, or <code>filter badminton utown 3/10/2018</code>).  Such a filter expression would display only those tasks that contain textual or date fields (i.e. name, deadline, tags, and attachments) that matches <strong>every</strong> keyword (e.g. <code>filter assignment CS2103</code> will match a task with name <code>Assignment 1</code> <strong>and</strong> tags <code>CS2103</code> and <code>easy</code>).</p>
 </div>
 <div class="paragraph">
-<p>Numeric fields such as priority and frequency are not matched because the integer values used for priority and frequency often match many task names and tags too.  To filter by priority and frequency, the field must be specified explicitly (see the section on <em>Controlling the field being matched</em> below).</p>
+<p>Numeric fields such as priority and frequency are not matched because the integer values used for priority and frequency often match many task names and tags too.  To filter by priority and frequency, the field must be specified explicitly (see <a href="#controlling-the-field-being-matched">Section 3.6.3, &#8220;Controlling the field being matched&#8221;</a> below).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2289,4 +2289,4 @@ e.g. <code>sort due&lt; name&gt;</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-10 07:31:47 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-10 07:41:48 UTC</div></div></div></body></html>
