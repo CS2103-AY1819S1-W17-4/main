@@ -146,7 +146,7 @@
 <div class="sect2">
 <h3 id="exporting-a-set-of-tasks-code-export-code"><a class="link" href="#exporting-a-set-of-tasks-code-export-code">Exporting a set of tasks: <code>export</code></a></h3>
 <div class="paragraph">
-<p>Exports the tasks that is currently displayed by the Deadline Manager. The tasks will be saved as a file at the provided <code>FILENAME</code> location.</p>
+<p>Exports the tasks that is currently displayed by the Deadline Manager. The tasks will be saved as a file at the provided <code>FILEPATH</code> location.</p>
 </div>
 <div class="paragraph">
 <p>Deadline Manager provides two different formats to export in.</p>
@@ -169,10 +169,10 @@
 <div class="ulist">
 <ul>
 <li>
-<p>If the <code>csv</code> option is specified, Deadline Manager will export tasks in CSV format. Otherwise, it will export in XML format.</p>
+<p>If the <code>csv</code> option is specified, Deadline Manager will export tasks in CSV format. Otherwise, by default, it will export in XML format.</p>
 </li>
 <li>
-<p><code>FILEPATH</code> refers to a location on your computer. The <code>FILEPATH</code> must be enclosed within quotes (<code>"</code>). Deadline Manager will export to the specified location. You can provide a relative location (file.txt) or an absolute location (C:\Folder\file.txt).</p>
+<p><code>FILEPATH</code> refers to a location on your computer, and the <code>FILEPATH</code> provided should be enclosed within quotes (<code>"</code>). You may provide a relative location (<code>tasks.xml</code>) or an absolute location (<code>C:\Folder\tasks.xml</code>). Deadline Manager will attempt to export to the specified location.</p>
 </li>
 </ul>
 </div>
@@ -183,7 +183,7 @@
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-You can omit the quotes if your <code>FILEPATH</code> consists of only alphanumeric and fullstop (<code>.</code>) characters.
+To avoid ambiguity, it is recommended to use quotation marks when specifying a <code>FILEPATH</code>. <code>FILEPATHs</code> not enclosed in quotations will still be parsed, however correct behaviour is not guaranteed.
 </td>
 </tr>
 </table>
@@ -227,19 +227,19 @@ Creates and exports tasks to <code>cs2101.xml</code> in the same folder as Deadl
 <div class="content">
 <img src="../images/userguide/exportdemo_1.PNG" alt="ExportDemo" width="790">
 </div>
-<div class="title">Figure 2.1: Command box.</div>
+<div class="title">Figure 3.9.1: Command box.</div>
 </div>
 <div class="paragraph">
-<p>In Figure 2.1 above, the user enters the <code>export p/cs2101.xml</code> command into the command box.</p>
+<p>In Figure 3.9.1 above, the user enters the <code>export p/cs2101.xml</code> command into the command box.</p>
 </div>
 <div id="img-exportdemo2" class="imageblock">
 <div class="content">
 <img src="../images/userguide/exportdemo_2.png" alt="ExportDemo2" width="790">
 </div>
-<div class="title">Figure 2.2: Result of export command</div>
+<div class="title">Figure 3.9.2: Result of export command</div>
 </div>
 <div class="paragraph">
-<p>In Figure 2.2 above, when the user presses enter, Deadline Manager exports the file and display a success message. The exported file is located at cs2101.xml, and contains the tasks displayed in the deadline manager, namely "CS2101 Oral Presentation" in the screenshot above.</p>
+<p>In Figure 3.9.2 above, after the user presses enter, Deadline Manager exports the file and display a success message. The exported file is located at cs2101.xml, and contains the tasks displayed in the deadline manager, namely "CS2101 Oral Presentation" in the screenshot above.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -254,10 +254,10 @@ Fails and returns an error as <code>cs2101.txt</code> already exists when the se
 <div class="content">
 <img src="../images/userguide/exportdemo_3.png" alt="ExportDemo3" width="790">
 </div>
-<div class="title">Figure 2.3: Sample error message</div>
+<div class="title">Figure 3.9.3: Sample error message</div>
 </div>
 <div class="paragraph">
-<p>Figure 2.3 above shows the error message when the user attempts to export to a file that already exists. Deadline Manager will not overwrite any existing file so as to protect your data.</p>
+<p>Figure 3.9.3 above shows the error message when the user attempts to export to a file that already exists. Deadline Manager will not overwrite any existing file so as to protect your data.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -297,7 +297,7 @@ Creates and exports tasks to <code>cs2103.txt</code> in the <code>C:\Documents</
 <div class="ulist">
 <ul>
 <li>
-<p>FILEPATH refers to a location on your computer. The FILEPATH must be enclosed within quotes ("). Deadline Manager will attempt to import from the specified location. You can provide a relative location (file.txt) or an absolute location (C:\Folder\file.txt).</p>
+<p><code>FILEPATH</code> refers to a location on your computer, and the <code>FILEPATH</code> provided should be enclosed within quotes (<code>"</code>). You may provide a relative location (<code>tasks.xml</code>) or an absolute location (<code>C:\Folder\tasks.xml</code>). Deadline Manager will attempt to import from the specified location.</p>
 </li>
 </ul>
 </div>
@@ -308,7 +308,7 @@ Creates and exports tasks to <code>cs2103.txt</code> in the <code>C:\Documents</
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-You can omit the quotes if your <code>FILEPATH</code> consists of only alphanumeric and fullstop (<code>.</code>) characters.
+To avoid ambiguity, it is recommended to use quotation marks when specifying a <code>FILEPATH</code>. <code>FILEPATHs</code> not enclosed in quotations will still be parsed, however correct behaviour is not guaranteed.
 </td>
 </tr>
 </table>
@@ -332,22 +332,10 @@ Currently, Deadline Manager does not support importing from a CSV file. This fea
 </tr>
 </table>
 </div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-If your filename contains double quotation marks (<code>"</code>) but not single quotation marks (<code>'</code>), you may enclose the filename with single quotation marks (<code>'</code>) instead. However, the application will not be able to work with files that have both double quotation marks and single quotation marks.
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="paragraph">
-<p>Additionally, optional commands can provided to specify what Deadline Manager should do when there is an import conflict.</p>
+<p>Optional commands can provided to specify what Deadline Manager should do when there is an import conflict.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -356,7 +344,7 @@ If your filename contains double quotation marks (<code>"</code>) but not single
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-An import conflict occurs when you try to import a task, but a similar task already exists in your Deadline Manager. When this happens, Deadline Manager needs to know what you want to do with these tasks,
+An import conflict occurs when you try to import a task, but a similar task already exists in your Deadline Manager. When this happens, Deadline Manager needs to know what you want to do with these tasks.
 </td>
 </tr>
 </table>
@@ -367,13 +355,13 @@ An import conflict occurs when you try to import a task, but a similar task alre
 <div class="ulist">
 <ul>
 <li>
-<p><code>r/all</code>: Imports the new task, and keeps both the existing and incoming tasks.</p>
+<p><code>r/all</code>: Imports the new task, keeping both the existing and incoming tasks.</p>
 </li>
 <li>
-<p><code>r/overwrite</code>: Imports the new task, and overwrites/discards the existing task.</p>
+<p><code>r/overwrite</code>: Imports the new task, replacing the existing task.</p>
 </li>
 <li>
-<p><code>r/skip</code>: Does not import the conflicting task, but keeps the existing task instead.</p>
+<p><code>r/skip</code>: Does not import the conflicting task, keeping the existing task instead.</p>
 </li>
 </ul>
 </div>
@@ -397,27 +385,27 @@ If you do not specify any command, Deadline Manager uses <code>r/skip</code> by 
 <li>
 <p>(Assuming that we have previously exported to <code>cs2101.xml</code>)<br>
 <code>import p/cs2101.xml r/all</code><br>
-Imports all tasks from <code>cs2101.xml</code>. Even if an incoming task exists in Deadline Manager, it is still imported.</p>
+Imports all tasks from <code>cs2101.xml</code>. Deadline Manager will save all tasks, even if duplicates already exist.</p>
 </li>
 </ul>
 </div>
 <div id="img-importdemo2" class="imageblock">
 <div class="content">
-<img src="../images/userguide/importdemo_2.png" alt="ExportDemo" width="790">
+<img src="../images/userguide/importdemo_2.png" alt="ImportDemo2" width="790">
 </div>
-<div class="title">Figure 3.1: User prepares to import from cs2101.xml</div>
+<div class="title">Figure 3.10.1: User prepares to import from cs2101.xml</div>
 </div>
 <div class="paragraph">
-<p>In Figure 3.1, we assume that the user has previously exported to cs2101.xml, containing another copy of "CS2101 Oral Presentation". The user now attempts to import from cs2101.xml.</p>
+<p>In Figure 3.10.1, we assume that the user has previously exported to <code>cs2101.xml</code>. <code>cs2101.xml</code> contains another copy of "CS2101 Oral Presentation". The user now attempts to import from <code>cs2101.xml</code>.</p>
 </div>
 <div id="img-importdemo3" class="imageblock">
 <div class="content">
-<img src="../images/userguide/importdemo_3.png" alt="ExportDemo" width="790">
+<img src="../images/userguide/importdemo_3.png" alt="ImportDemo3" width="790">
 </div>
-<div class="title">Figure 3.3: Result of import command with /all</div>
+<div class="title">Figure 3.10.2: Result of import command with the r/all command</div>
 </div>
 <div class="paragraph">
-<p>Figure 3.2 shows the success message after importing from cs2101.xml. Note that the r/all command causes duplicate copies to be saved.</p>
+<p>Figure 3.10.2 shows the success message after importing from cs2101.xml. Note that, as the r/all command is used, both copies of "CS2101 Oral Presentation" are saved.</p>
 </div>
 <div class="paragraph">
 <p>*
@@ -426,18 +414,18 @@ Imports all tasks from <code>cs2101.xml</code>. Since the r/all parameter is not
 </div>
 <div id="img-importdemo" class="imageblock">
 <div class="content">
-<img src="../images/userguide/importdemo_4.PNG" alt="ExportDemo" width="790">
+<img src="../images/userguide/importdemo_4.PNG" alt="ImportDemo4" width="790">
 </div>
-<div class="title">Figure 3.4: Result of import command with no additional parameters</div>
+<div class="title">Figure 3.10.3: Result of import command with no additional parameters</div>
 </div>
 <div class="paragraph">
-<p>Figure 3.4 shows the success message after importing from cs2101.xml. As cs2101.xml contains a duplicate copy of "CS2101 Oral Presentation", nothing new is imported.</p>
+<p>Figure 3.10.3 shows the success message after importing from <code>cs2101.xml</code>. As <code>cs2101.xml</code> contains a duplicate copy of "CS2101 Oral Presentation", nothing new is imported.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
 <p><code>import p/"C:\Documents\cs2101.xml" r/all</code><br>
-Imports all tasks from <code>C:\Documents\cs2101.xml</code>. Even if an incoming task exists in Deadline Manager, it is still imported.</p>
+Imports all tasks from <code>C:\Documents\cs2101.xml</code>. Deadline Manager will save all tasks, even if duplicates already exist.</p>
 </li>
 </ul>
 </div>
@@ -735,4 +723,4 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-10 13:27:21 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-10 13:40:40 UTC</div></div></div></body></html>
