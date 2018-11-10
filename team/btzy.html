@@ -153,7 +153,10 @@ Filter predicates are indivisible because each filter predicate represents a sin
 </table>
 </div>
 <div class="paragraph">
-<p>Most of the time, the simplified filter syntax is sufficient to find the needed task(s).  However, when there are many tasks in the deadline manager and the simplified syntax returns too many results, or when an exact subset of tasks are required for exporting (see the <code>export</code> command), the simplified syntax becomes too imprecise to use.  For these use cases, the <code>filter</code> command also supports a fully-featured expression parser that is extremely expressive.</p>
+<p><strong>Most of the time, the simplified filter syntax is sufficient to find the needed task(s)&#8201;&#8212;&#8201;reading only the <em>Simplified filter syntax</em> section is sufficient for most basic use cases.  We recommended that you read that section first and determine if you still need greater expressiveness, before reading the reset of the documentation contained in this guide.</strong></p>
+</div>
+<div class="paragraph">
+<p>However, when there are many tasks in the deadline manager and the simplified syntax returns too many results, or when an exact subset of tasks are required for exporting (see the <code>export</code> command), the simplified syntax becomes may be too imprecise to use.  For these use cases, the <code>filter</code> command also supports a fully-featured expression parser that is extremely expressive.</p>
 </div>
 </div>
 <div class="sect3">
@@ -279,38 +282,419 @@ This full predicate syntax can be mixed arbitrary with the keyword syntax descri
 </tr>
 </table>
 </div>
-<div class="sidebarblock">
-<div class="content">
 <div class="paragraph">
-<p>Meaning of the operators for each valid key:</p>
+<p>The following subsections explain the meaning of the operators for each valid key:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
+<div class="sect4">
+<h5 id="name"><a class="link" href="#name">Name</a></h5>
+<div class="paragraph">
 <p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared.  Comparison is case-insensitive.  The operator <code>&gt;</code> tests if the search phrase is contained within the task name.  The operator <code>&lt;</code> tests if the task name is contained within the search phrase.  The operator <code>=</code> tests if the search phrase is exactly the same as the task name.  The convenience operator is an alias for <code>&gt;</code>.</p>
-</li>
-<li>
-<p>When <code>key</code> is <code>d</code>, <code>due</code> or <code>deadline</code>, the task&#8217;s due date is compared, and the search phrase is interpreted as a date.  Dates must be in <code>d/m/y</code> format.  The operator <code>&gt;</code> tests if the task&#8217;s due date is on or after the specified due date.  The operator <code>&lt;</code> tests if the task&#8217;s due date is on or before the specified due date.  The operator <code>=</code> tests if the task&#8217;s due date is exactly equal to the specified due date.  The convenience operator is an alias for <code>&lt;</code>.</p>
-</li>
-<li>
+</div>
+<div class="paragraph">
+<p>Examples to demonstrate each operator type:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Task name</th>
+<th class="tableblock halign-left valign-top">Test phrase</th>
+<th class="tableblock halign-left valign-top">Matches "&gt;"</th>
+<th class="tableblock halign-left valign-top">Matches "="</th>
+<th class="tableblock halign-left valign-top">Matches "&lt;"</th>
+<th class="tableblock halign-left valign-top">Matches ":"</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">homework assignment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">assign</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exam</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exam</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">assignment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">homework assignment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">assignment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Homework Assignment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">assign</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Exam</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exam</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Assignment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">homework assignment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="deadline"><a class="link" href="#deadline">Deadline</a></h5>
+<div class="paragraph">
+<p>When <code>key</code> is <code>d</code>, <code>due</code> or <code>deadline</code>, the task&#8217;s due date is compared, and the search phrase is interpreted as a date.  Dates must in the format specified in the <em>Deadline Format</em> section.  The operator <code>&gt;</code> tests if the task&#8217;s due date is on or after the specified due date.  The operator <code>&lt;</code> tests if the task&#8217;s due date is on or before the specified due date.  The operator <code>=</code> tests if the task&#8217;s due date is exactly equal to the specified due date.  The convenience operator is an alias for <code>&lt;</code>.</p>
+</div>
+<div class="paragraph">
+<p>Examples to demonstrate each operator type:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Task deadline</th>
+<th class="tableblock halign-left valign-top">Test phrase</th>
+<th class="tableblock halign-left valign-top">Matches "&gt;"</th>
+<th class="tableblock halign-left valign-top">Matches "="</th>
+<th class="tableblock halign-left valign-top">Matches "&lt;"</th>
+<th class="tableblock halign-left valign-top">Matches ":"</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1/10/2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20/9/2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1/10/2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1/10/2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1/10/2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15/10/2018</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="priority"><a class="link" href="#priority">Priority</a></h5>
+<div class="paragraph">
 <p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared, and the search phrase is interpreted as an integer, representing the priority to be searched.  A priority of zero matches all the tasks with no priority set.  The operator <code>&gt;</code> tests if the task has priority at least as high as the specified priority.  The operator <code>&lt;</code> tests if the task has priority at most as high as the specified priority.  The operator <code>=</code> tests if the task&#8217;s priority is exactly equal to the specified priority.  The convenience operator is an alias for <code>&gt;</code>.  Note that priority 1 is the highest priority, priority 4 is the lowest priority, and tasks without any priority are considered to be of lower priority than priority 4.  In other words, <code>1 &gt; 2 &gt; 3 &gt; 4 &gt; (no priority)</code>.</p>
-</li>
-<li>
+</div>
+<div class="paragraph">
+<p>Examples to demonstrate each operator type:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Task priority</th>
+<th class="tableblock halign-left valign-top">Test phrase</th>
+<th class="tableblock halign-left valign-top">Matches "&gt;"</th>
+<th class="tableblock halign-left valign-top">Matches "="</th>
+<th class="tableblock halign-left valign-top">Matches "&lt;"</th>
+<th class="tableblock halign-left valign-top">Matches ":"</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="frequency"><a class="link" href="#frequency">Frequency</a></h5>
+<div class="paragraph">
 <p>When <code>key</code> is <code>f</code> or <code>frequency</code>, the task&#8217;s frequency (i.e. the number of days between consecutive occurrences of that task) is compared, and the search phrase is interpreted as an integer, representing the frequency to be searched.  A non-recurring task is treated as if it has a frequency that is infinitely large (i.e. <code>f&gt;100</code> also includes all non-recurring tasks).  The operator <code>&gt;</code> tests if the task has a recurrence interval larger than or equal to the specified number of days.  The operator <code>&lt;</code> tests if the task has a recurrence interval smaller than or equal to the specified number of days.  The operator <code>=</code> tests if the task has a recurrence interval exactly equal to the specified number of days.  The convenience operator is an alias for <code>&lt;</code>.</p>
-</li>
-<li>
+</div>
+<div class="paragraph">
+<p>Examples to demonstrate each operator type:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Task frequency</th>
+<th class="tableblock halign-left valign-top">Test phrase</th>
+<th class="tableblock halign-left valign-top">Matches "&gt;"</th>
+<th class="tableblock halign-left valign-top">Matches "="</th>
+<th class="tableblock halign-left valign-top">Matches "&lt;"</th>
+<th class="tableblock halign-left valign-top">Matches ":"</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="tag"><a class="link" href="#tag">Tag</a></h5>
+<div class="paragraph">
 <p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared, and the search phrase is interpreted as a (unordered) set of (substrings of) tags.  Comparison is case-insensitive.  Multiple tags are separated by commas (see examples below).  The operator <code>&gt;</code> tests if every specified tag is a substring of a tag of the given task.  The operator <code>&lt;</code> tests if every specified tag is a superstring of a tag of the given task.  The operator <code>=</code> tests if every specified tag exactly matches a tag of the given task.  The convenience operator is an alias for <code>&gt;</code>.</p>
-</li>
-<li>
-<p>When <code>key</code> is <code>a</code> or <code>attachment</code>, the task&#8217;s attachments are compared, and the search phrase is interpreted as a (unordered) set of (substrings of) filenames.  Comparison is case-insensitive.  Multiple filenames are separated by commas, in the same way as tags.  The operator <code>&gt;</code> tests if every specified filename is a substring of an attachment filename (of the given task).  The operator <code>&lt;</code> tests if every specified tag is a superstring of an attachment filename.  The operator <code>=</code> tests if every specified tag exactly matches an attachment filename.  The convenience operator is an alias for <code>&gt;</code>.</p>
-</li>
-<li>
-<p>Any other <code>key</code> will cause Deadline Manager to produce an error.</p>
-</li>
-</ul>
 </div>
+<div class="paragraph">
+<p>Examples to demonstrate each operator type:</p>
 </div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Task tags</th>
+<th class="tableblock halign-left valign-top">Test phrase</th>
+<th class="tableblock halign-left valign-top">Matches "&gt;"</th>
+<th class="tableblock halign-left valign-top">Matches "="</th>
+<th class="tableblock halign-left valign-top">Matches "&lt;"</th>
+<th class="tableblock halign-left valign-top">Matches ":"</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CS2103</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CS2103,homework,easy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CS2103T</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cs2103</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+</tbody>
+</table>
 </div>
+<div class="sect4">
+<h5 id="attachment"><a class="link" href="#attachment">Attachment</a></h5>
+<div class="paragraph">
+<p>When <code>key</code> is <code>a</code> or <code>attachment</code>, the task&#8217;s attachments are compared, and the search phrase is interpreted as a (unordered) set of (substrings of) filenames.  Comparison is case-insensitive.  Multiple filenames are separated by commas, in the same way as tags.  The operator <code>&gt;</code> tests if every specified filename is a substring of an attachment filename (of the given task).  The operator <code>&lt;</code> tests if every specified tag is a superstring of an attachment filename.  The operator <code>=</code> tests if every specified tag exactly matches an attachment filename.  The convenience operator is an alias for <code>&gt;</code>.
+* Any other <code>key</code> will cause Deadline Manager to produce an error.</p>
+</div>
+<div class="paragraph">
+<p>Examples to demonstrate each operator type:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Task tags</th>
+<th class="tableblock halign-left valign-top">Test phrase</th>
+<th class="tableblock halign-left valign-top">Matches "&gt;"</th>
+<th class="tableblock halign-left valign-top">Matches "="</th>
+<th class="tableblock halign-left valign-top">Matches "&lt;"</th>
+<th class="tableblock halign-left valign-top">Matches ":"</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"file.txt","Test.java"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"file.txt","Test.java"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test.java</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"file.txt","Test.java"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test.java,file.txt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"file.txt","Test.java"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">betterfile.txt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"file.txt","Test.java"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">test</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"file.txt","Test.java"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">test.java</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+</tbody>
+</table>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -399,6 +783,7 @@ Returns a subset of the current list of tasks that contains the attachments with
 </ul>
 </div>
 </div>
+</div>
 <div class="sect3">
 <h4 id="composing-filter-predicates"><a class="link" href="#composing-filter-predicates">Composing filter predicates</a></h4>
 <div class="paragraph">
@@ -443,11 +828,11 @@ The format for <code>FILTER_EXPRESSION</code> is defined recursively in the foll
 </div>
 </div>
 </div>
-<div class="admonitionblock note">
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 Intuitively, the syntax for filter expressions mirrors that of arithmetic expressions such as <code>1+3*4</code> and <code>(1+4+6)*2</code>.
@@ -490,7 +875,7 @@ Returns a subset of the current list of tasks that have a name that does not con
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/FilterUnitDiagramSetUG.png" alt="FilterUnitDiagramSetUG" width="200">
+<img src="../images/FilterUnitDiagramSetUG.png" alt="FilterUnitDiagramSetUG" width="250">
 </div>
 </div>
 <div class="paragraph">
@@ -518,6 +903,91 @@ Returns a subset of the current list of tasks that have a name that does not con
 </td>
 <td class="content">
 When comparing a set-based field without using this dual-operator syntax, the set based operator used is effectively the convenience operator.  (In other words, <code>&lt;key&gt;&lt;operator&gt;&lt;phrase&gt;</code> is equivalent to <code>&lt;key&gt;:&lt;operator&gt;&lt;phrase&gt;</code>.)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Examples to demonstrate each operator type (using the tag field):</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Task tags</th>
+<th class="tableblock halign-left valign-top">Test phrase</th>
+<th class="tableblock halign-left valign-top">Matches "&gt;:"</th>
+<th class="tableblock halign-left valign-top">Matches "=:"</th>
+<th class="tableblock halign-left valign-top">Matches "&lt;:"</th>
+<th class="tableblock halign-left valign-top">Matches "::"</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CS2103</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CS2103,homework,easy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CS2103</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cs2103</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The set operator works in the same way as the above table for the attachment field as well.
 </td>
 </tr>
 </table>
@@ -676,6 +1146,9 @@ The second component in the list above also accepts a filter unit that contains 
 <li>
 <p>Strictly speaking, the "loop" is not actually a loop.  As the boolean expression parser parses the filter expression, it invokes the lambda expression whenever a filter unit is encountered.  For simplicity, the sequence diagram above hides the complexity within the boolean expression parser.</p>
 </li>
+<li>
+<p>The construction of the <code>tokenizer</code> object is omitted so as to give focus to the interaction between the three components.  The <code>BooleanExpressionParser</code> actually constructs a <code>StringTokenizer</code> from the given <code>expression</code> (which is a <code>String</code>), before entering the loop.  This same <code>StringTokenizer</code> is fed into the lambda expression every time a filter unit is encountered.</p>
+</li>
 </ul>
 </div>
 <div class="admonitionblock note">
@@ -790,7 +1263,7 @@ The <code>StringTokenizer</code> class is also used in two other places&#8201;&#
 <div class="sect3">
 <h4 id="filter-unit-parser"><a class="link" href="#filter-unit-parser">Filter unit parser</a></h4>
 <div class="paragraph">
-<p>The filter unit parser is written as a lambda expression inside the <code>FilterCommandParser</code> class.  There are two reasons for this:</p>
+<p>The filter unit parser is written as a lambda expression inside the <code>FilterCommandParser</code> class.  This lambda expression then calls <code>FilterCommandParser#createFilterUnit</code>, which contains most of the logic for the filter unit parser.  There are two reasons for placing the filter unit parser in the <code>FilterCommandParser</code> class:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -866,10 +1339,31 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 </table>
 </div>
 <div class="paragraph">
-<p>A non-quoted test phrase only allows alphanumeric characters and the characters <code>_</code>, <code>-</code>, <code>/</code>, and <code>,</code>.  (The <code>/</code> character allows dates to work, and the <code>,</code> character allows tag lists to work.)  The string tokenizer provides the bindings to facilitate this check.  If other characters are required, then the test phrase must be placed in quotes (either single or double quotes are acceptable, but they must match).</p>
+<p>The filter unit parser distinguishes between the three possible ways to express a filter unit, as per the activity diagram below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/FilterUnitActivityDiagram.png" alt="FilterUnitActivityDiagram" width="800">
+</div>
 </div>
 <div class="paragraph">
-<p>These three parts are described in the following sections.</p>
+<p>The above diagram demonstrates how each of the three possible ways are distinguished.  Note that in the diagram above:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A non-quoted field identifier only matches alphabets.  There is never a need to use any other kind of character for the field identifier (see the <em>Field identifier</em> section below).</p>
+</li>
+<li>
+<p>A non-quoted test phrase only allows alphanumeric characters and the characters <code>_</code>, <code>-</code>, <code>/</code>, <code>\</code>, <code>,</code>, and <code>.</code>.  (The <code>/</code> character allows dates to work, and the <code>,</code> character allows tag lists to work.)  The string tokenizer provides the bindings to facilitate this check.  If other characters are required, then the test phrase must be placed in quotes (either single or double quotes are acceptable, but they must match).</p>
+</li>
+<li>
+<p>An operator (both the field and set operators) only matches <code>&lt;</code>, <code>=</code>, <code>&gt;</code>, and <code>:</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The four parts of a filter unit are described in the following sections.</p>
 </div>
 <div class="sect4">
 <h5 id="field-identifier"><a class="link" href="#field-identifier">Field identifier</a></h5>
@@ -958,6 +1452,18 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 </div>
 <div class="paragraph">
 <p>For textual fields (e.g. name, tag), the <code>&lt;</code>, <code>=</code>, <code>&gt;</code> operators represent <em>substring</em>, <em>equivalence</em>, and <em>superstring</em> relations respectively.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For all fields, <code>=</code> is equivalent to the intersection of <code>&lt;</code> and <code>&gt;</code>.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>As most users do not usually require such fine-grained control over the filter operator, the <code>:</code> operator, known as the <em>convenience</em> operator, is provided as well.  The convenience operator is an alias for one of the other filter operators, and the choice of filter operator depends on the field identifier.  For each field, the filter operator that is expected to be most commonly used is chosen as the target for the convenience operator.</p>
@@ -1108,7 +1614,7 @@ Priority values do not compare in the same order as their values as integers.  P
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/FilterParserErrorPredicateInheritanceDiagram.png" alt="FilterParserErrorPredicateInheritanceDiagram" width="800">
+<img src="../images/FilterParserErrorPredicateInheritanceDiagram.png" alt="FilterParserErrorPredicateInheritanceDiagram" width="500">
 </div>
 </div>
 <div class="paragraph">
@@ -1280,4 +1786,4 @@ In total, there are around 15 distinct kinds of error conditions when parsing a 
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-09 13:58:07 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-10 07:13:06 UTC</div></div></div></body></html>
