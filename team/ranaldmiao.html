@@ -162,8 +162,25 @@ For instance, assignments for students usually come with an assignment brief. Th
 <div class="paragraph">
 <p>Allows the user to add, list, delete and retrieve files associated with a specific task.<br>
 Deadline manager does not make a copy or backup the files added. Only the location of the files are stored by Deadline Manager. Hence, it is possible that the file might have been modified, renamed, moved or deleted without Deadline Manager&#8217;s knowledge. As such, there is no guarantee for a file associated with a specific task to always exist. <br>
-Format: <code>INDEX ACTION [p/"FILEPATH"] [n/"FILENAME"]</code></p>
+After the command is successfully executed, all the tasks in Deadline Manager will be listed.<br>
+Format (in general): <code>INDEX ACTION [p/"FILEPATH"] [n/"FILENAME"]</code></p>
 </div>
+<div class="paragraph">
+<p>More specific formats for each actions are listed below.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Format for <strong>Add</strong> Action: <code>attachment INDEX add p/"FILEPATH"</code></p>
+</li>
+<li>
+<p>Format for <strong>Delete</strong> Action: <code>attachment INDEX delete n/"FILENAME"</code></p>
+</li>
+<li>
+<p>Format for <strong>List</strong> Action: <code>attachment INDEX list</code></p>
+</li>
+<li>
+<p>Format for <strong>Get</strong> Action: <code>attachment INDEX get n/"FILENAME" p/"FILEPATH"</code></p>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -171,10 +188,13 @@ Format: <code>INDEX ACTION [p/"FILEPATH"] [n/"FILENAME"]</code></p>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-The application does not allow adding more than one file with the same filename to the same task, even if they are in different locations on the computer. For this application, filename does include the file extension as well.
+The application does not allow adding more than one file with the same filename to the same task, even if they are in different locations on the computer. For this application, filename includes the file extension as well.
 </td>
 </tr>
 </table>
+</div>
+</li>
+</ul>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -196,7 +216,7 @@ The application does not allow adding more than one file with the same filename 
 <p>For <code>delete</code> actions, the <code>FILENAME</code> argument is required to represent the file to delete. The <code>FILENAME</code> must be enclosed in quotation marks. For example: <code>"Hello World.docx"</code>.</p>
 </li>
 <li>
-<p>For <code>get</code> actions, the <code>FILENAME</code> argument is required to represent the file to retrieve and the <code>FILEPATH</code> argument is required to denote the destination you want the file to be exported to. If there is an existing file at <code>FILEPATH</code>, it would be overwritten without warning. The <code>FILEPATH</code> and <code>FILENAME</code> must be enclosed in quotation marks, similar to the arguments in <code>add</code> and <code>delete</code> actions.</p>
+<p>For <code>get</code> actions, the <code>FILENAME</code> argument is required to represent the file to retrieve and the <code>FILEPATH</code> argument is required to denote the destination you want the file to be exported to. If there is an existing file at <code>FILEPATH</code>, it would be overwritten without warning. The <code>FILEPATH</code> and <code>FILENAME</code> must be enclosed in quotation marks, similar to the arguments in <code>add</code> and <code>delete</code> actions. Do note that <code>FILEPATH</code> should be a path to a file, not a folder in the computer.</p>
 </li>
 </ul>
 </div>
@@ -209,7 +229,7 @@ The application does not allow adding more than one file with the same filename 
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-You may omit the quotation marks for <code>FILENAME</code> and <code>FILEPATH</code> arguments if the name or path of the file only contains alphanumeric characters or dots. However, it is still recommended to enclose them in quotation marks.
+The application might still be able to parse the command if <code>FILENAME</code> and <code>FILEPATH</code> are not specified. However, this behaviour is not guaranteed and it is still recommended to enclose them in quotation marks.
 </td>
 </tr>
 </table>
@@ -233,7 +253,7 @@ If your filename contains double quotation marks <code>"</code> but not single q
 <ul>
 <li>
 <p>Add: <code>attachment 1 add p/"D:\Documents\Hello World.docx"</code><br>
-Adds an attachment located at "D:\Documents\Hello World.docx" to the 1st task in the deadline manager.</p>
+Adds an attachment located at "D:\Documents\Hello World.docx" to the 1st task currently listed in the deadline manager. (Tip: You can list all tasks using the <code>list</code> command.)</p>
 </li>
 </ul>
 </div>
@@ -334,7 +354,7 @@ The <a href="#Importing a set of tasks: <code>import</code>"><code>import</code>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The <a href="#Filtering a list of tasks: <code>filter</code>"><code>filter</code></a> and <a href="#Sorting a list of tasks : <code>sort</code>"><code>sort</code></a> commands do <strong>NOT</strong> support filtering and sorting by attachments of a task as of now. Support for these commands maybe added in future releases of the application.
+The <a href="#Sorting a list of tasks : <code>sort</code>"><code>sort</code></a> command currently does <strong>NOT</strong> support sorting tasks by their attachments. Support for this commands may be added in future releases of the application.
 </td>
 </tr>
 </table>
@@ -613,4 +633,4 @@ The <a href="#Filtering a list of tasks: <code>filter</code>"><code>filter</code
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-10 07:41:48 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-10 08:05:48 UTC</div></div></div></body></html>
