@@ -158,6 +158,7 @@ This <strong>Developer Guide</strong> help you get started with contributing to 
 <li><a href="#adding-a-task-2">H.6. Adding a task</a></li>
 <li><a href="#exporting-tasks">H.7. Exporting tasks</a></li>
 <li><a href="#importing-tasks">H.8. Importing tasks</a></li>
+<li><a href="#sorting-a-list-of-tasks">H.9. Sorting a list of tasks</a></li>
 </ul>
 </li>
 </ul>
@@ -1463,10 +1464,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <div class="content">
 <img src="images/SortOperationSequenceDiagram.png" alt="SortOperationSequenceDiagram" width="800">
 </div>
-<div class="title">Figure 14. Sequence diagram for <code>sort</code> command</div>
-</div>
-<div class="paragraph">
-<p>The above sequence diagram illustrates the Sort Command</p>
+<div class="title">Figure 14. Sequence Diagram for executing Sort Command.</div>
 </div>
 <div class="paragraph">
 <p>Step 4. The <code>SortCommand</code> calls the <code>updateSortedTaskList</code> API method of <code>ModelManager</code></p>
@@ -1478,18 +1476,18 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <div class="sect3">
 <h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">4.5.3. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-which-task-list-to-sort"><a class="link" href="#aspect-which-task-list-to-sort">4.5.3.1. Aspect: Which Task List to Sort</a></h5>
+<h5 id="aspect-which-task-list-to-sort"><a class="link" href="#aspect-which-task-list-to-sort">4.5.3.1. Aspect: Which task list to sort</a></h5>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> The entire <code>versionedTaskList</code> is sorted using JavaFx inbuilt sort method</p>
+<p><strong>Alternative 1 (current choice):</strong> The entire <code>versionedTaskList</code> is sorted using JavaFx inbuilt sort method.</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: Easy to implement.</p>
 </li>
 <li>
-<p>Cons: May have performance issues in terms of slow running.</p>
+<p>Cons: Slow in performance.</p>
 </li>
 </ul>
 </div>
@@ -1499,7 +1497,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Will be more efficient in terms of time complexity.</p>
+<p>Pros: Fast in terms of performance.</p>
 </li>
 <li>
 <p>Cons: Requires significant changes to the codebase since sorting the <code>filteredTasks</code> requires it to be modifiable.</p>
@@ -1511,7 +1509,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-how-to-sort-mechanism-for-tags"><a class="link" href="#aspect-how-to-sort-mechanism-for-tags">4.5.3.2. Aspect: How to sort mechanism for Tags</a></h5>
+<h5 id="aspect-how-to-sort-for-tags"><a class="link" href="#aspect-how-to-sort-for-tags">4.5.3.2. Aspect: How to sort for tags</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1519,7 +1517,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Provides immense flexibility to the user. Also follows Law of Demeter / Law of Least Knowledge since the <code>Tag</code> model itself does NOT know that it can be compared.</p>
+<p>Pros: Provides immense flexibility to the user. Also follows Law of Demeter / Law of Least Knowledge since the <code>Tag</code> model itself does not know that it can be compared.</p>
 </li>
 <li>
 <p>Cons: The flexibility comes at the cost of making sorting by tags complex for newbie users.</p>
@@ -1535,7 +1533,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <p>Pros: Easier to implement and simpler for newbie users.</p>
 </li>
 <li>
-<p>Cons: Might not be useful for the user in many situations. Disobeys the Law of Demeter / Law of Least Knowledge since the <code>Tag</code> model will know that it can be compared with other tags.</p>
+<p>Cons: Not useful for the user in many situations. Disobeys the Law of Demeter / Law of Least Knowledge since the <code>Tag</code> model will know that it can be compared with other tags.</p>
 </li>
 </ul>
 </div>
@@ -4637,5 +4635,38 @@ Expected: An error message is displayed, indicating that Deadline Manager is una
 </ol>
 </div>
 </div>
+<div class="sect2">
+<h3 id="sorting-a-list-of-tasks"><a class="link" href="#sorting-a-list-of-tasks">H.9. Sorting a list of tasks</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Sorting a list of tasks</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all tasks using the <code>list</code> command. Multiple tasks in the list.</p>
+</li>
+<li>
+<p>Test case: <code>sort n&lt;</code><br>
+Expected: Sorts the list of tasks according to names in alphabetical ascending order.</p>
+</li>
+<li>
+<p>Test case: <code>sort p&lt; name&gt;</code><br>
+Expected: Sorts the list of tasks first according to ascending order of priority and then in case some tasks have the same priority. Ties are broken in descending order of names (alphabetical order).</p>
+</li>
+<li>
+<p>Test case: <code>sort name=</code><br>
+Expected: The view of the tasks does not change. Error details shown in the status message. Status bar remains the same.</p>
+</li>
+<li>
+<p>Other incorrect sort commands to try: <code>sort</code>, <code>sort name=</code>, <code>sort tag&lt;cs2101</code><br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 13:01:50 UTC</div></div></div></body></html>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 13:12:07 UTC</div></div></div></body></html>

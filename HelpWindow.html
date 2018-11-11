@@ -1263,6 +1263,18 @@ Sort comparators are the core of the <code>sort</code> command.  Each sort compa
 <div class="paragraph">
 <p>The entire sorting command is composed of a chain of sort comparators. This chain helps the user to define which tasks to show earlier and which ones to show latter.<br></p>
 </div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The sort command results in a stable sort, i.e if two deadlines are equal according to the sort comparators then their relative order before the sort command and after the sort command remains the same.
+</td>
+</tr>
+</table>
+</div>
 <div class="sidebarblock">
 <div class="content">
 <div class="paragraph">
@@ -1271,27 +1283,20 @@ Sort comparators are the core of the <code>sort</code> command.  Each sort compa
 </div>
 </div>
 <div class="paragraph">
-<p>Format: <code>sort SORT_COMPARATOR [SORT_COMPARATORS]&#8230;&#8203;</code><br></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The syntax of sort command requires to be followed strictly. There should not be extra spaces or trailing spaces.<br>
-Also when curly braces are opened or closed for sorting by tags, the first and the last tag name mentioned should NOT be preceded and followed by spaces respectively.
-</td>
-</tr>
-</table>
+<p>Format: <code>sort SORT_COMPARATOR [SORT_COMPARATOR] [SORT_COMPARATOR] &#8230;&#8203;</code><br></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>Format of <code>SORT_COMPARATOR</code>: <code>(n|name|d|due|p|priority)(&lt;|&gt;)</code> OR <code>(t|tag)(&lt;|&gt;){TAG1 TAG2 TAG3 &#8230;&#8203;}</code></p>
+<p>Format of a <code>SORT_COMPARATOR</code>: <code>(n|name|d|due|p|priority|f|frequency)(&lt;|&gt;)</code> OR <code>(t|tag)(&lt;|&gt;){TAG1 TAG2 TAG3 &#8230;&#8203;}</code></p>
+</li>
+<li>
+<p>In the above format <code>|</code> refers to an OR. <code>TAG1</code>, <code>TAG2</code> and <code>TAG3</code> are shown as example of tags that the user can input.</p>
+</li>
+<li>
+<p><code>&lt;</code> stands for sorting in ascending order and `&gt;' stands for sorting in descending order.</p>
 </li>
 <li>
 <p>Sorts the list by the 1st comparator, in case of ties, it sorts by 2nd comparator and so on.</p>
@@ -1304,16 +1309,16 @@ Also when curly braces are opened or closed for sorting by tags, the first and t
 <p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared. Comparison is case-insensitive.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>d</code> or <code>due</code>, the task&#8217;s due date is compared.</p>
+<p>When <code>key</code> is <code>d</code> or <code>due</code> or <code>deadline</code>, the task&#8217;s due date is compared.</p>
 </li>
 <li>
 <p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared. Note that 1 is the highest priority and 4 is the lowest priority.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>f</code> or <code>frequency</code>, the task&#8217;s frequency (i.e. the number of days between consecutive occurrences of that task) is compared.  A non-recurring task is treated as if it has a frequency that is infinitely large.</p>
+<p>When <code>key</code> is <code>f</code> or <code>frequency</code>, the task&#8217;s frequency (i.e. the number of days between consecutive occurrences of that task) is compared.  A non-recurring task is treated as if it has a frequency of positive infinity.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared.</p>
+<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared. In case <code>&lt;</code> is used, it means <code>TAG1</code> is placed eariler in the sorted order as compared to <code>TAG2</code> and so on. For <code>&gt;</code> it is vice-versa.</p>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1333,9 +1338,6 @@ For sorting by tags the user has to specify which tags are more important and wh
 </ul>
 </div>
 </li>
-<li>
-<p>&lt; stands for sorting in ascending order and &gt; stands for sorting in descending order</p>
-</li>
 </ul>
 </div>
 </div>
@@ -1348,6 +1350,12 @@ For sorting by tags the user has to specify which tags are more important and wh
 <li>
 <p><code>sort n&gt;</code><br>
 Sorts the current list of tasks in view in descending order by name, where sorting is done in alphabetical order.</p>
+<div class="paragraph">
+<p>.Result of "sort n&lt;" command</p>
+</div>
+<div id="img-sortdemo1" class="paragraph">
+<p>image::userguide/sortdemo_1.png[SortDemo1, width="600"]</p>
+</div>
 </li>
 <li>
 <p><code>sort due&lt; name&gt;</code><br>
@@ -1362,9 +1370,20 @@ Sorts the current list of tasks in view in ascending order by priority.</p>
 Sorts the current list of tasks in view in ascending order by frequency.</p>
 </li>
 <li>
-<p><code>sort tag&lt;{cs2100 family cs2103t}</code><br>
+<p><code>sort tag&lt;{ cs2100 family cs2103t }</code><br>
 Sorts the current list of tasks in view in ascending order by tags. In this case all the tasks with the tag <code>cs2100</code> will be placed
 before those tasks with the tag <code>family</code>, finally followed by those tasks with the tag <code>cs2103t</code>.</p>
+</li>
+<li>
+<p><code>sort n&lt; tag&lt;{</code><br>
+This is invalid syntax since the curly braces have not been closed.<br></p>
+<div class="paragraph">
+<p>.Result of "sort n&lt; tag&lt;{" command</p>
+</div>
+<div id="img-sortdemo2" class="paragraph">
+<p>image::userguide/sortdemo_2.png[SortDemo1, width="600"]
+Figure 3.10.2 above shows the error message when user feeds in an invalid command.</p>
+</div>
 </li>
 </ul>
 </div>
@@ -1375,7 +1394,7 @@ before those tasks with the tag <code>family</code>, finally followed by those t
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-In case a task does not belong to any of the tags mentioned it will be placed at the bottom of the sorted list.
+In case a task does not belong to any of the tags mentioned in the sort comparator it will be placed at the bottom of the sorted list.
 </td>
 </tr>
 </table>
@@ -1387,7 +1406,7 @@ In case a task does not belong to any of the tags mentioned it will be placed at
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-In case a task contains more than one tag specified in the comparator, then it will be attempted to be sorted according to those tags first which place it former in the sorted list.
+In case a task contains more than one tag specified in the sort comparator, then it will be sorted according to those tags first which place it former in the sorted list.
 </td>
 </tr>
 </table>
@@ -2204,7 +2223,7 @@ e.g. <code>search due&lt;1/10/2018</code></p>
 e.g.<code>select 2</code></p>
 </li>
 <li>
-<p><strong>Sort</strong> : <code>sort SORT_COMPARATOR [SORT_COMPARATORS]</code><br>
+<p><strong>Sort</strong> : <code>sort SORT_COMPARATOR [SORT_COMPARATOR]&#8230;&#8203;</code><br>
 e.g. <code>sort due&lt; name&gt;</code></p>
 </li>
 <li>
@@ -2237,4 +2256,4 @@ e.g. <code>sort due&lt; name&gt;</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 13:01:50 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 13:12:07 UTC</div></div></div></body></html>
