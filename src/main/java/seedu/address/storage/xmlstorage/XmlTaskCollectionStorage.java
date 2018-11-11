@@ -14,12 +14,13 @@ import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.ReadOnlyTaskCollection;
-import seedu.address.storage.TaskCollectionStorage;
+import seedu.address.storage.TaskCollectionReadStorage;
+import seedu.address.storage.TaskCollectionWriteStorage;
 
 /**
  * A class to access TaskCollection data stored as an xml file on the hard disk.
  */
-public class XmlTaskCollectionStorage implements TaskCollectionStorage {
+public class XmlTaskCollectionStorage implements TaskCollectionReadStorage, TaskCollectionWriteStorage {
 
     private static final Logger logger = LogsCenter.getLogger(XmlTaskCollectionStorage.class);
 
