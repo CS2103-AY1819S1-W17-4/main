@@ -339,6 +339,7 @@ If the <code>currentStatePointer</code> is at index 0, pointing to the initial d
 <div class="content">
 <img src="../images/UndoRedoSequenceDiagram.png" alt="UndoRedoSequenceDiagram" width="800">
 </div>
+<div class="title">Figure 1. Sequence diagram for <code>undo</code></div>
 </div>
 <div class="paragraph">
 <p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;it calls <code>Model#redoTaskCollection()</code>, which shifts the <code>currentStatePointer</code> once to the right, pointing to the previously undone state, and restores the deadline manager to that state.</p>
@@ -378,6 +379,7 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 <div class="content">
 <img src="../images/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram" width="650">
 </div>
+<div class="title">Figure 2. Activity diagram when a command is executed</div>
 </div>
 </div>
 <div class="sect3">
@@ -460,4 +462,4 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 07:45:38 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 08:14:29 UTC</div></div></div></body></html>

@@ -922,6 +922,7 @@ If the <code>currentStatePointer</code> is at index 0, pointing to the initial d
 <div class="content">
 <img src="images/UndoRedoSequenceDiagram.png" alt="UndoRedoSequenceDiagram" width="800">
 </div>
+<div class="title">Figure 10. Sequence diagram for <code>undo</code></div>
 </div>
 <div class="paragraph">
 <p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;it calls <code>Model#redoTaskCollection()</code>, which shifts the <code>currentStatePointer</code> once to the right, pointing to the previously undone state, and restores the deadline manager to that state.</p>
@@ -961,6 +962,7 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 <div class="content">
 <img src="images/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram" width="650">
 </div>
+<div class="title">Figure 11. Activity diagram when a command is executed</div>
 </div>
 </div>
 <div class="sect3">
@@ -1170,6 +1172,7 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 <div class="content">
 <img src="images/ExportSequenceDiagram.png" alt="ExportSequenceDiagram" width="800">
 </div>
+<div class="title">Figure 12. Sequence diagram for exporting tasks</div>
 </div>
 <div class="paragraph">
 <p>Step 1. The user executes export to file <code>dataFile</code>. The export command calls ModelManager&#8217;s <code>exportTaskCollection</code>.</p>
@@ -1190,6 +1193,7 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 <div class="content">
 <img src="images/ImportSequenceDiagram.png" alt="ImportSequenceDiagram" width="800">
 </div>
+<div class="title">Figure 13. Sequence diagram for importing tasks</div>
 </div>
 <div class="paragraph">
 <p>Step 1. The user executes import from file <code>dataFile</code>. The import command calls ModelManager&#8217;s <code>importTaskCollection</code>.</p>
@@ -1361,9 +1365,10 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <div class="content">
 <img src="images/SortOperationSequenceDiagram.png" alt="SortOperationSequenceDiagram" width="800">
 </div>
+<div class="title">Figure 14. Sequence diagram for <code>sort</code> command</div>
 </div>
 <div class="paragraph">
-<p>Figure 10 illustrates the sequence diagram for Sort Command</p>
+<p>The above sequence diagram illustrates the Sort Command</p>
 </div>
 <div class="paragraph">
 <p>Step 4. The <code>SortCommand</code> calls the <code>updateSortedTaskList</code> API method of <code>ModelManager</code></p>
@@ -1540,6 +1545,7 @@ The second component in the list above also accepts a filter unit that contains 
 <div class="content">
 <img src="images/FilterOperationSequenceDiagram.png" alt="FilterOperationSequenceDiagram" width="800">
 </div>
+<div class="title">Figure 15. Sequence diagram for parsing a filter command (for non-set-based fields)</div>
 </div>
 <div class="paragraph">
 <p>The above diagram shows the simplified sequence of operations to parse a filter expression into a predicate for non-set-based fields.  Take note of the following simplifications in the sequence diagram above:</p>
@@ -1704,6 +1710,7 @@ The <code>StringTokenizer</code> class is also used in two other places&#8201;&#
 <div class="content">
 <img src="images/FilterUnitDiagram.png" alt="FilterUnitDiagram" width="200">
 </div>
+<div class="title">Figure 16. Structure of a filter unit that uses the full syntax</div>
 </div>
 <div class="paragraph">
 <p>The following diagram is describes a filter unit that is specified using the extended full syntax for sets:</p>
@@ -1712,6 +1719,7 @@ The <code>StringTokenizer</code> class is also used in two other places&#8201;&#
 <div class="content">
 <img src="images/FilterUnitDiagramSet.png" alt="FilterUnitDiagramSet" width="250">
 </div>
+<div class="title">Figure 17. Structure of a filter unit that uses the extended full syntax for sets</div>
 </div>
 <div class="paragraph">
 <p>As shown in the diagram above, a filter unit (using the full syntax or extended syntax) consists of these parts:</p>
@@ -1751,6 +1759,7 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 <div class="content">
 <img src="images/FilterUnitActivityDiagram.png" alt="FilterUnitActivityDiagram" width="800">
 </div>
+<div class="title">Figure 18. Activity diagram for parsing a filter unit</div>
 </div>
 <div class="paragraph">
 <p>The above diagram demonstrates how each of the three possible ways are distinguished.  Note that in the diagram above:</p>
@@ -1764,7 +1773,7 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 <p>A non-quoted test phrase only allows alphanumeric characters and the characters <code>_</code>, <code>-</code>, <code>/</code>, <code>\</code>, <code>,</code>, and <code>.</code>.  (The <code>/</code> character allows dates to work, and the <code>,</code> character allows tag lists to work.)  The string tokenizer provides the bindings to facilitate this check.  If other characters are required, then the test phrase must be placed in quotes (either single or double quotes are acceptable, but they must match).</p>
 </li>
 <li>
-<p>An operator (both the field and set operators) only matches <code>&lt;</code>, <code>=</code>, <code>&gt;</code>, and <code>:</code>.</p>
+<p>An operator (both the filter operator and set operator) only matches <code>&lt;</code>, <code>=</code>, <code>&gt;</code>, and <code>:</code>.</p>
 </li>
 <li>
 <p>The "save tokenizer position" action saves the current read position (of the string tokenizer) into a local variable, so that the position may be restored (thus "rewinding" the string tokenizer) if the "restore tokenizer position" action is encountered.</p>
@@ -1958,6 +1967,7 @@ The set operator is orthogonal to the filter operator, and hence they may be com
 <div class="content">
 <img src="images/FilterOperationSequenceDiagramSet.png" alt="FilterOperationSequenceDiagramSet" width="800">
 </div>
+<div class="title">Figure 19. Sequence diagram for parsing a filter command (for set-based fields)</div>
 </div>
 <div class="paragraph">
 <p>As with the sequence diagram for non-set-based fields, the above diagram is simplified and omits details about how the test phrase is split into tokens using a new <code>StringTokenizer</code> instance.  "Field" represents any filterable set-based field&#8201;&#8212;&#8201;<code>Tag</code> or <code>Attachment</code>.</p>
@@ -2014,9 +2024,10 @@ Priority values do not compare in the same order as their values as integers.  P
 <div class="content">
 <img src="images/FilterParserErrorInheritanceDiagram.png" alt="FilterParserErrorInheritanceDiagram" width="800">
 </div>
+<div class="title">Figure 20. Inheritance tree for exceptions that may be thrown from parsing a filter expression</div>
 </div>
 <div class="paragraph">
-<p>In the diagram above, the blue classes are exceptions thrown by <code>StringTokenizer</code>, while the red classes are exceptions thrown by <code>BooleanExpressionParser</code>.  In order to reduce coupling between <code>StringTokenizer</code> and <code>BooleanExpressionParser</code>, and to be able to distinguish (by type-based <code>catch</code> clauses) the end-of-string exceptions of those components, they do not shared the same class for end-of-string exceptions.</p>
+<p>In the diagram above, the <span class="blue"><strong>blue</strong></span> classes are exceptions thrown by <code>StringTokenizer</code>, while the <span class="red"><strong>red</strong></span> classes are exceptions thrown by <code>BooleanExpressionParser</code>.  In order to reduce coupling between <code>StringTokenizer</code> and <code>BooleanExpressionParser</code>, and to be able to distinguish (by type-based <code>catch</code> clauses) the end-of-string exceptions of those components, they do not shared the same class for end-of-string exceptions.</p>
 </div>
 <div class="paragraph">
 <p><code>TokenizationInvalidPredicateException</code> is a wrapper class for <code>InvalidPredicateException</code>, which is thrown when the field-specific parser or set parser encounters an error.  The diagram below shows the different exceptions that may be thrown to indicate the types of issues that may be encountered when parsing a filter unit, and how they may be propagated to <code>FilterCommandParser</code> via wrapping by <code>TokenizationInvalidPredicateException</code>:</p>
@@ -2025,6 +2036,7 @@ Priority values do not compare in the same order as their values as integers.  P
 <div class="content">
 <img src="images/FilterParserErrorPredicateInheritanceDiagram.png" alt="FilterParserErrorPredicateInheritanceDiagram" width="500">
 </div>
+<div class="title">Figure 21. Inheritance tree for exceptions that may be thrown from parsing a filter unit</div>
 </div>
 <div class="paragraph">
 <p>The filter unit parser is responsible for constructing a <code>TokenizationInvalidPredicateException</code> from any thrown <code>InvalidPredicateException</code> and associating the <code>TokenizationInvalidPredicateException</code> with the offending character range (which will be one of the three parts (or four, if using the extended set syntax) of the filter unit).</p>
@@ -2085,24 +2097,24 @@ In total, there are around 15 distinct kinds of error conditions when parsing a 
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Support simplified filter semantics (implicit-AND and any-match).</p>
+<p><strong>Alternative 1 (current choice):</strong> Support simplified filter semantics (implicitly inserting <code>&amp;</code> between adjacent predicates, and the simplified filter unit syntax).</p>
 <div class="ulist">
 <ul>
 <li>
 <p>Pros: Reduces cognitive overhead and typing time for most common cases, and makes <code>filter</code> feel like a standard keyword search function.</p>
 </li>
 <li>
-<p>Cons: Not possible to detect when user accidentally omits the boolean operator or filter field.</p>
+<p>Cons: It is not possible to detect when user accidentally omits the boolean operator or filter field, so the displayed tasks may not be what the user intended to view.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Only support the unsimplified version.</p>
+<p><strong>Alternative 2:</strong> Only support the unsimplified semantics.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Pros: Easier to implement, can display an error if the user accidentally omits a boolean operator or filter field.</p>
+<p>Pros: Easier to implement because there are less cases to consider.  Also, we can display an error if the user accidentally omits a boolean operator or field identifier.</p>
 </li>
 <li>
 <p>Cons: More verbose filter expressions which may require higher cognitive overhead.</p>
@@ -2143,6 +2155,19 @@ In total, there are around 15 distinct kinds of error conditions when parsing a 
 </ul>
 </div>
 </li>
+<li>
+<p><strong>Alternative 3:</strong> Don&#8217;t support the convenience operator at all.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Least amount of implementation work.</p>
+</li>
+<li>
+<p>Cons: Additional cognitive overhead as users need to figure out which of the available operators they actually want.</p>
+</li>
+</ul>
+</div>
+</li>
 </ul>
 </div>
 </div>
@@ -2158,7 +2183,7 @@ In total, there are around 15 distinct kinds of error conditions when parsing a 
 <p>Pros: Every possible failure condition is listed in the <code>throws</code> clause of all methods&#8201;&#8212;&#8201;developers can easily tell how exactly each aspect of parsing could fail, and Java will statically check that every possible failure condition is handled (which makes it impossible to overlook any failure conditions).</p>
 </li>
 <li>
-<p>Cons: Method signatures are more verbose.</p>
+<p>Cons: More verbose method signatures.</p>
 </li>
 </ul>
 </div>
@@ -2184,7 +2209,7 @@ In total, there are around 15 distinct kinds of error conditions when parsing a 
 <p>Pros: Simplest method signatures.</p>
 </li>
 <li>
-<p>Cons: Easy to overlook possible failure conditions when modifying the code.</p>
+<p>Cons: Easy to overlook possible failure conditions when modifying the code, so future developers might inadvertently introduce bugs.</p>
 </li>
 </ul>
 </div>
@@ -2229,7 +2254,7 @@ In total, there are around 15 distinct kinds of error conditions when parsing a 
 <div class="content">
 <img src="images/AttachmentExecuteSequenceDiagram.png" alt="AttachmentExecuteSequenceDiagram" width="800">
 </div>
-<div class="title">Figure 10. Sequence Diagram for performing the <code>execute</code> method of an <code>AttachmentCommand</code>.</div>
+<div class="title">Figure 22. Sequence Diagram for performing the <code>execute</code> method of an <code>AttachmentCommand</code>.</div>
 </div>
 <div class="paragraph">
 <p>Step 1. The task identified by the user is retrieved from the <code>Model</code>.</p>
@@ -2556,7 +2581,7 @@ Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows y
 <div class="content">
 <img src="images/chrome_save_as_pdf.png" alt="chrome save as pdf" width="300">
 </div>
-<div class="title">Figure 11. Saving documentation as PDF files in Chrome</div>
+<div class="title">Figure 23. Saving documentation as PDF files in Chrome</div>
 </div>
 </div>
 <div class="sect2">
@@ -4132,4 +4157,4 @@ Expected: Error details saying that <code>nothere.txt</code> is not an attachmen
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 07:45:38 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 08:14:29 UTC</div></div></div></body></html>
