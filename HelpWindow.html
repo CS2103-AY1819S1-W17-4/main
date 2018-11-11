@@ -1407,16 +1407,16 @@ Format (in general): <code>INDEX ACTION [p/"FILEPATH"] [n/"FILENAME"]</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Format for <strong>Add</strong> Action: <code>attachment INDEX add p/"FILEPATH"</code></p>
+<p>Format for <strong>Add</strong> Actions: <code>attachment INDEX add p/"FILEPATH"</code></p>
 </li>
 <li>
-<p>Format for <strong>Delete</strong> Action: <code>attachment INDEX delete n/"FILENAME"</code></p>
+<p>Format for <strong>Delete</strong> Actions: <code>attachment INDEX delete n/"FILENAME"</code></p>
 </li>
 <li>
-<p>Format for <strong>List</strong> Action: <code>attachment INDEX list</code></p>
+<p>Format for <strong>List</strong> Actions: <code>attachment INDEX list</code></p>
 </li>
 <li>
-<p>Format for <strong>Get</strong> Action: <code>attachment INDEX get n/"FILENAME" p/"FILEPATH"</code></p>
+<p>Format for <strong>Get</strong> Actions: <code>attachment INDEX get n/"FILENAME" p/"FILEPATH"</code></p>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -1440,7 +1440,7 @@ The application does not allow adding more than one file with the same filename 
 <p>Modify and manages the attachments of the task at the specified INDEX. The index refers to the index number shown in the displayed task list. The index must be a positive integer 1, 2, 3, …​</p>
 </li>
 <li>
-<p><code>ACTION</code> is either <code>add</code>, <code>list</code>, <code>delete</code> or <code>get</code><br></p>
+<p><code>ACTION</code> is either <code>add</code>, <code>list</code>, <code>delete</code> or <code>get</code></p>
 </li>
 <li>
 <p>For <code>add</code> actions, the <code>FILEPATH</code> argument is required to denote the file you intend to attach to the task. A file must exist at the <code>FILEPATH</code> specified. The <code>FILEPATH</code> must be enclosed in quotation marks. For example: <code>"D:/Documents/HelloWorld.txt"</code></p>
@@ -1465,7 +1465,7 @@ The application does not allow adding more than one file with the same filename 
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-The application might still be able to parse the command if <code>FILENAME</code> and <code>FILEPATH</code> are not specified. However, this behaviour is not guaranteed and it is still recommended to enclose them in quotation marks.
+To avoid ambiguity, it is recommended to use quotation marks when specifying a <code>FILEPATH</code> or <code>FILENAME</code>. Those that are not enclosed in quotations will still be parsed. However, the correct behaviour is not guaranteed.
 </td>
 </tr>
 </table>
@@ -2237,4 +2237,4 @@ e.g. <code>sort due&lt; name&gt;</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 04:03:48 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 04:59:42 UTC</div></div></div></body></html>

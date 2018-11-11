@@ -7,10 +7,7 @@
 <p>This portfolio serves to document my contribution in a Software Engineering team project for CS2103T. The team comprises of 5 members and we were tasked to develop a working application within 6 weeks.<br></p>
 </div>
 <div class="paragraph">
-<p>To comply with the module requirements, the team is constrained to start from an existing code base - <a href="https://github.com/nus-cs2103-AY1819S1/addressbook-level4">AddressBook Level 4</a> and the user must interact with the application via Command Line Interface (CLI).</p>
-</div>
-<div class="paragraph">
-<p>The final product that my team has developed is Deadline Manager, which will be detailed below.</p>
+<p>To comply with the module requirements, the team is constrained to start from an existing code base - <a href="https://github.com/nus-cs2103-AY1819S1/addressbook-level4">AddressBook Level 4</a> and the user must interact with the application via Command Line Interface (CLI). The final product that my team has developed is <strong>Deadline Manager</strong>, which will be detailed below.</p>
 </div>
 </div>
 </div>
@@ -132,7 +129,7 @@
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="managing-attachments-of-a-task-code-attachment-code"><a class="link" href="#managing-attachments-of-a-task-code-attachment-code">3.1. Managing attachments of a task : <code>attachment</code></a></h3>
+<h3 id="managing-attachments-of-a-task-code-attachment-code"><a class="link" href="#managing-attachments-of-a-task-code-attachment-code">3.1. Managing Attachments of a Task : <code>attachment</code></a></h3>
 <div class="paragraph">
 <p>Allows the user to add, list, delete and retrieve files associated with a specific task.<br>
 Deadline manager does not make a copy or backup the files added. Only the location of the files are stored by Deadline Manager. Hence, it is possible that the file might have been modified, renamed, moved or deleted without Deadline Manager&#8217;s knowledge. As such, there is no guarantee for a file associated with a specific task to always exist. <br>
@@ -145,16 +142,16 @@ Format (in general): <code>INDEX ACTION [p/"FILEPATH"] [n/"FILENAME"]</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Format for <strong>Add</strong> Action: <code>attachment INDEX add p/"FILEPATH"</code></p>
+<p>Format for <strong>Add</strong> Actions: <code>attachment INDEX add p/"FILEPATH"</code></p>
 </li>
 <li>
-<p>Format for <strong>Delete</strong> Action: <code>attachment INDEX delete n/"FILENAME"</code></p>
+<p>Format for <strong>Delete</strong> Actions: <code>attachment INDEX delete n/"FILENAME"</code></p>
 </li>
 <li>
-<p>Format for <strong>List</strong> Action: <code>attachment INDEX list</code></p>
+<p>Format for <strong>List</strong> Actions: <code>attachment INDEX list</code></p>
 </li>
 <li>
-<p>Format for <strong>Get</strong> Action: <code>attachment INDEX get n/"FILENAME" p/"FILEPATH"</code></p>
+<p>Format for <strong>Get</strong> Actions: <code>attachment INDEX get n/"FILENAME" p/"FILEPATH"</code></p>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -178,7 +175,7 @@ The application does not allow adding more than one file with the same filename 
 <p>Modify and manages the attachments of the task at the specified INDEX. The index refers to the index number shown in the displayed task list. The index must be a positive integer 1, 2, 3, …​</p>
 </li>
 <li>
-<p><code>ACTION</code> is either <code>add</code>, <code>list</code>, <code>delete</code> or <code>get</code><br></p>
+<p><code>ACTION</code> is either <code>add</code>, <code>list</code>, <code>delete</code> or <code>get</code></p>
 </li>
 <li>
 <p>For <code>add</code> actions, the <code>FILEPATH</code> argument is required to denote the file you intend to attach to the task. A file must exist at the <code>FILEPATH</code> specified. The <code>FILEPATH</code> must be enclosed in quotation marks. For example: <code>"D:/Documents/HelloWorld.txt"</code></p>
@@ -203,7 +200,7 @@ The application does not allow adding more than one file with the same filename 
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-The application might still be able to parse the command if <code>FILENAME</code> and <code>FILEPATH</code> are not specified. However, this behaviour is not guaranteed and it is still recommended to enclose them in quotation marks.
+To avoid ambiguity, it is recommended to use quotation marks when specifying a <code>FILEPATH</code> or <code>FILENAME</code>. Those that are not enclosed in quotations will still be parsed, however correct behaviour is not guaranteed.
 </td>
 </tr>
 </table>
@@ -266,9 +263,16 @@ Lists all attachments currently associated with the 1st task in the deadline man
 <div class="paragraph">
 <p>Figure 3.10.3 above shows an expected result message if the command is successfully executed by Deadline Manager for the above command with the List Action.</p>
 </div>
-<div class="paragraph">
-<p><em>{Truncated. For the full text, please do refer to the <a href="https://cs2103-ay1819s1-w17-4.github.io/main/UserGuide.html">User Guide</a>}</em></p>
-</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The description for <code>Delete</code> and <code>Get</code> actions are omitted for brevity. For the full text, please do refer to the <a href="https://cs2103-ay1819s1-w17-4.github.io/main/UserGuide.html">User Guide</a>.</em></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -281,7 +285,7 @@ Lists all attachments currently associated with the 1st task in the deadline man
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below is one particular section which I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are excerpts of the Developer Guide which I contributed to. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -298,26 +302,11 @@ Lists all attachments currently associated with the 1st task in the deadline man
 <div class="sect3">
 <h4 id="sequence-flow"><a class="link" href="#sequence-flow">4.2. Sequence Flow</a></h4>
 <div class="paragraph">
-<p>Given below is a sequence of steps, illustrating the interaction between <code>AttachmentCommandParser</code>, <code>AttachmentCommand</code> and classes that implement <code>AttachmentAction</code> after a user enters a relevant command.</p>
-</div>
-<div class="paragraph">
-<p>Step 1. The user enters an attachment command which involves either <code>add</code>, <code>list</code>, <code>delete</code> or <code>get</code> actions.</p>
-</div>
-<div class="paragraph">
-<p>Step 2. The <code>AttachmentCommandParser</code> receives the command with the arguments given as a string.</p>
-</div>
-<div class="paragraph">
-<p>Step 3. The <code>AttachmentCommandParser</code> interprets the arguments and constructs either a <code>AddAttachmentAction</code> for <code>add</code>, <code>ListAttachmentAction</code> for <code>list</code>, <code>DeleteAttachmentAction</code> for <code>delete</code> or <code>GetAttachmentAction</code> for <code>get</code>. The relevant arguments will also be passed as parameters to the constructors of these classes. Do note that these classes all extends from the abstract class <code>AttachmentAction</code>.</p>
-</div>
-<div class="paragraph">
-<p>Step 4. An <code>AttachmentCommand</code> is constructed and initialized with the <code>AttachmentAction</code> constructed in Step 3.</p>
-</div>
-<div class="paragraph">
-<p>Given below is another sequence of steps, also illustrated by the sequence diagram. They describe the interaction between <code>AttachmentCommand</code> and classes that implement <code>AttachmentAction</code> after the <code>AttachmentCommand#execute</code> method is invoked by the <code>LogicManager</code>.</p>
+<p>Given below is a sequence of steps and a sequence diagram that corresponds to it. They describe the interaction between <code>AttachmentCommand</code> and classes that implement <code>AttachmentAction</code> after the <code>AttachmentCommand#execute</code> method is invoked by the <code>LogicManager</code>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/AttachmentExecuteSequenceDiagram.png" alt="AttachmentExecuteSequenceDiagram" width="800">
+<img src="../images/AttachmentExecuteSequenceDiagram.png" alt="AttachmentExecuteSequenceDiagram" width="750">
 </div>
 <div class="title">Figure 1. Sequence Diagram for performing the <code>execute</code> method of an <code>AttachmentCommand</code></div>
 </div>
@@ -336,6 +325,16 @@ Lists all attachments currently associated with the 1st task in the deadline man
 <div class="paragraph">
 <p>Step 5. The message to be shown to the user is retrieved from the returned <code>ActionResult</code>. Then, it is used to create a <code>CommandResult</code> object which is to be returned to the the <code>LogicManager</code>.</p>
 </div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The remaining sequence flows are omitted for brevity.</em></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="attachmentaction-and-implementing-classes"><a class="link" href="#attachmentaction-and-implementing-classes">4.3. AttachmentAction and Implementing Classes</a></h4>
@@ -415,41 +414,16 @@ Lists all attachments currently associated with the 1st task in the deadline man
 </li>
 </ol>
 </div>
-</div>
-<div class="sect4">
-<h5 id="deleteattachmentaction"><a class="link" href="#deleteattachmentaction">4.3.3. DeleteAttachmentAction</a></h5>
-<div class="paragraph">
-<p><code>DeleteAttachmentAction</code> implements <code>AttachmentAction</code> and provides the implementations required for the user to remove the association of a file that was previously associated with the task. In other words, it removes an attachment from a task. The constructor class takes in a single parameter, <code>fileName</code>, denoting the name of the attachment that is to be unassociated with the task. The <code>perform</code> method of <code>DeleteAttachmentAction</code> executes the following:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Checks if <code>fileName</code> corresponds to a valid attachment in the specified task. A  <code>CommandException</code> will be raised if this is not the case. The <code>fileName</code> is case senstitive.</p>
-</li>
-<li>
-<p>Constructs a new <code>Task</code> object with the same attributes as the original task, but with the <code>Attachment</code> object identified by the <code>fileName</code> removed from the set of attachments.</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect4">
-<h5 id="getattachmentaction"><a class="link" href="#getattachmentaction">4.3.4. GetAttachmentAction</a></h5>
-<div class="paragraph">
-<p><code>GetAttachmentAction</code> implements <code>AttachmentAction</code> and provides the implementations required for the user to retrieve a file that was previously associated with the task as attachment. In other words, it allows users to copy an attachment from a task out to the file system. The constructor class takes in two parameters, <code>filename</code>, denoting the name of the attachment and <code>savePath</code>, denoting the path to copy the attachment to. The <code>perform</code> method of <code>GetAttachmentAction</code> executes the following:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Checks if <code>fileName</code> corresponds to a valid attachment in the specified task. A  <code>CommandException</code> will be raised if this is not the case. The <code>fileName</code> argument is case sensitive.</p>
-</li>
-<li>
-<p>Checks if the attachment identified by <code>fileName</code> still exists on the user&#8217;s filesystem and can be copied from. A <code>CommandException</code> will be raised if this is not the case.</p>
-</li>
-<li>
-<p>Copies the identified attachment to the path denoted by <code>savePath</code> on the filesystem. A <code>CommandException</code> will be raised if there are errors in doing so.</p>
-</li>
-</ol>
-</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Description for <code>DeleteAttachmentAction</code> and <code>GetAttachmentAction</code> are omitted for brevity.</em></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -532,7 +506,17 @@ Lists all attachments currently associated with the 1st task in the deadline man
 </li>
 </ul>
 </div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>For the full content of this section, please do refer to the <a href="https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html">Developer Guide</a>.</em></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 04:03:48 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 04:59:42 UTC</div></div></div></body></html>
