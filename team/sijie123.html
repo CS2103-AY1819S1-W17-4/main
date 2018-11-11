@@ -448,10 +448,14 @@ Imports all tasks from <code>C:\Documents\cs2101.xml</code>. Deadline Manager wi
 <div class="sect2">
 <h3 id="import-and-export-feature"><a class="link" href="#import-and-export-feature">Import and Export feature</a></h3>
 <div class="paragraph">
-<p>The deadline manager supports import and export features. This feature uses 2 components: <code>Storage</code> and <code>Model</code>.</p>
+<p>The deadline manager supports import and export features. This feature uses 2 components: <code>Storage</code> and <code>Model</code>.
+This section will first provide an overview into the components and API involved, before focusing on interactions between the components.</p>
 </div>
 <div class="sect3">
 <h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
+<div class="paragraph">
+<p>This section will give an overview of how the import and export features work with <code>Model</code> and <code>Storage</code>.</p>
+</div>
 <div class="sect4">
 <h5 id="overview-of-components"><a class="link" href="#overview-of-components">Overview of components</a></h5>
 <div class="paragraph">
@@ -468,9 +472,8 @@ Imports all tasks from <code>C:\Documents\cs2101.xml</code>. Deadline Manager wi
 </ul>
 </div>
 <div class="paragraph">
-<p>Internally, it uses the same API as reading and saving the working taskCollection file.
-However, additional checks are performed to ensure that the user does not inadvertently overwrite the current working file, or import and corrupt the current working file.
-<code>StorageManager</code> only handles the I/O from file, and the data read and written is handled by <code>Model</code>.</p>
+<p>Import/Export uses the same API as reading and saving the working <code>TaskCollection</code> file when exporting. However, additional checks are performed to ensure that the user does not inadvertently overwrite files, or corrupt the Deadline Manager.
+<code>StorageManager</code> only handles writing to and reading from file, and relies on <code>ModelManager</code> to decide what data should be read or written.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -479,13 +482,13 @@ However, additional checks are performed to ensure that the user does not inadve
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-An ImportExportExceptionEvent is raised if I/O fails for any reason.
+An ImportExportExceptionEvent is raised if Deadline Manager fails to read or write files for any reason.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>ModelManager implements the following APIs necessary for Import and Export:</p>
+<p>The complementary <code>ModelManager</code> implements the following APIs necessary for Import and Export:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -498,7 +501,7 @@ An ImportExportExceptionEvent is raised if I/O fails for any reason.
 </ul>
 </div>
 <div class="paragraph">
-<p>The request events are posted to the <code>EventCenter</code>, which will dispatch to all subscribed methods.</p>
+<p>The request events are posted to the <code>EventCenter</code>, which will dispatch to all subscribed components, such as <code>Storage</code>.</p>
 </div>
 </div>
 <div class="sect4">
@@ -573,8 +576,9 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="sequence-flow"><a class="link" href="#sequence-flow">Sequence Flow</a></h5>
+</div>
+<div class="sect3">
+<h4 id="sequence-flow"><a class="link" href="#sequence-flow">Sequence Flow</a></h4>
 <div class="paragraph">
 <p>Given below is a sequence diagram illustrating the interactions between <code>Model</code> and <code>Storage</code> when exporting.</p>
 </div>
@@ -624,8 +628,8 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 <p>Step 6. <code>ModelManager</code> will take the imported data and de-conflict the merged entries.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="import-conflict-resolver"><a class="link" href="#import-conflict-resolver">Import Conflict Resolver</a></h5>
+<div class="sect3">
+<h4 id="import-conflict-resolver"><a class="link" href="#import-conflict-resolver">Import Conflict Resolver</a></h4>
 <div class="paragraph">
 <p>An imported task is deemed conflicting with an existing task if the two tasks compare <code>equal</code> with the internal implementation of Task&#8217;s <code>equal</code> method.
 If the user attempts to import a new task that conflicts with an existing task, the task needs to be de-conflicted with one of the following resolver:</p>
@@ -633,19 +637,67 @@ If the user attempts to import a new task that conflicts with an existing task, 
 <div class="ulist">
 <ul>
 <li>
-<p><code>IgnoreResolver</code>: Discards the incoming task in favour of the existing task.</p>
+<p><code>IgnoreImportConflictResolver</code>: Discards the incoming task in favour of the existing task.</p>
 </li>
 <li>
-<p><code>OverwriteResolver</code>: Updates the existing task to reflect the values of the incoming task.</p>
+<p><code>OverwriteImportConflictResolver</code>: Updates the existing task to reflect the values of the incoming task.</p>
 </li>
 <li>
-<p><code>DuplicateResolver</code>: Keep both copies.</p>
+<p><code>DuplicateImportConflictResolver</code>: Keep both copies.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>The user can specify the deconflict algorithm with flags. By default, the <code>IgnoreResolver</code> is used.</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ImportConflictResolverSequenceDiagram.png" alt="ImportConflictResolverSequenceDiagram" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Given above is a sequence diagram for the Import Conflict Resolver, illustrating the interactions between ModelManager and ImportConflictResolver. The OverwriteImportConflictResolver is used as an example.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. After requesting for import, Storage communicates the model serialised from file by firing a <code>handleImportDataAvailableEvent(event)</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. <code>ModelManager</code> retrieves the TaskCollection, and for each task, <code>ModelManager</code> decides whether the task already exists in the Model.</p>
+</div>
+<div class="paragraph">
+<p>Step 2a. If the task already exists, the functional method <code>resolve(() &#8594; add(), () &#8594; delete(), task)</code> of <code>OverwriteImportConflictResolver</code> is invoked. By passing in a reference to ModelManager&#8217;s <code>add</code> and <code>delete</code> methods, the Functional Programming style is used here. <code>OverwriteImportConflictResolver</code> will first <code>delete()</code> the existing task, before it calls <code>add()</code> on the new one.</p>
+</div>
+<div class="paragraph">
+<p>Step 2b. Otherwise, the task doesn&#8217;t exist, so <code>ModelManager</code> adds the task to the model.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="csv-format-support"><a class="link" href="#csv-format-support">CSV Format support</a></h4>
+<div class="paragraph">
+<p>The discussion above has been format-agnostic, abstracting away details about the file formats. Deadline Manager supports both eXtensible Markup Language (XML) and Comma Separated Values (CSV) format. Currently, while XML format can be freely used to import and export data, CSV format can only be used to export data.</p>
+</div>
+<div class="paragraph">
+<p>The CSV/XML format support is implemented using the respective <code>{*}TaskCollectionStorage</code> class. <code>XMLTaskCollectionStorage</code> is able to import and export data, so it implements both <code>TaskCollectionReadStorage</code> and <code>TaskCollectionWriteStorage</code> interface. On the other hand, <code>CSVTaskCollectionStorage</code> can only export data, so it implements only the <code>TaskCollectionWriteStorage</code> interface.</p>
+</div>
+<div class="paragraph">
+<p>The <code>TaskCollectionReadStorage</code> specifies APIs that is responsible for reading from a file and serialising data into <code>Tasks</code> usable by <code>Model</code>. Classes that implement <code>TaskCollectionReadStorage</code> should support:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>readTaskCollection</code>: Reads a file and returns a <code>TaskCollection</code> serialised based on the contents of the file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>TaskCollectionWriteStorage</code> specifies APIs that is responsible for de-serialising <code>Tasks</code> into a text format to be written to a file. Classes that implement <code>TaskCollectionWriteStorage</code> should support:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>saveTaskCollection</code>: De-serialises the <code>TaskCollection</code> and saves the data into a file at <code>filePath</code>.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
@@ -722,7 +774,43 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </ul>
 </div>
 </div>
+<div class="sect4">
+<h5 id="aspect-how-to-support-different-file-formats"><a class="link" href="#aspect-how-to-support-different-file-formats">Aspect: How to support different file formats</a></h5>
+<div class="paragraph">
+<p>As Deadline Manager supports multiple file formats, it is essential to consider how to modularise the file formatting component so that <code>Storage</code> can seamlessly process different types of supported files. Furthermore,  some formats such as CSV may not support importing, so it is necessary to distinguish between reading and writing operations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Maintain separate <code>TaskCollectionReadStorage</code> and <code>TaskCollectionWriteStorage</code> interfaces. Classes that support import/export can choose to support <code>ReadStorage</code>, <code>WriteStorage</code>, or both. This is written in an OOP style, and <code>StorageManager</code> is agnostic to the export format.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: This provides more flexibility that could support more file formats in the future. With the required API in place, future implementations only need to ensure that they support reading and/or writing. Furthermore, this allows implementations to have the option of supporting either reading or writing, instead of having to support both. This could be a more sensible option for formats like CSV, where importing from CSV might not be as useful as exporting to one.</p>
+</li>
+<li>
+<p>Cons: The behaviour might be a little harder to understand from an end-user&#8217;s perspective. For example, in the current implementation, a user can export to CSV, but cannot import from one as only TaskCollectionWriteStorage is implemented.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Combine TaskCollectionReadStorage and TaskCollectionWriteStorage into a single interface, so that implementations that support import/export must support both at once.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: It is more intuitive for the user, as they can freely import from and export to any format.</p>
+</li>
+<li>
+<p>Cons: It is more difficult to support a new format, as both the reading and writing features need to be supported at once. If a developer wants to implement only either reading or writing, they would violate the Liskov Substitution Principle. Thus, combining the interfaces would make implementation less flexible.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 08:53:59 UTC</div></div></div></body></html>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 09:07:15 UTC</div></div></div></body></html>

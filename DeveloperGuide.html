@@ -66,7 +66,10 @@ This <strong>Developer Guide</strong> help you get started with contributing to 
 <li><a href="#import-and-export-feature">4.4. Import and Export feature</a>
 <ul class="sectlevel3">
 <li><a href="#current-implementation-2">4.4.1. Current Implementation</a></li>
-<li><a href="#design-considerations-2">4.4.2. Design Considerations</a></li>
+<li><a href="#sequence-flow">4.4.2. Sequence Flow</a></li>
+<li><a href="#import-conflict-resolver">4.4.3. Import Conflict Resolver</a></li>
+<li><a href="#csv-format-support">4.4.4. CSV Format support</a></li>
+<li><a href="#design-considerations-2">4.4.5. Design Considerations</a></li>
 </ul>
 </li>
 <li><a href="#sort-feature">4.5. Sort feature</a>
@@ -148,8 +151,12 @@ This <strong>Developer Guide</strong> help you get started with contributing to 
 <li><a href="#instructions-for-manual-testing">Appendix H: Instructions for Manual Testing</a>
 <ul class="sectlevel2">
 <li><a href="#launch-and-shutdown">H.1. Launch and Shutdown</a></li>
-<li><a href="#deleting-a-task">H.2. Deleting a task</a></li>
-<li><a href="#attachments">H.3. Attachments</a></li>
+<li><a href="#adding-a-task">H.2. Adding a task</a></li>
+<li><a href="#deleting-a-task">H.3. Deleting a task</a></li>
+<li><a href="#attachments">H.4. Attachments</a></li>
+<li><a href="#adding-a-task-2">H.5. Adding a task</a></li>
+<li><a href="#exporting-tasks">H.6. Exporting tasks</a></li>
+<li><a href="#importing-tasks">H.7. Importing tasks</a></li>
 </ul>
 </li>
 </ul>
@@ -797,8 +804,10 @@ As a more OOP model, we can store a <code>Tag</code> list in <code>deadline mana
 <p>can export the last view in xml format and import it back.</p>
 </li>
 <li>
-<p>is event-based. Methods are executed by listening to events such as TaskCollectionChangedEvent.
-Return data and errors are also passed back by firing events.</p>
+<p>can export the last view in csv format.</p>
+</li>
+<li>
+<p>can handle requests and return output through event-driven architecture. Methods are executed by listening to events such as TaskCollectionChangedEvent.</p>
 </li>
 </ul>
 </div>
@@ -1038,10 +1047,14 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 <div class="sect2">
 <h3 id="import-and-export-feature"><a class="link" href="#import-and-export-feature">4.4. Import and Export feature</a></h3>
 <div class="paragraph">
-<p>The deadline manager supports import and export features. This feature uses 2 components: <code>Storage</code> and <code>Model</code>.</p>
+<p>The deadline manager supports import and export features. This feature uses 2 components: <code>Storage</code> and <code>Model</code>.
+This section will first provide an overview into the components and API involved, before focusing on interactions between the components.</p>
 </div>
 <div class="sect3">
 <h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">4.4.1. Current Implementation</a></h4>
+<div class="paragraph">
+<p>This section will give an overview of how the import and export features work with <code>Model</code> and <code>Storage</code>.</p>
+</div>
 <div class="sect4">
 <h5 id="overview-of-components"><a class="link" href="#overview-of-components">4.4.1.1. Overview of components</a></h5>
 <div class="paragraph">
@@ -1058,9 +1071,8 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 </ul>
 </div>
 <div class="paragraph">
-<p>Internally, it uses the same API as reading and saving the working taskCollection file.
-However, additional checks are performed to ensure that the user does not inadvertently overwrite the current working file, or import and corrupt the current working file.
-<code>StorageManager</code> only handles the I/O from file, and the data read and written is handled by <code>Model</code>.</p>
+<p>Import/Export uses the same API as reading and saving the working <code>TaskCollection</code> file when exporting. However, additional checks are performed to ensure that the user does not inadvertently overwrite files, or corrupt the Deadline Manager.
+<code>StorageManager</code> only handles writing to and reading from file, and relies on <code>ModelManager</code> to decide what data should be read or written.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1069,13 +1081,13 @@ However, additional checks are performed to ensure that the user does not inadve
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-An ImportExportExceptionEvent is raised if I/O fails for any reason.
+An ImportExportExceptionEvent is raised if Deadline Manager fails to read or write files for any reason.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>ModelManager implements the following APIs necessary for Import and Export:</p>
+<p>The complementary <code>ModelManager</code> implements the following APIs necessary for Import and Export:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1088,7 +1100,7 @@ An ImportExportExceptionEvent is raised if I/O fails for any reason.
 </ul>
 </div>
 <div class="paragraph">
-<p>The request events are posted to the <code>EventCenter</code>, which will dispatch to all subscribed methods.</p>
+<p>The request events are posted to the <code>EventCenter</code>, which will dispatch to all subscribed components, such as <code>Storage</code>.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1163,8 +1175,9 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="sequence-flow"><a class="link" href="#sequence-flow">4.4.1.3. Sequence Flow</a></h5>
+</div>
+<div class="sect3">
+<h4 id="sequence-flow"><a class="link" href="#sequence-flow">4.4.2. Sequence Flow</a></h4>
 <div class="paragraph">
 <p>Given below is a sequence diagram illustrating the interactions between <code>Model</code> and <code>Storage</code> when exporting.</p>
 </div>
@@ -1214,8 +1227,8 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 <p>Step 6. <code>ModelManager</code> will take the imported data and de-conflict the merged entries.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="import-conflict-resolver"><a class="link" href="#import-conflict-resolver">4.4.1.4. Import Conflict Resolver</a></h5>
+<div class="sect3">
+<h4 id="import-conflict-resolver"><a class="link" href="#import-conflict-resolver">4.4.3. Import Conflict Resolver</a></h4>
 <div class="paragraph">
 <p>An imported task is deemed conflicting with an existing task if the two tasks compare <code>equal</code> with the internal implementation of Task&#8217;s <code>equal</code> method.
 If the user attempts to import a new task that conflicts with an existing task, the task needs to be de-conflicted with one of the following resolver:</p>
@@ -1223,25 +1236,73 @@ If the user attempts to import a new task that conflicts with an existing task, 
 <div class="ulist">
 <ul>
 <li>
-<p><code>IgnoreResolver</code>: Discards the incoming task in favour of the existing task.</p>
+<p><code>IgnoreImportConflictResolver</code>: Discards the incoming task in favour of the existing task.</p>
 </li>
 <li>
-<p><code>OverwriteResolver</code>: Updates the existing task to reflect the values of the incoming task.</p>
+<p><code>OverwriteImportConflictResolver</code>: Updates the existing task to reflect the values of the incoming task.</p>
 </li>
 <li>
-<p><code>DuplicateResolver</code>: Keep both copies.</p>
+<p><code>DuplicateImportConflictResolver</code>: Keep both copies.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>The user can specify the deconflict algorithm with flags. By default, the <code>IgnoreResolver</code> is used.</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ImportConflictResolverSequenceDiagram.png" alt="ImportConflictResolverSequenceDiagram" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Given above is a sequence diagram for the Import Conflict Resolver, illustrating the interactions between ModelManager and ImportConflictResolver. The OverwriteImportConflictResolver is used as an example.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. After requesting for import, Storage communicates the model serialised from file by firing a <code>handleImportDataAvailableEvent(event)</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. <code>ModelManager</code> retrieves the TaskCollection, and for each task, <code>ModelManager</code> decides whether the task already exists in the Model.</p>
+</div>
+<div class="paragraph">
+<p>Step 2a. If the task already exists, the functional method <code>resolve(() &#8594; add(), () &#8594; delete(), task)</code> of <code>OverwriteImportConflictResolver</code> is invoked. By passing in a reference to ModelManager&#8217;s <code>add</code> and <code>delete</code> methods, the Functional Programming style is used here. <code>OverwriteImportConflictResolver</code> will first <code>delete()</code> the existing task, before it calls <code>add()</code> on the new one.</p>
+</div>
+<div class="paragraph">
+<p>Step 2b. Otherwise, the task doesn&#8217;t exist, so <code>ModelManager</code> adds the task to the model.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">4.4.2. Design Considerations</a></h4>
+<h4 id="csv-format-support"><a class="link" href="#csv-format-support">4.4.4. CSV Format support</a></h4>
+<div class="paragraph">
+<p>The discussion above has been format-agnostic, abstracting away details about the file formats. Deadline Manager supports both eXtensible Markup Language (XML) and Comma Separated Values (CSV) format. Currently, while XML format can be freely used to import and export data, CSV format can only be used to export data.</p>
+</div>
+<div class="paragraph">
+<p>The CSV/XML format support is implemented using the respective <code>{*}TaskCollectionStorage</code> class. <code>XMLTaskCollectionStorage</code> is able to import and export data, so it implements both <code>TaskCollectionReadStorage</code> and <code>TaskCollectionWriteStorage</code> interface. On the other hand, <code>CSVTaskCollectionStorage</code> can only export data, so it implements only the <code>TaskCollectionWriteStorage</code> interface.</p>
+</div>
+<div class="paragraph">
+<p>The <code>TaskCollectionReadStorage</code> specifies APIs that is responsible for reading from a file and serialising data into <code>Tasks</code> usable by <code>Model</code>. Classes that implement <code>TaskCollectionReadStorage</code> should support:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>readTaskCollection</code>: Reads a file and returns a <code>TaskCollection</code> serialised based on the contents of the file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>TaskCollectionWriteStorage</code> specifies APIs that is responsible for de-serialising <code>Tasks</code> into a text format to be written to a file. Classes that implement <code>TaskCollectionWriteStorage</code> should support:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>saveTaskCollection</code>: De-serialises the <code>TaskCollection</code> and saves the data into a file at <code>filePath</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">4.4.5. Design Considerations</a></h4>
 <div class="sect4">
-<h5 id="aspect-communication-between-code-model-code-and-code-storage-code"><a class="link" href="#aspect-communication-between-code-model-code-and-code-storage-code">4.4.2.1. Aspect: Communication between <code>Model</code> and <code>Storage</code></a></h5>
+<h5 id="aspect-communication-between-code-model-code-and-code-storage-code"><a class="link" href="#aspect-communication-between-code-model-code-and-code-storage-code">4.4.5.1. Aspect: Communication between <code>Model</code> and <code>Storage</code></a></h5>
 <div class="paragraph">
 <p>Both the <code>Model</code> and the <code>Storage</code> components are required for import/export. However, they are separate components, and we need to establish a method of communication between the two components.</p>
 </div>
@@ -1277,7 +1338,7 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </div>
 </div>
 <div class="sect4">
-<h5 id="aspect-how-to-resolve-import-conflicts"><a class="link" href="#aspect-how-to-resolve-import-conflicts">4.4.2.2. Aspect: How to resolve import conflicts</a></h5>
+<h5 id="aspect-how-to-resolve-import-conflicts"><a class="link" href="#aspect-how-to-resolve-import-conflicts">4.4.5.2. Aspect: How to resolve import conflicts</a></h5>
 <div class="paragraph">
 <p>As described in <a href="#Import Deconflict">Import Deconflict</a>, an import conflict arises when the user attempts to import tasks that already exist in Deadline Manager. We need an import conflict resolver to determine how to deal with these tasks.</p>
 </div>
@@ -1305,6 +1366,42 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </li>
 <li>
 <p>Cons: If/else statements are required to determine which algorithm should be used. Additionally, an <code>ImportConflictResolver</code> implemented this way cannot be easily reused or extended.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-to-support-different-file-formats"><a class="link" href="#aspect-how-to-support-different-file-formats">4.4.5.3. Aspect: How to support different file formats</a></h5>
+<div class="paragraph">
+<p>As Deadline Manager supports multiple file formats, it is essential to consider how to modularise the file formatting component so that <code>Storage</code> can seamlessly process different types of supported files. Furthermore,  some formats such as CSV may not support importing, so it is necessary to distinguish between reading and writing operations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Maintain separate <code>TaskCollectionReadStorage</code> and <code>TaskCollectionWriteStorage</code> interfaces. Classes that support import/export can choose to support <code>ReadStorage</code>, <code>WriteStorage</code>, or both. This is written in an OOP style, and <code>StorageManager</code> is agnostic to the export format.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: This provides more flexibility that could support more file formats in the future. With the required API in place, future implementations only need to ensure that they support reading and/or writing. Furthermore, this allows implementations to have the option of supporting either reading or writing, instead of having to support both. This could be a more sensible option for formats like CSV, where importing from CSV might not be as useful as exporting to one.</p>
+</li>
+<li>
+<p>Cons: The behaviour might be a little harder to understand from an end-user&#8217;s perspective. For example, in the current implementation, a user can export to CSV, but cannot import from one as only TaskCollectionWriteStorage is implemented.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Combine TaskCollectionReadStorage and TaskCollectionWriteStorage into a single interface, so that implementations that support import/export must support both at once.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: It is more intuitive for the user, as they can freely import from and export to any format.</p>
+</li>
+<li>
+<p>Cons: It is more difficult to support a new format, as both the reading and writing features need to be supported at once. If a developer wants to implement only either reading or writing, they would violate the Liskov Substitution Principle. Thus, combining the interfaces would make implementation less flexible.</p>
 </li>
 </ul>
 </div>
@@ -3991,27 +4088,20 @@ Expected: The most recent window size and location is retained.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-task"><a class="link" href="#deleting-a-task">H.2. Deleting a task</a></h3>
+<h3 id="adding-a-task"><a class="link" href="#adding-a-task">H.2. Adding a task</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Deleting a task while all tasks are listed</p>
+<p>Add a new task</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Prerequisites: List all tasks using the <code>list</code> command. Multiple tasks in the list.</p>
+<p>Run the <code>add n/New Program d/01/02/2018</code> command.<br>
+Expected: A new task is added to Deadline Manager with name: New Program, deadline: 01/02/2018, priority: 0, frequency: 0, no tags and no attachments.</p>
 </li>
 <li>
-<p>Test case: <code>delete 1</code><br>
-Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.</p>
-</li>
-<li>
-<p>Test case: <code>delete 0</code><br>
-Expected: No task is deleted. Error details shown in the status message. Status bar remains the same.</p>
-</li>
-<li>
-<p>Other incorrect delete commands to try: <code>delete</code>, <code>delete x</code> (where x is larger than the list size)<br>
-Expected: Similar to previous.</p>
+<p>Run the add n/New Program d/01/02/2018` command again.<br>
+Expected: Another new task is added to Deadline Manager with the same parameters as (a) above.</p>
 </li>
 </ol>
 </div>
@@ -4020,7 +4110,35 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="attachments"><a class="link" href="#attachments">H.3. Attachments</a></h3>
+<h3 id="deleting-a-task"><a class="link" href="#deleting-a-task">H.3. Deleting a task</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deleting a task while all tasks are listed</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>List all tasks using the <code>list</code> command.</p>
+</li>
+<li>
+<p>Ensure that there is at least 1 task, otherwise follow <a href="#adding-a-task">adding a task</a> to add a task first.</p>
+</li>
+<li>
+<p>Run the <code>delete 1</code> command<br>
+Expected: First task is deleted from Deadline Manager. Details of the deleted task shown in the status message. Timestamp in the status bar is updated.</p>
+</li>
+<li>
+<p>Test case: <code>delete 0</code><br>
+Expected: No task is deleted. Error details shown in the status message. Status bar remains the same.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="attachments"><a class="link" href="#attachments">H.4. Attachments</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4156,5 +4274,112 @@ Expected: Error details saying that <code>nothere.txt</code> is not an attachmen
 </ol>
 </div>
 </div>
+<div class="sect2">
+<h3 id="adding-a-task-2"><a class="link" href="#adding-a-task-2">H.5. Adding a task</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a new task</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Run the <code>add n/New Program d/01/02/2018</code> command.<br>
+Expected: A new task is added to Deadline Manager with name: New Program, deadline: 01/02/2018, priority: 0, frequency: 0, no tags and no attachments.</p>
+</li>
+<li>
+<p>Run the add n/New Program d/01/02/2018` command again.<br>
+Expected: Another new task is added to Deadline Manager with the same parameters as (a) above.</p>
+</li>
+</ol>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 08:53:59 UTC</div></div></div></body></html>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="exporting-tasks"><a class="link" href="#exporting-tasks">H.6. Exporting tasks</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Export in XML format</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>List all tasks using the <code>list</code> command.</p>
+</li>
+<li>
+<p>Ensure that there is at least 1 task, otherwise follow <a href="#adding-a-task">Section H.2, &#8220;Adding a task&#8221;</a> to add a task first.</p>
+</li>
+<li>
+<p>Ensure that you can write to the directory that Deadline Manager is running from, and that you don&#8217;t already have a file named <code>tasks.xml</code>, then run the <code>export p/"tasks.xml"</code> command.<br>
+Expected: A new file, tasks.xml, is created in the same directory from where Deadline Manager is run. A success message is displayed, indicating that export completed successfully.</p>
+</li>
+<li>
+<p>Run the <code>export p/"tasks.xml"</code> command again.<br>
+Expected: An error message is displayed indicating that export failed. This is because tasks.xml already exists, and Deadline Manager will refuse to export in order to protect your data.</p>
+</li>
+<li>
+<p>Run the <code>export p/"tasks.xml" r/overwrite</code> command.<br>
+Expected: Expected: A new file, tasks.xml, is created in the same directory from where Deadline Manager is run, and overwrites the existing file. A success message is displayed, indicating that export completed  successfully.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Export in CSV format</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>List all tasks using the <code>list</code> command.</p>
+</li>
+<li>
+<p>Ensure that there is at least 1 task, otherwise follow <a href="#adding-a-task">adding a task</a> to add a task first.</p>
+</li>
+<li>
+<p>Ensure that you can write to the directory that Deadline Manager is running from, and that you don&#8217;t already have a file named <code>tasks.csv</code>, then run the <code>export csv p/"tasks.csv"</code> command.<br>
+Expected: A new file, tasks.csv, is created in the same directory from where Deadline Manager is run. A success message is displayed, indicating that export completed successfully.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="importing-tasks"><a class="link" href="#importing-tasks">H.7. Importing tasks</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Import tasks in XML format</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Follow <a href="#exporting-tasks">exporting tasks</a> first to ensure that you have already exported a set of tasks into a readable <code>tasks.xml</code> file in the same directory that Deadline Manager is running from.</p>
+</li>
+<li>
+<p>Run the <code>clear</code> command to remove all existing tasks.</p>
+</li>
+<li>
+<p>Run the <code>import p/"tasks.xml"</code> command to import tasks from <code>tasks.xml</code> into Deadline Manager.<br>
+Expected: Deadline Manager is re-populated with all the tasks in tasks.xml. Additionally, a success message is displayed, indicating that import completed successfully.</p>
+</li>
+<li>
+<p>Run the <code>import p/"tasks.xml"</code> command again.<br>
+Expected: A success message is displayed, indicating that import completed successfully. However, no new tasks are imported, because by default, Deadline Manager skips tasks that already exist in Deadline Manager.</p>
+</li>
+<li>
+<p>Run the <code>import p/"tasks.xml r/all"</code> command.<br>
+Expected: A success message is displayed, indicating that import completed successfully. All the tasks from <code>tasks.xml</code> are imported again, creating duplicate entries.</p>
+</li>
+<li>
+<p>Run the <code>import p/"non_existent_file.xml"</code> command, where <code>non_existent_file.xml</code> refers to any file that does not exist.<br>
+Expected: An error message is displayed, indicating that Deadline Manager is unable to import the xml file specified.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 09:07:15 UTC</div></div></div></body></html>
