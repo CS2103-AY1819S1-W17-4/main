@@ -1181,7 +1181,7 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 <div class="sect3">
 <h4 id="sequence-flow"><a class="link" href="#sequence-flow">4.4.2. Sequence Flow</a></h4>
 <div class="paragraph">
-<p>Given below is a sequence diagram illustrating the interactions between <code>Model</code> and <code>Storage</code> when exporting.</p>
+<p>The above interactions between <code>Model</code> and <code>Storage</code> can be illustrated with the following sequence diagrams.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1190,19 +1190,22 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 <div class="title">Figure 12. Sequence diagram for exporting tasks</div>
 </div>
 <div class="paragraph">
-<p>Step 1. The user executes export to file <code>dataFile</code>. The export command calls ModelManager&#8217;s <code>exportTaskCollection</code>.</p>
+<p>The figure above shows the sequence diagram for the interaction that happens when the user requests to export tasks.</p>
 </div>
 <div class="paragraph">
-<p>Step 2. The <code>ModelManager</code> posts the <code>ExportRequestEvent</code> to the <code>EventsCenter</code>.</p>
+<p>Step 1. The user types in an export command. The Logic component parses the user&#8217;s command, and calls ModelManager&#8217;s <code>exportTaskCollection</code>.</p>
 </div>
 <div class="paragraph">
-<p>Step 3. The <code>EventsCenter</code> will dispatch the <code>ExportRequestEvent</code> to <code>Storage</code>.</p>
+<p>Step 2. The <code>ModelManager</code> posts an <code>ExportRequestEvent</code> to the <code>EventsCenter</code>.</p>
 </div>
 <div class="paragraph">
-<p>Step 4. <code>Storage</code> will handle the <code>ExportRequestEvent</code> and write to file.</p>
+<p>Step 3. The <code>EventsCenter</code> dispatches the <code>ExportRequestEvent</code> to <code>Storage</code>.</p>
 </div>
 <div class="paragraph">
-<p>Given below is a sequence diagram illustrating the interactions between <code>Model</code> and <code>Storage</code> when importing.</p>
+<p>Step 4. <code>Storage</code> handles the <code>ExportRequestEvent</code> and writes to file. At this stage, the export is complete.</p>
+</div>
+<div class="paragraph">
+<p>A similar interaction is seen when importing from a file.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1211,22 +1214,25 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 <div class="title">Figure 13. Sequence diagram for importing tasks</div>
 </div>
 <div class="paragraph">
-<p>Step 1. The user executes import from file <code>dataFile</code>. The import command calls ModelManager&#8217;s <code>importTaskCollection</code>.</p>
+<p>The sequence diagram above shows the interactions that happen when a user attempts to import data from a file. The interactions are similar to export, with an additional step to resolve import conflict.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The user types in an import command. The Logic component parses the user&#8217;s command, and calls ModelManager&#8217;s <code>importTaskCollection</code>.</p>
 </div>
 <div class="paragraph">
 <p>Step 2. The <code>ModelManager</code> posts the <code>ImportRequestEvent</code> to the <code>EventsCenter</code>.</p>
 </div>
 <div class="paragraph">
-<p>Step 3. The <code>EventsCenter</code> will dispatch the <code>ImportRequestEvent</code> to <code>Storage</code>.</p>
+<p>Step 3. The <code>EventsCenter</code> dispatches the <code>ImportRequestEvent</code> to <code>Storage</code>.</p>
 </div>
 <div class="paragraph">
-<p>Step 4. <code>Storage</code> will handle the <code>ImportRequestEvent</code>, read from file, then post a new <code>ImportDataAvailableEvent</code> to <code>EventsCenter</code> to signal that data is available.</p>
+<p>Step 4. <code>Storage</code> handles the <code>ImportRequestEvent</code>, reads from file, then posts a new <code>ImportDataAvailableEvent</code> to <code>EventsCenter</code> to signal that data is available.</p>
 </div>
 <div class="paragraph">
-<p>Step 5. The <code>EventsCenter</code> will dispatch the <code>ImportDataAvailableEvent</code> back to <code>ModelManager</code>.</p>
+<p>Step 5. The <code>EventsCenter</code> dispatches the <code>ImportDataAvailableEvent</code> back to <code>ModelManager</code>.</p>
 </div>
 <div class="paragraph">
-<p>Step 6. <code>ModelManager</code> will take the imported data and de-conflict the merged entries.</p>
+<p>Step 6. <code>ModelManager</code> takes the imported data and adds it to the Model. If necessary, it also de-conflicts the new entries.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1249,27 +1255,31 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </ul>
 </div>
 <div class="paragraph">
-<p>The user can specify the deconflict algorithm with flags. By default, the <code>IgnoreResolver</code> is used.</p>
+<p>The user can specify the de-conflict algorithm with flags. By default, the <code>IgnoreResolver</code> is used.</p>
+</div>
+<div class="paragraph">
+<p>Given below is a sequence diagram to illustrate the interactions between <code>ModelManager</code> and <code>OverwriteImportConflictResolver</code>. While <code>OverwriteImportConflictResolver</code> is used as an example, the interactions with <code>IgnoreImportConflictResolver</code> and <code>DuplicateImportConflictResolver</code> are similar.</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/ImportConflictResolverSequenceDiagram.png" alt="ImportConflictResolverSequenceDiagram" width="800">
 </div>
+<div class="title">Figure 14. Sequence diagram for import conflict resolver</div>
 </div>
 <div class="paragraph">
-<p>Given above is a sequence diagram for the Import Conflict Resolver, illustrating the interactions between ModelManager and ImportConflictResolver. The OverwriteImportConflictResolver is used as an example.</p>
+<p>Step 1. After requesting for import, Storage returns the <code>Tasks</code> that are serialised from file through an <code>ImportDataAvailableEvent</code>. This event is dispatched to <code>ModelManager</code> via <code>EventsCenter</code>.</p>
 </div>
 <div class="paragraph">
-<p>Step 1. After requesting for import, Storage communicates the model serialised from file by firing a <code>handleImportDataAvailableEvent(event)</code>.</p>
+<p>Step 2. <code>ModelManager</code> retrieves the TaskCollection data, and for each task, <code>ModelManager</code> checks whether the task already exists in the Model.</p>
 </div>
 <div class="paragraph">
-<p>Step 2. <code>ModelManager</code> retrieves the TaskCollection, and for each task, <code>ModelManager</code> decides whether the task already exists in the Model.</p>
+<p>Step 3a. If the task already exists, the functional method <code>resolve(() &#8594; add(), () &#8594; delete(), task)</code> of <code>OverwriteImportConflictResolver</code> is invoked. The Functional Programming style is used here, and ModelManager passes a reference to its <code>add</code> and <code>delete</code> methods.</p>
 </div>
 <div class="paragraph">
-<p>Step 2a. If the task already exists, the functional method <code>resolve(() &#8594; add(), () &#8594; delete(), task)</code> of <code>OverwriteImportConflictResolver</code> is invoked. By passing in a reference to ModelManager&#8217;s <code>add</code> and <code>delete</code> methods, the Functional Programming style is used here. <code>OverwriteImportConflictResolver</code> will first <code>delete()</code> the existing task, before it calls <code>add()</code> on the new one.</p>
+<p>Step 3b. <code>OverwriteImportConflictResolver</code> will first <code>delete()</code> the existing task, before it calls <code>add()</code> on the new one. This behaviour is specific to <code>OverwriteImportConflictResolver</code>. A <code>DuplicateImportConflictResolver</code> will simply add the new entry, while a <code>IgnoreImportConflictResolver</code> will do nothing.</p>
 </div>
 <div class="paragraph">
-<p>Step 2b. Otherwise, the task doesn&#8217;t exist, so <code>ModelManager</code> adds the task to the model.</p>
+<p>Step 4. Otherwise, if the task doesn&#8217;t exist, <code>ModelManager</code> adds the task to the model.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1299,6 +1309,18 @@ If the user attempts to import a new task that conflicts with an existing task, 
 <p><code>saveTaskCollection</code>: De-serialises the <code>TaskCollection</code> and saves the data into a file at <code>filePath</code>.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>As a summary for the CSV/XML format discussion, the class diagram below shows the structure of <code>CsvTaskCollectionStorage</code> and <code>XmlTaskCollectionStorage</code>. This diagram is also replicated in <a href="#Storage"><code>Storage</code></a> above.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/CsvXmlClassDiagram.png" alt="CsvXmlClassDiagram" width="800">
+</div>
+<div class="title">Figure 15. Class diagram of Csv/XmlTaskCollectionStorage</div>
+</div>
+<div class="paragraph">
+<p>Notably, the <code>CsvTaskCollectionStorage</code> only implements the <code>TaskCollectionWriteStorage</code>, while <code>XmlTaskCollectionStorage</code> implements both.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1464,7 +1486,7 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <div class="content">
 <img src="images/SortOperationSequenceDiagram.png" alt="SortOperationSequenceDiagram" width="800">
 </div>
-<div class="title">Figure 14. Sequence Diagram for executing Sort Command.</div>
+<div class="title">Figure 16. Sequence Diagram for executing Sort Command.</div>
 </div>
 <div class="paragraph">
 <p>Step 4. The <code>SortCommand</code> calls the <code>updateSortedTaskList</code> API method of <code>ModelManager</code></p>
@@ -1641,7 +1663,7 @@ The second component in the list above also accepts a filter unit that contains 
 <div class="content">
 <img src="images/FilterOperationSequenceDiagram.png" alt="FilterOperationSequenceDiagram" width="800">
 </div>
-<div class="title">Figure 15. Sequence diagram for parsing a filter command (for non-set-based fields)</div>
+<div class="title">Figure 17. Sequence diagram for parsing a filter command (for non-set-based fields)</div>
 </div>
 <div class="paragraph">
 <p>The above diagram shows the simplified sequence of operations to parse a filter expression into a predicate for non-set-based fields.  Take note of the following simplifications in the sequence diagram above:</p>
@@ -1806,7 +1828,7 @@ The <code>StringTokenizer</code> class is also used in two other places&#8201;&#
 <div class="content">
 <img src="images/FilterUnitDiagram.png" alt="FilterUnitDiagram" width="200">
 </div>
-<div class="title">Figure 16. Structure of a filter unit that uses the full syntax</div>
+<div class="title">Figure 18. Structure of a filter unit that uses the full syntax</div>
 </div>
 <div class="paragraph">
 <p>The following diagram is describes a filter unit that is specified using the extended full syntax for sets:</p>
@@ -1815,7 +1837,7 @@ The <code>StringTokenizer</code> class is also used in two other places&#8201;&#
 <div class="content">
 <img src="images/FilterUnitDiagramSet.png" alt="FilterUnitDiagramSet" width="250">
 </div>
-<div class="title">Figure 17. Structure of a filter unit that uses the extended full syntax for sets</div>
+<div class="title">Figure 19. Structure of a filter unit that uses the extended full syntax for sets</div>
 </div>
 <div class="paragraph">
 <p>As shown in the diagram above, a filter unit (using the full syntax or extended syntax) consists of these parts:</p>
@@ -1855,7 +1877,7 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 <div class="content">
 <img src="images/FilterUnitActivityDiagram.png" alt="FilterUnitActivityDiagram" width="800">
 </div>
-<div class="title">Figure 18. Activity diagram for parsing a filter unit</div>
+<div class="title">Figure 20. Activity diagram for parsing a filter unit</div>
 </div>
 <div class="paragraph">
 <p>The above diagram demonstrates how each of the three possible ways are distinguished.  Note that in the diagram above:</p>
@@ -2063,7 +2085,7 @@ The set operator is orthogonal to the filter operator, and hence they may be com
 <div class="content">
 <img src="images/FilterOperationSequenceDiagramSet.png" alt="FilterOperationSequenceDiagramSet" width="800">
 </div>
-<div class="title">Figure 19. Sequence diagram for parsing a filter command (for set-based fields)</div>
+<div class="title">Figure 21. Sequence diagram for parsing a filter command (for set-based fields)</div>
 </div>
 <div class="paragraph">
 <p>As with the sequence diagram for non-set-based fields, the above diagram is simplified and omits details about how the test phrase is split into tokens using a new <code>StringTokenizer</code> instance.  "Field" represents any filterable set-based field&#8201;&#8212;&#8201;<code>Tag</code> or <code>Attachment</code>.</p>
@@ -2120,7 +2142,7 @@ Priority values do not compare in the same order as their values as integers.  P
 <div class="content">
 <img src="images/FilterParserErrorInheritanceDiagram.png" alt="FilterParserErrorInheritanceDiagram" width="800">
 </div>
-<div class="title">Figure 20. Inheritance tree for exceptions that may be thrown from parsing a filter expression</div>
+<div class="title">Figure 22. Inheritance tree for exceptions that may be thrown from parsing a filter expression</div>
 </div>
 <div class="paragraph">
 <p>In the diagram above, the <span class="blue"><strong>blue</strong></span> classes are exceptions thrown by <code>StringTokenizer</code>, while the <span class="red"><strong>red</strong></span> classes are exceptions thrown by <code>BooleanExpressionParser</code>.  In order to reduce coupling between <code>StringTokenizer</code> and <code>BooleanExpressionParser</code>, and to be able to distinguish (by type-based <code>catch</code> clauses) the end-of-string exceptions of those components, they do not shared the same class for end-of-string exceptions.</p>
@@ -2132,7 +2154,7 @@ Priority values do not compare in the same order as their values as integers.  P
 <div class="content">
 <img src="images/FilterParserErrorPredicateInheritanceDiagram.png" alt="FilterParserErrorPredicateInheritanceDiagram" width="500">
 </div>
-<div class="title">Figure 21. Inheritance tree for exceptions that may be thrown from parsing a filter unit</div>
+<div class="title">Figure 23. Inheritance tree for exceptions that may be thrown from parsing a filter unit</div>
 </div>
 <div class="paragraph">
 <p>The filter unit parser is responsible for constructing a <code>TokenizationInvalidPredicateException</code> from any thrown <code>InvalidPredicateException</code> and associating the <code>TokenizationInvalidPredicateException</code> with the offending character range (which will be one of the three parts (or four, if using the extended set syntax) of the filter unit).</p>
@@ -2350,7 +2372,7 @@ In total, there are around 15 distinct kinds of error conditions when parsing a 
 <div class="content">
 <img src="images/AttachmentExecuteSequenceDiagram.png" alt="AttachmentExecuteSequenceDiagram" width="800">
 </div>
-<div class="title">Figure 22. Sequence Diagram for performing the <code>execute</code> method of an <code>AttachmentCommand</code>.</div>
+<div class="title">Figure 24. Sequence Diagram for performing the <code>execute</code> method of an <code>AttachmentCommand</code>.</div>
 </div>
 <div class="paragraph">
 <p>Step 1. The task identified by the user is retrieved from the <code>Model</code>.</p>
@@ -2677,7 +2699,7 @@ Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows y
 <div class="content">
 <img src="images/chrome_save_as_pdf.png" alt="chrome save as pdf" width="300">
 </div>
-<div class="title">Figure 23. Saving documentation as PDF files in Chrome</div>
+<div class="title">Figure 25. Saving documentation as PDF files in Chrome</div>
 </div>
 </div>
 <div class="sect2">
@@ -4669,4 +4691,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 13:56:50 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 15:08:27 UTC</div></div></div></body></html>
