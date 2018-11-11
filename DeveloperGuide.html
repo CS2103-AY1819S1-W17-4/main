@@ -1563,7 +1563,7 @@ The second component in the list above also accepts a filter unit that contains 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Set-based fields are described in the <em>Set parser</em> section.
+Set-based fields are described in <a href="#set-parser">Section 4.6.5, &#8220;Set parser&#8221;</a>.
 </td>
 </tr>
 </table>
@@ -1757,13 +1757,16 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 <div class="ulist">
 <ul>
 <li>
-<p>A non-quoted field identifier only matches alphabets.  There is never a need to use any other kind of character for the field identifier (see the <em>Field identifier</em> section below).</p>
+<p>A non-quoted field identifier only matches alphabets.  There is never a need to use any other kind of character for the field identifier (see <a href="#field-identifier">Section 4.6.4.1, &#8220;Field identifier&#8221;</a> below).</p>
 </li>
 <li>
 <p>A non-quoted test phrase only allows alphanumeric characters and the characters <code>_</code>, <code>-</code>, <code>/</code>, <code>\</code>, <code>,</code>, and <code>.</code>.  (The <code>/</code> character allows dates to work, and the <code>,</code> character allows tag lists to work.)  The string tokenizer provides the bindings to facilitate this check.  If other characters are required, then the test phrase must be placed in quotes (either single or double quotes are acceptable, but they must match).</p>
 </li>
 <li>
 <p>An operator (both the field and set operators) only matches <code>&lt;</code>, <code>=</code>, <code>&gt;</code>, and <code>:</code>.</p>
+</li>
+<li>
+<p>The "save tokenizer position" action saves the current read position (of the string tokenizer) into a local variable, so that the position may be restored (thus "rewinding" the string tokenizer) if the "restore tokenizer position" action is encountered.</p>
 </li>
 </ul>
 </div>
@@ -1905,7 +1908,7 @@ For all fields, <code>=</code> is equivalent to the intersection of <code>&lt;</
 <p>Set-based fields can specify an additional level of comparison - how the task&#8217;s set compares with the specified set.  It is distinct from the filter operator because the filter operator is used to compare each individual item in the set (in the context of the given field), while the set operator is used to compare at the set level (which is same regardless of which field is being compared).</p>
 </div>
 <div class="paragraph">
-<p>For set-based fields (e.g. tags), the filter unit parser does not invoke the field-specific parser directly.  Instead, control goes through the set parser, which is described in the <em>Set parser</em> section below.</p>
+<p>For set-based fields (e.g. tags), the filter unit parser does not invoke the field-specific parser directly.  Instead, control goes through the set parser, which is described in <a href="#set-parser">Section 4.6.5, &#8220;Set parser&#8221;</a> below.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1930,7 +1933,7 @@ For all fields, <code>=</code> is equivalent to the intersection of <code>&lt;</
 <p>The set parser tokenizes the given test phrase, and feeds each item into the field-specific parser separately.</p>
 </div>
 <div class="paragraph">
-<p>The <code>&lt;</code>, <code>=</code>, <code>&gt;</code> set operators represent <em>subset</em>, <em>equivalence</em>, and <em>superset</em> relations respectively.  Each individual item is compared using the specified filter operator as specified in the previous <em>Filter operator</em> section.</p>
+<p>The <code>&lt;</code>, <code>=</code>, <code>&gt;</code> set operators represent <em>subset</em>, <em>equivalence</em>, and <em>superset</em> relations respectively.  Each individual item is compared using the specified filter operator as specified in <a href="#filter-operator">Section 4.6.4.3, &#8220;Filter operator&#8221;</a>.</p>
 </div>
 <div class="paragraph">
 <p>Just like the filter operator, there is a convenience set operator (<code>:</code>), and it is an alias for <code>&gt;</code>.</p>
@@ -3992,4 +3995,4 @@ Expected: No task is deleted. Error details shown in the status message. Status 
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-10 23:33:18 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 04:03:48 UTC</div></div></div></body></html>
