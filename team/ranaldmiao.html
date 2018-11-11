@@ -269,7 +269,7 @@ Lists all attachments currently associated with the 1st task in the deadline man
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The description for <code>Delete</code> and <code>Get</code> actions are omitted for brevity. For the full text, please do refer to the <a href="https://cs2103-ay1819s1-w17-4.github.io/main/UserGuide.html">User Guide</a>.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The description for <code>Delete</code> and <code>Get</code> actions are omitted. For the full text, please refer to the <a href="https://cs2103-ay1819s1-w17-4.github.io/main/UserGuide.html">User Guide</a>.</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -310,20 +310,24 @@ Lists all attachments currently associated with the 1st task in the deadline man
 </div>
 <div class="title">Figure 1. Sequence Diagram for performing the <code>execute</code> method of an <code>AttachmentCommand</code></div>
 </div>
-<div class="paragraph">
-<p>Step 1. The task identified by the user is retrieved from the <code>Model</code>.</p>
-</div>
-<div class="paragraph">
-<p>Step 2. The <code>perform</code> method of the <code>AttachmentAction</code> is invoked, with the task retrieved in Step 1 as the parameter.</p>
-</div>
-<div class="paragraph">
-<p>Step 3. The invoked <code>AttachmentAction</code> performs specific application logic which is different for each action. Then, a <code>ActionResult</code> object containing a <code>Task</code> and a message is returned to the <code>execute</code> method.</p>
-</div>
-<div class="paragraph">
-<p>Step 4. The <code>Model</code> is updated with the <code>Task</code> object retrieved from the returned <code>ActionResult</code>.</p>
-</div>
-<div class="paragraph">
-<p>Step 5. The message to be shown to the user is retrieved from the returned <code>ActionResult</code>. Then, it is used to create a <code>CommandResult</code> object which is to be returned to the the <code>LogicManager</code>.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The task identified by the user is retrieved from the <code>Model</code>.</p>
+</li>
+<li>
+<p>The <code>perform</code> method of the <code>AttachmentAction</code> is invoked, with the task retrieved in Step 1 as the parameter.</p>
+</li>
+<li>
+<p>The invoked <code>AttachmentAction</code> performs specific application logic which is different for each action. Then, a <code>ActionResult</code> object containing a <code>Task</code> and a message is returned to the <code>execute</code> method.</p>
+</li>
+<li>
+<p>The <code>Model</code> is updated with the <code>Task</code> object retrieved from the returned <code>ActionResult</code>.</p>
+</li>
+<li>
+<p>The message to be shown to the user is retrieved from the returned <code>ActionResult</code>. Then, it is used to create a <code>CommandResult</code> object which is to be returned to the the <code>LogicManager</code>.</p>
+</li>
+</ol>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -519,4 +523,4 @@ Lists all attachments currently associated with the 1st task in the deadline man
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 04:59:42 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 05:32:05 UTC</div></div></div></body></html>
