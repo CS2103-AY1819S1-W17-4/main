@@ -161,7 +161,7 @@ This <strong>Developer Guide</strong> help you get started with contributing to 
 <li><a href="#deleting-a-task">H.3. Deleting a task</a></li>
 <li><a href="#filtering-the-list-of-tasks">H.4. Filtering the list of tasks</a></li>
 <li><a href="#attachments">H.5. Attachments</a></li>
-<li><a href="#adding-a-task-2">H.6. Adding a task</a></li>
+<li><a href="#completing-a-task">H.6. Completing a task</a></li>
 <li><a href="#exporting-tasks">H.7. Exporting tasks</a></li>
 <li><a href="#importing-tasks">H.8. Importing tasks</a></li>
 <li><a href="#sorting-a-list-of-tasks">H.9. Sorting a list of tasks</a></li>
@@ -839,7 +839,7 @@ The user can also provide additional information including priority, frequency a
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/AddOperationSequenceDiagram.png" alt="AddOperationSequenceDiagram" width="800">
+<img src="images/AddOperationSequenceDiagram.png" alt="AddOperationSequenceDiagram" width="700">
 </div>
 <div class="title">Figure 10. Sequence diagram for adding a task</div>
 </div>
@@ -851,7 +851,7 @@ The user can also provide additional information including priority, frequency a
 The <code>AddCommandParser</code> receives the command with the arguments given as a string.</p>
 </div>
 <div class="paragraph">
-<p>Step 3. The <code>AddCommandParser</code> interprets the arguments and constructs a <code>AddCommand</code>.</p>
+<p>Step 3. The <code>AddCommandParser</code> interprets the arguments and constructs an <code>AddCommand</code>.</p>
 </div>
 <div class="paragraph">
 <p>Step 4. The <code>AddCommand</code> with a <code>Task</code> specified by the user is returned.</p>
@@ -870,7 +870,8 @@ The <code>AddCommandParser</code> receives the command with the arguments given 
 <h3 id="complete-feature"><a class="link" href="#complete-feature">4.2. Complete feature</a></h3>
 <div class="paragraph">
 <p>The <code>complete</code> command provides users a natural way to complete a task:
-either delete a task if it is not recurred or shift the deadline to the next occurrence if the task is recurred.</p>
+either delete a task if it is a non-recurring task
+or shift the deadline to the next occurrence if the task is a recurring task.</p>
 </div>
 <div class="sect3">
 <h4 id="current-implementation"><a class="link" href="#current-implementation">4.2.1. Current Implementation</a></h4>
@@ -883,7 +884,7 @@ either delete a task if it is not recurred or shift the deadline to the next occ
 <div class="ulist">
 <ul>
 <li>
-<p>If the task is not recurred, it will be deleted.</p>
+<p>If the task is a non-recurring task, it will be deleted.</p>
 </li>
 <li>
 <p>Otherwise, the task will be updated using the following formula:<br>
@@ -895,11 +896,11 @@ either delete a task if it is not recurred or shift the deadline to the next occ
 <div class="sect3">
 <h4 id="sequence-flow"><a class="link" href="#sequence-flow">4.2.2. Sequence Flow</a></h4>
 <div class="paragraph">
-<p>Given below is a sequence of steps, illustrating the interaction between <code>CompleteCommandParser</code>, <code>CompleteCommand</code> and <code>Model</code>:</p>
+<p>Given below is a sequence of steps, illustrating the interaction between <code>CompleteCommandParser</code>, <code>CompleteCommand</code>, and <code>Model</code>:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/CompleteOperationSequenceDiagram.png" alt="CompleteOperationSequenceDiagram" width="800">
+<img src="images/CompleteOperationSequenceDiagram.png" alt="CompleteOperationSequenceDiagram" width="700">
 </div>
 <div class="title">Figure 11. Sequence diagram for completing a task</div>
 </div>
@@ -924,7 +925,7 @@ The <code>CompleteCommandParser</code> receives the command with the arguments g
 </div>
 <div class="paragraph">
 <p>Step 7. The <code>Model</code> is updated:
-If the task is not recurred, <code>Model#deleteTask</code> is invoked to delete the task.
+If the task is a non-recurring task, <code>Model#deleteTask</code> is invoked to delete the task.
 Otherwise, <code>Model#updateTask</code> (followed by <code>Model#updateFilteredTaskList</code>) is invoked
 with a new <code>Task</code> where the deadline is updated.</p>
 </div>
@@ -4258,8 +4259,12 @@ Expected: The most recent window size and location is retained.</p>
 Expected: A new task is added to Deadline Manager with name: New Program, deadline: 01/02/2018, priority: 0, frequency: 0, no tags and no attachments.</p>
 </li>
 <li>
-<p>Run the add n/New Program d/01/02/2018` command again.<br>
+<p>Run the <code>add n/New Program d/01/02/2018</code> command again.<br>
 Expected: Another new task is added to Deadline Manager with the same parameters as (a) above.</p>
+</li>
+<li>
+<p>Run the <code>add n/A Recurring Task d/01/01/2018 f/7 p/1 t/important</code> command.<br>
+Expected: A new task is added to Deadline Manager with name: A Recurring Task, deadline: 01/01/2018, priority: 1, frequency: 7, tags: important.</p>
 </li>
 </ol>
 </div>
@@ -4688,20 +4693,35 @@ Expected: Error details saying that <code>nothere.txt</code> is not an attachmen
 </div>
 </div>
 <div class="sect2">
-<h3 id="adding-a-task-2"><a class="link" href="#adding-a-task-2">H.6. Adding a task</a></h3>
+<h3 id="completing-a-task"><a class="link" href="#completing-a-task">H.6. Completing a task</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Add a new task</p>
+<p>Complete a non-recurring task</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Run the <code>add n/New Program d/01/02/2018</code> command.<br>
-Expected: A new task is added to Deadline Manager with name: New Program, deadline: 01/02/2018, priority: 0, frequency: 0, no tags and no attachments.</p>
+<p>Run the <code>clear</code> command, followed by <code>add n/Simple Task d/01/01/2018</code> command.<br>
+Expected: The task list is cleared and a new task is added to Deadline Manager with name: Simple Task, deadline: 01/01/2018, priority: 0, frequency: 0, no tags and no attachments.</p>
 </li>
 <li>
-<p>Run the add n/New Program d/01/02/2018` command again.<br>
-Expected: Another new task is added to Deadline Manager with the same parameters as (a) above.</p>
+<p>Run the <code>complete 1</code> command.<br>
+Expected: The task created above is deleted.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Complete a recurring task</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Run the <code>clear</code> command, followed by <code>add n/Weekly Task d/01/01/2018 f/7</code> command.<br>
+Expected: The task list is cleared and a new task is added to Deadline Manager with name: Weekly Task, deadline: 01/01/2018, priority: 0, frequency: 7, no tags and no attachments.</p>
+</li>
+<li>
+<p>Run the <code>complete 1</code> command.<br>
+Expected: The deadline of the task created above is modified to 08/01/2018.</p>
 </li>
 </ol>
 </div>
@@ -4828,4 +4848,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:02:56 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:06:09 UTC</div></div></div></body></html>
