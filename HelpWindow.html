@@ -1846,16 +1846,14 @@ Fails and returns an error as <code>cs2101.txt</code> already exists when the se
 </td>
 <td class="content">
 You can overwrite the file by specifying r/overwrite. The command would be <code>export p/cs2101.txt r/overwrite</code> in this case.
+* <code>export csv p/cs2103.csv</code><br>
+Creates and exports tasks to <code>cs2103.csv</code> as CSV format. This file is compatible with most calendar applications and can be imported into Google Calendar.
 </td>
 </tr>
 </table>
 </div>
 <div class="ulist">
 <ul>
-<li>
-<p><code>export csv p/cs2103.csv</code><br>
-Creates and exports tasks to <code>cs2103.csv</code> as CSV format. This file is compatible with most calendar applications and can be imported into Google Calendar.</p>
-</li>
 <li>
 <p><code>export p/"C:\Documents\cs2103.txt"</code><br>
 Creates and exports tasks to <code>cs2103.txt</code> in the <code>C:\Documents</code> folder.</p>
@@ -1923,7 +1921,7 @@ Currently, Deadline Manager does not support importing from a CSV file. This fea
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-An import conflict occurs when you try to import a task, but a similar task already exists in your Deadline Manager. When this happens, Deadline Manager needs to know what you want to do with these tasks.
+An import conflict occurs when you try to import a task, but the task (having the same name, deadline and other attributes) already exists in your Deadline Manager. When this happens, Deadline Manager needs to know what you want to do with these tasks.
 </td>
 </tr>
 </table>
@@ -1985,20 +1983,14 @@ Imports all tasks from <code>cs2101.xml</code>. Deadline Manager will save all t
 <li>
 <p><code>import p/cs2101.xml</code><br>
 Imports all tasks from <code>cs2101.xml</code>. Since the r/all parameter is not specified, if an incoming task already exists in Deadline Manager, it is skipped.</p>
-</li>
-</ul>
-</div>
-<div id="img-importdemo" class="imageblock">
-<div class="content">
-<img src="images/userguide/importScreenshot_2.png" alt="ImportDemo4" width="790">
-</div>
-<div class="title">Figure 3.10.2: Result of import command with no parameters</div>
-</div>
 <div class="paragraph">
-<p>Figure 3.10.2 shows the success message after importing from <code>cs2101.xml</code>. By default, duplicate entries are skipped. Since <code>cs2101.xml</code> contains a duplicate copy of "CS2101 Oral Presentation", nothing new is imported.</p>
+<p>.Result of import command with no parameters</p>
 </div>
-<div class="ulist">
-<ul>
+<div id="img-importdemo" class="paragraph">
+<p>image::userguide/importScreenshot_2.png[ImportDemo4, width="790"]
+Figure 3.10.2 shows the success message after importing from <code>cs2101.xml</code>. By default, duplicate entries are skipped. Since <code>cs2101.xml</code> contains a duplicate copy of "CS2101 Oral Presentation", nothing new is imported.</p>
+</div>
+</li>
 <li>
 <p><code>import p/"C:\Documents\cs2101.xml" r/all</code><br>
 Imports all tasks from <code>C:\Documents\cs2101.xml</code>. Deadline Manager will save all tasks, even if duplicates already exist.</p>
@@ -2360,4 +2352,4 @@ e.g. <code>sort due&lt; name&gt;</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 09:28:26 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 10:04:14 UTC</div></div></div></body></html>

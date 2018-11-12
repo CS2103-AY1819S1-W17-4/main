@@ -75,10 +75,10 @@
 <p>Managed releases <code>v1.2</code> and <code>v1.3</code> on GitHub</p>
 </li>
 <li>
-<p>Contributed to user stories on GitHub Issue Tracker (<a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/1">#1</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/2">#2</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/3">#3</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/4">#4</a>)</p>
+<p>Contributed to user stories on GitHub Issue Tracker: <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/1">#1</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/2">#2</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/3">#3</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/4">#4</a></p>
 </li>
 <li>
-<p>Reported and resolved bugs in Deadline Manager (<a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/147">#147</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/170">#170</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/191">#191</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/286">#286</a>)</p>
+<p>Reported and resolved bugs in Deadline Manager: <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/147">#147</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/170">#170</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/191">#191</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/286">#286</a></p>
 </li>
 </ul>
 </div>
@@ -111,10 +111,10 @@
 <div class="ulist">
 <ul>
 <li>
-<p>Reviewed Pull Requests (with non-trivial review comments) (<a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/169">#169</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/206">#206</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/275">#275</a>)</p>
+<p>Reviewed Pull Requests (with non-trivial review comments): <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/169">#169</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/206">#206</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/275">#275</a></p>
 </li>
 <li>
-<p>Reported bugs and suggested fixes in the original se-edu addressbook-level2 (Pull Requests: <a href="https://github.com/se-edu/addressbook-level2/pull/431">#431</a>, <a href="https://github.com/se-edu/addressbook-level2/pull/436">436</a>)</p>
+<p>Reported bugs and suggested fixes in the original se-edu addressbook-level2: Pull Requests <a href="https://github.com/se-edu/addressbook-level2/pull/431">#431</a>, <a href="https://github.com/se-edu/addressbook-level2/pull/436">#436</a></p>
 </li>
 </ul>
 </div>
@@ -248,31 +248,6 @@ Creates and exports tasks to <code>cs2101.xml</code> in the same folder as Deadl
   <code>export p/cs2101.txt</code><br>
 Fails and returns an error as <code>cs2101.txt</code> already exists when the second command is run. In order to protect your data, the second export command fails.</p>
 </li>
-</ul>
-</div>
-<div id="img-exportdemo3" class="imageblock">
-<div class="content">
-<img src="../images/userguide/exportScreenshot_2.png" alt="ExportDemo3" width="790">
-</div>
-<div class="title">Figure 3.9.2: Export error message</div>
-</div>
-<div class="paragraph">
-<p>Figure 3.9.2 shows the error message when the user attempts to <code>export p/cs2101.txt</code> for the second time. Since the file <code>cs2101.txt</code> already exists, Deadline Manager will not overwrite any existing file so as to protect your data.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-You can overwrite the file by specifying r/overwrite. The command would be <code>export p/cs2101.txt r/overwrite</code> in this case.
-</td>
-</tr>
-</table>
-</div>
-<div class="ulist">
-<ul>
 <li>
 <p><code>export csv p/cs2103.csv</code><br>
 Creates and exports tasks to <code>cs2103.csv</code> as CSV format. This file is compatible with most calendar applications and can be imported into Google Calendar.</p>
@@ -344,7 +319,7 @@ Currently, Deadline Manager does not support importing from a CSV file. This fea
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-An import conflict occurs when you try to import a task, but a similar task already exists in your Deadline Manager. When this happens, Deadline Manager needs to know what you want to do with these tasks.
+An import conflict occurs when you try to import a task, but the task (having the same name, deadline and other attributes) already exists in your Deadline Manager. When this happens, Deadline Manager needs to know what you want to do with these tasks.
 </td>
 </tr>
 </table>
@@ -409,23 +384,6 @@ Imports all tasks from <code>cs2101.xml</code>. Since the r/all parameter is not
 </li>
 </ul>
 </div>
-<div id="img-importdemo" class="imageblock">
-<div class="content">
-<img src="../images/userguide/importScreenshot_2.png" alt="ImportDemo4" width="790">
-</div>
-<div class="title">Figure 3.10.2: Result of import command with no parameters</div>
-</div>
-<div class="paragraph">
-<p>Figure 3.10.2 shows the success message after importing from <code>cs2101.xml</code>. By default, duplicate entries are skipped. Since <code>cs2101.xml</code> contains a duplicate copy of "CS2101 Oral Presentation", nothing new is imported.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>import p/"C:\Documents\cs2101.xml" r/all</code><br>
-Imports all tasks from <code>C:\Documents\cs2101.xml</code>. Deadline Manager will save all tasks, even if duplicates already exist.</p>
-</li>
-</ul>
-</div>
 </div>
 </div>
 </div>
@@ -438,7 +396,7 @@ Imports all tasks from <code>C:\Documents\cs2101.xml</code>. Deadline Manager wi
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below is an excerpt of the Import/Export section that I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -467,10 +425,6 @@ This section will first provide an overview into the components and API involved
 <p><code>exportTaskCollection</code>: Given a <code>TaskCollection</code>, exports and writes to a specified file.</p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p>Import/Export uses the same API as reading and saving the working <code>TaskCollection</code> file when exporting. However, additional checks are performed to ensure that the user does not inadvertently overwrite files, or corrupt the Deadline Manager.
-<code>StorageManager</code> only handles writing to and reading from file, and relies on <code>ModelManager</code> to decide what data should be read or written.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -683,31 +637,17 @@ If the user attempts to import a new task that conflicts with an existing task, 
 <div class="paragraph">
 <p>The discussion above has been format-agnostic, abstracting away details about the file formats. Deadline Manager supports both eXtensible Markup Language (XML) and Comma Separated Values (CSV) format. Currently, while XML format can be freely used to import and export data, CSV format can only be used to export data.</p>
 </div>
-<div class="paragraph">
-<p>The CSV/XML format support is implemented using the respective <code>{*}TaskCollectionStorage</code> class. <code>XMLTaskCollectionStorage</code> is able to import and export data, so it implements both <code>TaskCollectionReadStorage</code> and <code>TaskCollectionWriteStorage</code> interface. On the other hand, <code>CSVTaskCollectionStorage</code> can only export data, so it implements only the <code>TaskCollectionWriteStorage</code> interface.</p>
-</div>
-<div class="paragraph">
-<p>The <code>TaskCollectionReadStorage</code> specifies APIs that is responsible for reading from a file and serialising data into <code>Tasks</code> usable by <code>Model</code>. Classes that implement <code>TaskCollectionReadStorage</code> should support:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>readTaskCollection</code>: Reads a file and returns a <code>TaskCollection</code> serialised based on the contents of the file.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The <code>TaskCollectionWriteStorage</code> specifies APIs that is responsible for de-serialising <code>Tasks</code> into a text format to be written to a file. Classes that implement <code>TaskCollectionWriteStorage</code> should support:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>saveTaskCollection</code>: De-serialises the <code>TaskCollection</code> and saves the data into a file at <code>filePath</code>.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>As a summary for the CSV/XML format discussion, the class diagram below shows the structure of <code>CsvTaskCollectionStorage</code> and <code>XmlTaskCollectionStorage</code>. This diagram is also replicated in <a href="#Storage"><code>Storage</code></a> above.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Due to limited space in the PPP, detailed technical discussion of the CSV implementation is omitted, and is summarised with the following Sequence Diagram instead. This diagram is also replicated in <a href="https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html#Design-Storage"><code>Storage</code></a>.
+</td>
+</tr>
+</table>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -716,7 +656,7 @@ If the user attempts to import a new task that conflicts with an existing task, 
 <div class="title">Figure 4. Class diagram of Csv/XmlTaskCollectionStorage</div>
 </div>
 <div class="paragraph">
-<p>Notably, the <code>CsvTaskCollectionStorage</code> only implements the <code>TaskCollectionWriteStorage</code>, while <code>XmlTaskCollectionStorage</code> implements both.</p>
+<p>Notably, <code>TaskCollectionReadStorage</code> and <code>TaskCollectionWriteStorage</code> represents the disk reading and writing capabilities respectively; file format implementations can choose to support reading only, writing only, or both.</p>
 </div>
 </div>
 <div class="sect3">
@@ -792,44 +732,20 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </li>
 </ul>
 </div>
-</div>
-<div class="sect4">
-<h5 id="aspect-how-to-support-different-file-formats"><a class="link" href="#aspect-how-to-support-different-file-formats">Aspect: How to support different file formats</a></h5>
-<div class="paragraph">
-<p>As Deadline Manager supports multiple file formats, it is essential to consider how to modularise the file formatting component so that <code>Storage</code> can seamlessly process different types of supported files. Furthermore,  some formats such as CSV may not support importing, so it is necessary to distinguish between reading and writing operations.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong> Maintain separate <code>TaskCollectionReadStorage</code> and <code>TaskCollectionWriteStorage</code> interfaces. Classes that support import/export can choose to support <code>ReadStorage</code>, <code>WriteStorage</code>, or both. This is written in an OOP style, and <code>StorageManager</code> is agnostic to the export format.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: This provides more flexibility that could support more file formats in the future. With the required API in place, future implementations only need to ensure that they support reading and/or writing. Furthermore, this allows implementations to have the option of supporting either reading or writing, instead of having to support both. This could be a more sensible option for formats like CSV, where importing from CSV might not be as useful as exporting to one.</p>
-</li>
-<li>
-<p>Cons: The behaviour might be a little harder to understand from an end-user&#8217;s perspective. For example, in the current implementation, a user can export to CSV, but cannot import from one as only TaskCollectionWriteStorage is implemented.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong> Combine TaskCollectionReadStorage and TaskCollectionWriteStorage into a single interface, so that implementations that support import/export must support both at once.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: It is more intuitive for the user, as they can freely import from and export to any format.</p>
-</li>
-<li>
-<p>Cons: It is more difficult to support a new format, as both the reading and writing features need to be supported at once. If a developer wants to implement only either reading or writing, they would violate the Liskov Substitution Principle. Thus, combining the interfaces would make implementation less flexible.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Due to limited space in the PPP, an aspect on supporting different file formats is omitted. Please refer to  <a href="https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html#aspect-how-to-support-different-file-formats">the Developer Guide</a> for more details.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 09:28:26 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 10:04:14 UTC</div></div></div></body></html>
