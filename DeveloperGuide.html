@@ -161,9 +161,11 @@ This <strong>Developer Guide</strong> help you get started with contributing to 
 <li><a href="#deleting-a-task">H.3. Deleting a task</a></li>
 <li><a href="#filtering-the-list-of-tasks">H.4. Filtering the list of tasks</a></li>
 <li><a href="#attachments">H.5. Attachments</a></li>
-<li><a href="#exporting-tasks">H.6. Exporting tasks</a></li>
-<li><a href="#importing-tasks">H.7. Importing tasks</a></li>
-<li><a href="#sorting-a-list-of-tasks">H.8. Sorting a list of tasks</a></li>
+<li><a href="#completing-a-task">H.6. Completing a task</a></li>
+<li><a href="#adding-a-task-2">H.7. Adding a task</a></li>
+<li><a href="#exporting-tasks">H.8. Exporting tasks</a></li>
+<li><a href="#importing-tasks">H.9. Importing tasks</a></li>
+<li><a href="#sorting-a-list-of-tasks">H.10. Sorting a list of tasks</a></li>
 </ul>
 </li>
 </ul>
@@ -4688,6 +4690,28 @@ Expected: Error details saying that <code>nothere.txt</code> is not an attachmen
 </ol>
 </div>
 </li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="completing-a-task"><a class="link" href="#completing-a-task">H.6. Completing a task</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a new task		 . Complete a non-recurring task</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Run the <code>add n/New Program d/01/02/2018</code> command. +		 .. Run the <code>clear</code> command, followed by <code>add n/Simple Task d/01/01/2018</code> command.<br>
+Expected: A new task is added to Deadline Manager with name: New Program, deadline: 01/02/2018, priority: 0, frequency: 0, no tags and no attachments.		    Expected: The task list is cleared and a new task is added to Deadline Manager with name: Simple Task, deadline: 01/01/2018, priority: 0, frequency: 0, no tags and no attachments.</p>
+</li>
+<li>
+<p>Run the add n/New Program d/01/02/2018` command again. +		 .. Run the <code>complete 1</code> command.<br>
+Expected: Another new task is added to Deadline Manager with the same parameters as (a) above.		    Expected: The task created above is deleted.</p>
+</li>
+</ol>
+</div>
+</li>
 <li>
 <p>Complete a recurring task</p>
 <div class="olist loweralpha">
@@ -4707,7 +4731,29 @@ Expected: The deadline of the task created above is modified to 08/01/2018.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="exporting-tasks"><a class="link" href="#exporting-tasks">H.6. Exporting tasks</a></h3>
+<h3 id="adding-a-task-2"><a class="link" href="#adding-a-task-2">H.7. Adding a task</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a new task</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Run the <code>add n/New Program d/01/02/2018</code> command.<br>
+Expected: A new task is added to Deadline Manager with name: New Program, deadline: 01/02/2018, priority: 0, frequency: 0, no tags and no attachments.</p>
+</li>
+<li>
+<p>Run the add n/New Program d/01/02/2018` command again.<br>
+Expected: Another new task is added to Deadline Manager with the same parameters as (a) above.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="exporting-tasks"><a class="link" href="#exporting-tasks">H.8. Exporting tasks</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4756,7 +4802,7 @@ Expected: A new file, tasks.csv, is created in the same directory from where Dea
 </div>
 </div>
 <div class="sect2">
-<h3 id="importing-tasks"><a class="link" href="#importing-tasks">H.7. Importing tasks</a></h3>
+<h3 id="importing-tasks"><a class="link" href="#importing-tasks">H.9. Importing tasks</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4792,7 +4838,7 @@ Expected: An error message is displayed, indicating that Deadline Manager is una
 </div>
 </div>
 <div class="sect2">
-<h3 id="sorting-a-list-of-tasks"><a class="link" href="#sorting-a-list-of-tasks">H.8. Sorting a list of tasks</a></h3>
+<h3 id="sorting-a-list-of-tasks"><a class="link" href="#sorting-a-list-of-tasks">H.10. Sorting a list of tasks</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4825,4 +4871,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 15:45:11 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 15:52:09 UTC</div></div></div></body></html>
