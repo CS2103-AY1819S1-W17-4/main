@@ -96,7 +96,7 @@ public class SortCommandParser implements Parser<SortCommand> {
             }
 
             switch (taskField) {
-            case KEY_NAME_SHORT: // fallthrough
+            case KEY_NAME_SHORT: // Fallthrough
             case KEY_NAME_LONG: {
                 if (comparisonCharacter == COMPARATOR_ASCENDING) {
                     comparator = comparator.thenComparing(Task::getName);
@@ -105,8 +105,8 @@ public class SortCommandParser implements Parser<SortCommand> {
                 }
                 break;
             }
-            case KEY_DEADLINE_SHORT: // fallthrough
-            case KEY_DEADLINE_MEDIUM: // fallthrough
+            case KEY_DEADLINE_SHORT: // Fallthrough
+            case KEY_DEADLINE_MEDIUM: // Fallthrough
             case KEY_DEADLINE_LONG: {
                 if (comparisonCharacter == COMPARATOR_ASCENDING) {
                     comparator = comparator.thenComparing(Task::getDeadline);
@@ -115,7 +115,7 @@ public class SortCommandParser implements Parser<SortCommand> {
                 }
                 break;
             }
-            case KEY_PRIORITY_SHORT: // fallthrough
+            case KEY_PRIORITY_SHORT: // Fallthrough
             case KEY_PRIORITY_LONG: {
                 if (comparisonCharacter == COMPARATOR_ASCENDING) {
                     comparator = comparator.thenComparing(Task::getPriority);
@@ -124,7 +124,7 @@ public class SortCommandParser implements Parser<SortCommand> {
                 }
                 break;
             }
-            case KEY_FREQUENCY_SHORT: // fallthrough
+            case KEY_FREQUENCY_SHORT: // Fallthrough
             case KEY_FREQUENCY_LONG: {
                 if (comparisonCharacter == COMPARATOR_ASCENDING) {
                     comparator = comparator.thenComparing(Task::getFrequency);
@@ -133,7 +133,7 @@ public class SortCommandParser implements Parser<SortCommand> {
                 }
                 break;
             }
-            case KEY_TAG_SHORT: // fallthrough
+            case KEY_TAG_SHORT: // Fallthrough
             case KEY_TAG_LONG: {
                 if (splittedComparator.length < 2) {
                     throw new SimpleParseException(

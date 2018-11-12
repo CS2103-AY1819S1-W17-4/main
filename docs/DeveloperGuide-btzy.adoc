@@ -316,7 +316,7 @@ The `Storage` component
 
 This section describes some noteworthy details on how major features are implemented.
 
-// tag::add-feature[]
+// tag::undoredo[]
 
 === Add feature
 
@@ -342,10 +342,6 @@ Step 5. The `AddCommand#execute` method is invoked.
 Step 6. The `Model` is updated: The `Model#addTask` method and the `Model#commitTaskCollection` method are invoked.
 
 Step 7. A `CommandResult` object is returned.
-
-// end::add-feature[]
-
-// tag::complete-feature[]
 
 === Complete feature
 
@@ -391,10 +387,6 @@ with a new `Task` where the deadline is updated.
 Step 8. The `Model#commitTaskCollection` method is invoked.
 
 Step 9. A `CommandResult` object is returned.
-
-// end::complete-feature[]
-
-// tag::undoredo[]
 
 === Undo/Redo feature
 
@@ -479,7 +471,6 @@ image::UndoRedoActivityDiagram.png[width="650"]
 // end::undoredo[]
 
 // tag::importexport[]
-//tag::sijie_include3[]
 === Import and Export feature
 //==== Current implementation
 
@@ -495,11 +486,10 @@ Internally, `StorageManager` implements the following APIs from `ImportExportSto
 
 * `importTaskCollection`:  Given a filename, imports and returns a `TaskCollection`.
 * `exportTaskCollection`: Given a `TaskCollection`, exports and writes to a specified file.
-//end::sijie_include3[]
 
 Import/Export uses the same API as reading and saving the working `TaskCollection` file when exporting. However, additional checks are performed to ensure that the user does not inadvertently overwrite files, or corrupt the Deadline Manager.
 `StorageManager` only handles writing to and reading from file, and relies on `ModelManager` to decide what data should be read or written.
-//tag::sijie_include4[]
+
 [NOTE]
 An ImportExportExceptionEvent is raised if Deadline Manager fails to read or write files for any reason.
 
@@ -514,8 +504,7 @@ The request events are posted to the `EventCenter`, which will dispatch to all s
 
 To facilitate communication between the two components, the deadline manager uses the event-driven model.
 An import or export request event is created by `ModelManager`, and a handler in `StorageManager` is invoked to handle the event.
-After data has been successfully read or written, the response is placed in a `DataAvailableEvent` for `ModelManager` to process. Similarly, errors also are passed between the two components using events (such as `ImportExportExceptionEvent`).
-//end::sijie_include4[]
+After data has been successfully read or written, the response is placed in another event for `ModelManager` to process.
 
 To achieve the above, `ModelManager` indicates an import/export request by creating these events:
 
@@ -530,6 +519,7 @@ To achieve the above, `ModelManager` indicates an import/export request by creat
 [NOTE]
 It is the responsibility of the `Model` to feedback to the user in the case of an exception.
 
+
 Similarly, `StorageManager` returns the result of imports and errors with the following events:
 
 * `ImportExportExceptionEvent`: Indicates that an error has occurred with import or export.
@@ -539,8 +529,6 @@ Similarly, `StorageManager` returns the result of imports and errors with the fo
 
 * `handleImportRequestEvent`: Processes an import event and reads from file.
 * `handleExportRequestEvent`: Processes an export event and writes to file.
-
-//tag::sijie_include5[]
 
 ==== Sequence Flow
 
@@ -580,7 +568,7 @@ Step 6. `ModelManager` takes the imported data and adds it to the Model. If nece
 ==== Import Conflict Resolver
 
 An imported task is deemed conflicting with an existing task if the two tasks compare `equal` with the internal implementation of Task's `equal` method.
-If the user attempts to import a new conflicting task, Deadline Manager de-conflicts the task with one of the following resolvers:
+If the user attempts to import a new task that conflicts with an existing task, the task needs to be de-conflicted with one of the following resolver:
 
 * `IgnoreImportConflictResolver`: Discards the incoming task in favour of the existing task.
 * `OverwriteImportConflictResolver`: Updates the existing task to reflect the values of the incoming task.
@@ -591,7 +579,7 @@ The user can specify the de-conflict algorithm with flags. By default, the `Igno
 Given below is a sequence diagram to illustrate the interactions between `ModelManager` and `OverwriteImportConflictResolver`. While `OverwriteImportConflictResolver` is used as an example, the interactions with `IgnoreImportConflictResolver` and `DuplicateImportConflictResolver` are similar.
 
 .Sequence diagram for import conflict resolver
-image::ImportConflictResolverSequenceDiagram.png[width="600"]
+image::ImportConflictResolverSequenceDiagram.png[width="800"]
 
 Step 1. After requesting for import, Storage returns the `Tasks` that are serialised from file through an `ImportDataAvailableEvent`. This event is dispatched to `ModelManager` via `EventsCenter`.
 
@@ -601,12 +589,11 @@ Step 3a. If the task already exists, the functional method `resolve(() -> add(),
 
 Step 3b. `OverwriteImportConflictResolver` will first `delete()` the existing task, before it calls `add()` on the new one. This behaviour is specific to `OverwriteImportConflictResolver`. A `DuplicateImportConflictResolver` will simply add the new entry, while a `IgnoreImportConflictResolver` will do nothing.
 
-Step 4. Otherwise, if the task doesn't exist, `ModelManager` simply adds the task to the model.
+Step 4. Otherwise, if the task doesn't exist, `ModelManager` adds the task to the model.
 
 ==== CSV Format support
 
-The discussion above has been format-agnostic, abstracting away details about the file formats. Deadline Manager supports both eXtensible Markup Language (XML) and Comma Separated Values (CSV) format.
-//end::sijie_include5[]
+The discussion above has been format-agnostic, abstracting away details about the file formats. Deadline Manager supports both eXtensible Markup Language (XML) and Comma Separated Values (CSV) format. Currently, while XML format can be freely used to import and export data, CSV format can only be used to export data.
 
 The CSV/XML format support is implemented using the respective `{*}TaskCollectionStorage` class. `XMLTaskCollectionStorage` is able to import and export data, so it implements both `TaskCollectionReadStorage` and `TaskCollectionWriteStorage` interface. On the other hand, `CSVTaskCollectionStorage` can only export data, so it implements only the `TaskCollectionWriteStorage` interface.
 
@@ -620,16 +607,10 @@ The `TaskCollectionWriteStorage` specifies APIs that is responsible for de-seria
 
 As a summary for the CSV/XML format discussion, the class diagram below shows the structure of `CsvTaskCollectionStorage` and `XmlTaskCollectionStorage`. This diagram is also replicated in <<Storage, `Storage`>> above.
 
-//tag::sijie_include6[]
-
 .Class diagram of Csv/XmlTaskCollectionStorage
 image::CsvXmlClassDiagram.png[width="800"]
 
-//end::sijie_include6[]
-
 Notably, the `CsvTaskCollectionStorage` only implements the `TaskCollectionWriteStorage`, while `XmlTaskCollectionStorage` implements both.
-
-//tag::sijie_include7[]
 
 ==== Design Considerations
 
@@ -655,8 +636,6 @@ As described in <<Import Deconflict, Import Deconflict>>, an import conflict ari
 ** Pros: There is no need to implement separate classes. Since the `ImportConflictResolver` enum is only useful within Model, it reside within Model as a private variable.
 ** Cons: If/else statements are required to determine which algorithm should be used. Additionally, an `ImportConflictResolver` implemented this way cannot be easily reused or extended.
 
-//end::sijie_include7[]
-
 ===== Aspect: How to support different file formats
 
 As Deadline Manager supports multiple file formats, it is essential to consider how to modularise the file formatting component so that `Storage` can seamlessly process different types of supported files. Furthermore,  some formats such as CSV may not support importing, so it is necessary to distinguish between reading and writing operations.
@@ -672,11 +651,11 @@ As Deadline Manager supports multiple file formats, it is essential to consider 
 
 // tag::sort[]
 === Sort feature
-The sort command enables the user to sort the tasks currently being shown according to a user-defined custom comparator.
+The sort command enables the user to sort the tasks currently being shown according to user defined custom comparator.
 It is made up of two main components - `SortCommandParser` and `SortCommand`
 
 ==== Current Implementation
-The sort command is facilitated by `VersionedTaskCollection`. +
+The sort command is facilitated by `VersionedTaskCollection`.
 
 The sort command exposes the operation `updateSortedTaskList` to sort the task list.
 
@@ -691,18 +670,18 @@ A `NullPointerException` is raised in case the `SortCommand` receives a `null` c
 
 Given below is a sequence of steps, illustrating the interaction between `SortCommandParser`, `SortCommand` and `ModelManager`
 
+Step 1. The user executes the sort command with a comparator typed by user.
+
+Step 2. The `SortCommandParser` receives the command with the user comparator given as a string.
+
+Step 3. The `SortCommandParser` parses the string into a valid comparator and calls the `SortCommand` with this comparator provided.
+
 .Sequence Diagram for executing Sort Command.
 image::SortOperationSequenceDiagram.png[width="800"]
 
-. The user executes the sort command along with providing a user-specified comparator.
+Step 4. The `SortCommand` calls the `updateSortedTaskList` API method of `ModelManager`
 
-. The `SortCommandParser` receives the command with the user comparator given as a string.
-
-. The `SortCommandParser` parses the string into a valid comparator and calls the `SortCommand` with this comparator provided.
-
-. The `SortCommand` calls the `updateSortedTaskList` API method of `ModelManager`
-
-. The method `updateSortedTaskList` sorts the `versionTaskCollection` using JavaFx sort method
+Step 5. The method `updateSortedTaskList` sorts the `versionTaskCollection` using JavaFx sort method
 
 ==== Implementation of Sort Parser
 `SortCommandParser` implements `Parser<>` interface. The most essential portion of `SortCommandParser`, which is chaining of comparators is shown below:
@@ -817,15 +796,14 @@ The second component in the list above also accepts a filter unit that contains 
 A general string tokenizer (this is the `StringTokenizer` class in the `parser` subdirectory) is shared by parts 1 and 2 to split the filter expression into tokens.
 
 .Sequence diagram for parsing a filter command (for non-set-based fields)
-image::FilterOperationSequenceDiagram.png[width="800"]
+image::FilterOperationSequenceDiagram.png[width="500"]
 
 The above diagram shows the simplified sequence of operations to parse a filter expression into a predicate for non-set-based fields.  Take note of the following simplifications in the sequence diagram above:
 
 * "Field" represents any filterable field -- `Name`, `Deadline`, `Priority`, or `Frequency`.
 * Strictly speaking, the "loop" is not actually a loop.  As the boolean expression parser parses the filter expression, it invokes the lambda expression whenever a filter unit is encountered.  For simplicity, the sequence diagram above hides the complexity within the boolean expression parser.
-* The construction of the `tokenizer` object is omitted so as to give focus to the interaction between the three components.  The `BooleanExpressionParser` actually constructs a `StringTokenizer` from the given `expression` (which is a `String`), before entering the loop.  This same `StringTokenizer` is fed into the lambda expression every time a filter unit is encountered.
-
 // end::filter-overview-condensed[]
+* The construction of the `tokenizer` object is omitted so as to give focus to the interaction between the three components.  The `BooleanExpressionParser` actually constructs a `StringTokenizer` from the given `expression` (which is a `String`), before entering the loop.  This same `StringTokenizer` is fed into the lambda expression every time a filter unit is encountered.
 
 [NOTE]
 Set-based fields are described in <<Set parser>>.
@@ -885,14 +863,14 @@ The filter unit parser is written as a lambda expression inside the `FilterComma
 
 There are three possible ways to express a filter unit:
 
-1. The full syntax -- this allows for specifying the field for comparison and the method of comparison to be used
-2. The extended full syntax for sets -- this is like the full syntax, but enhanced with a way to specify how to compare sets
+.Structure of a filter unit
+image::FilterUnitDiagram.png[width="200", float=right]
+
+1. The full syntax -- this allows for specifying the field for comparison and the method of comparison used
+2. The extended full syntax for sets -- this is enhanced to specify how to compare sets
 3. The simplified syntax -- this improves terseness and reduces cognitive overhead
 
-The following diagram describes a filter unit that is specified using the full syntax:
-
-.Structure of a filter unit that uses the full syntax
-image::FilterUnitDiagram.png[width="200"]
+The diagram on the right describes a filter unit that is specified using the full syntax.
 
 // end::filter-unit-parser-extract[]
 
@@ -916,7 +894,7 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 The filter unit parser distinguishes between the three possible ways to express a filter unit, as per the activity diagram below:
 
 .Activity diagram for parsing a filter unit
-image::FilterUnitActivityDiagram.png[width="800"]
+image::FilterUnitActivityDiagram.png[width="600"]
 
 // end::filter-unit-parser-diagram[]
 // end::filter-unit-parser[]
@@ -1031,11 +1009,11 @@ When each filter unit is parsed, it invokes the field-specific parser for the gi
 [NOTE]
 Priority values do not compare in the same order as their values as integers.  Priority values have this order (from highest to lowest priority): 1 > 2 > 3 > 4 > 0.
 
-// tag::filter-error-messages[]
-
 ==== Error messages
 
 As the filter expression syntax can be rather complicated, detecting syntax errors and displaying useful error messages help the user to rectify those errors quickly.  When a parse error is detected, the filter command is designed to highlight the offending token and provide an error message customised for that error.
+
+// tag::filter-error-messages[]
 
 Error conditions are signalled via checked exceptions that inherit from `seedu.address.logic.parser.tokenizer.exception.TokenizationException`.  Those error conditions that are associated with a particular character range in the filter expression inherit from `seedu.address.logic.parser.tokenizer.exception.TokenizationMismatchException`, which provides the facilities for storing the start and end indices of the offending character range.  `TokenizationMismatchException` itself inherits from `TokenizationException`.  Checked exceptions were chosen because they allow the compiler to enforce that every possible exception is caught, and creating a subclass for each kind of error condition allows for the precise specification (in the `throws` clause) of the kind of error conditions that can happen in each and every method.
 
@@ -1044,9 +1022,9 @@ The following inheritance diagram shows the inheritance hierarchy of each kind o
 .Inheritance tree for exceptions that may be thrown from parsing a filter expression
 image::FilterParserErrorInheritanceDiagram.png[width="800"]
 
-In the diagram above, the [blue]#*blue*# classes are exceptions thrown by `StringTokenizer`, while the [red]#*red*# classes are exceptions thrown by `BooleanExpressionParser`.  In order to reduce coupling between `StringTokenizer` and `BooleanExpressionParser`, and to be able to distinguish (by type-based `catch` clauses) the end-of-string exceptions of those components, they do not share the same class for end-of-string exceptions.
-
 // end::filter-error-messages[]
+
+In the diagram above, the [blue]#*blue*# classes are exceptions thrown by `StringTokenizer`, while the [red]#*red*# classes are exceptions thrown by `BooleanExpressionParser`.  In order to reduce coupling between `StringTokenizer` and `BooleanExpressionParser`, and to be able to distinguish (by type-based `catch` clauses) the end-of-string exceptions of those components, they do not share the same class for end-of-string exceptions.
 
 `TokenizationInvalidPredicateException` is a wrapper class for `InvalidPredicateException`, which is thrown when the field-specific parser or set parser encounters an error.  The diagram below shows the different exceptions that may be thrown to indicate the types of issues that may be encountered when parsing a filter unit, and how they may be propagated to `FilterCommandParser` via wrapping by `TokenizationInvalidPredicateException`:
 
@@ -1112,7 +1090,7 @@ In total, there are around 15 distinct kinds of error conditions when parsing a 
 // end::filter-design-considerations-exceptions[]
 // end::filter[]
 
-// tag::attachments-excerpt-1[]
+// tag::attachments[]
 === Attachment Feature
 The attachment feature aims to help users organise and keep track of important files needed for the respective tasks. It allows users to associate files in their computer with a particular task. When the user subsequently decides to perform a particular task, this feature provides functionality to identify files previously associated with the task and facilitates exporting it to an appropriate location.
 
@@ -1120,7 +1098,6 @@ The attachment feature aims to help users organise and keep track of important f
 The attachment feature is mainly implemented by `AttachmentCommand`. As `AttachmentCommand` is an all-purpose command involving numerous actions, an interface `AttachmentAction` is defined within `AttachmentCommand` in order to facilitate this. There are 4 classes that implements `AttachmentAction` in order to implement the various actions of the attachment feature. The command line arguments for the attachment command is parsed by `AttachmentCommandParser`.
 
 ==== Sequence Flow
-// end::attachments-excerpt-1[]
 Given below is a sequence of steps, illustrating the interaction between `AttachmentCommandParser`, `AttachmentCommand` and classes that implement `AttachmentAction` after a user enters a relevant command.
 
 Step 1. The user enters an attachment command which involves either `add`, `list`, `delete` or `get` actions.
@@ -1130,7 +1107,7 @@ Step 2. The `AttachmentCommandParser` receives the command with the arguments gi
 Step 3. The `AttachmentCommandParser` interprets the arguments and constructs either a `AddAttachmentAction` for `add`, `ListAttachmentAction` for `list`, `DeleteAttachmentAction` for `delete` or `GetAttachmentAction` for `get`. The relevant arguments will also be passed as parameters to the constructors of these classes. Do note that these classes all extends from the abstract class `AttachmentAction`.
 
 Step 4. An `AttachmentCommand` is constructed and initialized with the `AttachmentAction` constructed in Step 3.
-// tag::attachments-excerpt-2[]
+
 Given below is another sequence of steps, also illustrated by the sequence diagram. They describe the interaction between `AttachmentCommand` and classes that implement `AttachmentAction` after the `AttachmentCommand#execute` method is invoked by the `LogicManager`.
 
 .Sequence Diagram for performing the `execute` method of an `AttachmentCommand`.
@@ -1145,9 +1122,7 @@ Step 3. The invoked `AttachmentAction` performs specific application logic which
 Step 4. The `Model` is updated with the `Task` object retrieved from the returned `ActionResult`.
 
 Step 5. The message to be shown to the user is retrieved from the returned `ActionResult`. Then, it is used to create a `CommandResult` object which is to be returned to the the `LogicManager`.
-// end::attachments-excerpt-2[]
 
-// tag::attachments-excerpt-3[]
 ==== AttachmentAction and Implementing Classes
 `AttachmentAction` is an interface nested within `AttachmentCommand`. It defines and requires implementing classes to implement a `perform` method. The implementation for `AttachmentAction` is shown below:
 [source,java]
@@ -1174,10 +1149,14 @@ private static class ActionResult {
         this.resultMessage = resultMessage;
     }
 
-    // Returns the task
+    /**
+     * Returns the task
+     */
     public Task getTask() { return updatedTask; }
 
-    // Returns the result message
+    /**
+     * Returns the result message
+     */
     public String getMessage() { return resultMessage; }
 }
 ----
@@ -1191,7 +1170,6 @@ private static class ActionResult {
 . Constructs a new `Attachment` object using the file at the specified `filePath`.
 . Constructs a new `Task` object with the same attributes as the original task, but with the additional `Attachment` object added to the set of attachments.
 
-// end::attachments-excerpt-3[]
 
 ===== ListAttachmentAction
 `ListAttachmentAction` implements `AttachmentAction` and provides the implementations required for the user to list all the files associated with a task. In other words, it provides a listing of all attachments that are added to the task. The constructor class requries no parameters. The `perform` method of `ListAttachmentAction` executes the following:

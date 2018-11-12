@@ -47,10 +47,10 @@ public class CompleteCommand extends Command {
     }
 
     /**
-     * Creates and returns a {@code Task} with the details of {@code taskToComplete} completeed with {@code
+     * Creates and returns a {@code Task} with the details of {@code taskToComplete} completed with {@code
      * completeTaskDescriptor}.
      */
-    private static Task createCompleteedTask(Task taskToComplete) {
+    private static Task createCompletedTask(Task taskToComplete) {
         assert taskToComplete != null;
 
         Name updatedName = taskToComplete.getName();
@@ -81,7 +81,7 @@ public class CompleteCommand extends Command {
             model.commitTaskCollection();
             return new CommandResult(String.format(MESSAGE_COMPLETE_NON_RECURRING_TASK_SUCCESS, taskToComplete));
         } else {
-            Task completedTask = createCompleteedTask(taskToComplete);
+            Task completedTask = createCompletedTask(taskToComplete);
 
             model.updateTask(taskToComplete, completedTask);
             model.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);

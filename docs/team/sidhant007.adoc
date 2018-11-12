@@ -23,14 +23,14 @@ My key contributions to the project includes:
 
 * *Major enhancement*: Added *the ability to sort tasks of the Deadline Manager in a user-defined manner*.
 ** What it does: It allows the users to order the tasks using a user-defined sort expression. A single sort expression can be composed of multiple comparators, where each comparator is based on a certain attribute(Example - Name, Due Date, Priority) of the task.
-** Justification: This feature is a critical to the Deadline Manager because if a user has lots of deadlines/tasks due and they only want to focus on the most important ones. The sort functionality enables them to view those deadlines which are more important at the top of the list followed by the those which are less important.
+** Justification: This feature is critical to the Deadline Manager because if a user has lots of deadlines/tasks due and they only want to focus on the most important ones. The sort functionality enables them to view those deadlines which are more important at the top of the list followed by the those which are less important.
 ** Highlights: The sort functionality supports chaining of comparators, which enables the user to fine-tune how they want to order the tasks. Example - If a user has a lot of tasks with the very close due dates, the sort function allows them to first sort by due date and then by priority. This sorts all the tasks by due date first and all those tasks with the same due date are sorted by priority within themselves.
 ** Credits: Referenced https://www.codejava.net/java-core/collections/sorting-a-list-by-multiple-attributes-example[Java Comparator Chaining] and https://stackoverflow.com/questions/25451331/how-to-remove-empty-results-after-splitting-with-regex-in-java/31005313[Regex fine-tuning]
 
-* *Minor enhancement*: Implemented natural comparison for some of the attributes of the task (Ex. Priority, Name)
+* *Minor enhancement*: Implemented *natural comparison for some of the attributes of the task* (Ex. Priority, Name)
 ** What it does: Allows comparison for the different attributes of the task. Primarily used for filtering and sorting of the tasks.
 
-* *Code contributed*: [https://github.com/CS2103-AY1819S1-W17-4/main/commits?author=sidhant007[Commits]]
+* *Code contributed*: https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=sidhant007[CS2103T Project Code Dashboard]
 
 * *Other contributions*:
 

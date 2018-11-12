@@ -1,0 +1,67 @@
+= Nguyen Tien Trung Kien - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: Deadline Manager
+
+This portfolio summarizes what I have done in a Software Engineering team project, CS2103T.
+Within 6 weeks, our team of 5 students have transformed an existing code base into a new application called Deadline Manager.
+
+:sectnums:
+:sectnumlevels: 6
+
+== Overview
+
+Deadline Manager is a Java application to help users manage deadlines.
+Besides basic features like add/edit/remove tasks and import/export task lists,
+Deadline Manager supports recurring tasks, complex filtering, flexible sorting, tags and attachments.
+
+For more information, visit [https://cs2103-ay1819s1-w17-4.github.io/main[our GitHub page]].
+
+== Summary of Contributions
+
+* *Major enhancement*: added the *ability to manage recurring tasks in Deadline Manager*
+** What it does: It allows users to add and complete recurring tasks in Deadline Manager.
+Users can use the `add` command with the frequency parameter (in days) to add a recurring task.
+To complete a task, users can use the `complete` command.
+Completing a non-recurring task will delete the task.
+Completing a recurring task will shift the deadline of the task to the next occurrence.
+** Justification: This feature allows users to manage recurring tasks, which are very common.
+The `complete` command provides a natural way for users to mark a task as completed.
+** Highlights: Implementing this feature requires modifying the `Task` class, the most basic class in the code base.
+A minor change in this class may takes 4-5 hours of modifying parts of code which are dependent on `Task`.
+
+* *Minor enhancement*: added `priority`, `frequency` and removed unnecessary fields in the `Task` class
+ ** Highlights: Changes in the `Task` class take a lot of time because it is used at a lot of places in the code base.
+
+* *Code contributed*: [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=kc97ble[Commits]]
+
+* *Other contributions*:
+
+** Reported bugs in Deadline Manager:
+https://github.com/CS2103-AY1819S1-W17-4/main/issues/98[#98],
+https://github.com/CS2103-AY1819S1-W17-4/main/issues/132[#132],
+https://github.com/CS2103-AY1819S1-W17-4/main/issues/195[#195]
+
+** Reviewed Pull Requests (with non-trivial review comments):
+https://github.com/CS2103-AY1819S1-W17-4/main/pull/112[#112],
+https://github.com/CS2103-AY1819S1-W17-4/main/pull/154[#302]
+
+== Contributions to the User Guide
+
+|===
+|_Given below are excerpts of sections that I contributed to the user guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=adding-a-task]
+include::../UserGuide.adoc[tag=completing-a-task]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+include::../DeveloperGuide.adoc[tag=add-feature]
+include::../DeveloperGuide.adoc[tag=complete-feature]

@@ -209,23 +209,23 @@ public class FilterCommandParser implements Parser<FilterCommand> {
             InvalidPredicateSetOperatorException, InvalidPredicateTestPhraseException {
 
         switch (key) {
-        case KEY_NAME_SHORT: // fallthrough
+        case KEY_NAME_SHORT: // Fallthrough
         case KEY_NAME_LONG:
             return createNamePredicate(operator, testPhrase);
-        case KEY_DEADLINE_SHORT: // fallthrough
-        case KEY_DEADLINE_MEDIUM: // fallthrough
+        case KEY_DEADLINE_SHORT: // Fallthrough
+        case KEY_DEADLINE_MEDIUM: // Fallthrough
         case KEY_DEADLINE_LONG:
             return createDeadlinePredicate(operator, testPhrase);
-        case KEY_PRIORITY_SHORT: // fallthrough
+        case KEY_PRIORITY_SHORT: // Fallthrough
         case KEY_PRIORITY_LONG:
             return createPriorityPredicate(operator, testPhrase);
-        case KEY_FREQUENCY_SHORT: // fallthrough
+        case KEY_FREQUENCY_SHORT: // Fallthrough
         case KEY_FREQUENCY_LONG:
             return createFrequencyPredicate(operator, testPhrase);
-        case KEY_TAG_SHORT: // fallthrough
+        case KEY_TAG_SHORT: // Fallthrough
         case KEY_TAG_LONG:
             return createTagsPredicate(FilterOperator.CONVENIENCE, operator, testPhrase);
-        case KEY_ATTACHMENT_SHORT: // fallthrough
+        case KEY_ATTACHMENT_SHORT: // Fallthrough
         case KEY_ATTACHMENT_LONG:
             return createAttachmentsPredicate(FilterOperator.CONVENIENCE, operator, testPhrase);
         default:
@@ -250,10 +250,10 @@ public class FilterCommandParser implements Parser<FilterCommand> {
             InvalidPredicateSetOperatorException, InvalidPredicateTestPhraseException {
 
         switch (key) {
-        case KEY_TAG_SHORT: // fallthrough
+        case KEY_TAG_SHORT: // Fallthrough
         case KEY_TAG_LONG:
             return createTagsPredicate(setOperator, fieldOperator, testPhrase);
-        case KEY_ATTACHMENT_SHORT: // fallthrough
+        case KEY_ATTACHMENT_SHORT: // Fallthrough
         case KEY_ATTACHMENT_LONG:
             return createAttachmentsPredicate(setOperator, fieldOperator, testPhrase);
         default:

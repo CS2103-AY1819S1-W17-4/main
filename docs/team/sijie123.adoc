@@ -3,45 +3,53 @@
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
+
 == PROJECT: Deadline Manager
+
+This portfolio serves to document my contributions in a team-based project for CS2103T Software Engineering. The module spans 6 weeks, culminating in a final product: Deadline Manager that is designed with features catering to students from NUS School of Computing. The project is completed with a team of 5 members, and our portfolios are located at https://cs2103-ay1819s1-w17-4.github.io/main/AboutUs.html[team page].
 
 ---
 
+:sectnums:
+:sectnumlevels 6:
+
 == Overview
 
-Deadline Manager is a tool written for students in NUS School of Computing to better manage their deadlines and priorities. Interacting through a Command Line Interface (CLI), users can easily manage their schedules and focus on what is most important to them.
+Deadline Manager is an easy-to-use application to assist students in managing deadlines. Interacting through a Command Line Interface (CLI), users can easily manage their schedules and focus on what is most important.
 
-Written in Java, Deadline Manager builds upon AddressBook - Level 4, a code base originally designed to teach Software Engineering principles. For more information and to take our project for a test run, please visit our home page [https://cs2103-ay1819s1-w17-4.github.io/main[on GitHub]].
+Deadline Manager is written in Java and builds upon AddressBook Level 4, a code base originally designed to teach Software Engineering principles. For more information and to take our project for a test run, please visit our home page [https://cs2103-ay1819s1-w17-4.github.io/main[on GitHub]].
 
-== Summary of contributions
+== Summary of Contributions
 
-* *Major enhancement*: added *the ability to import/export Deadline Manager*
-** What it does: allows users to export a selection/subset of tasks to a file. This file can be shared with friends, who can then import it to their own Deadline Manager. Furthermore, users can export their tasks as Comma Separated Values (CSV) format, which is compatible with other major Calendar applications. This enables users to switch seamlessly to various services such as Google Calendar.
-** Justification: This feature is essential to our Deadline Manager. Our Deadline Manager caters specifically to the study environment in School of Computing. As most assignments/deadlines are common to the entire module, the ability to import/export tasks allows students to share and remind each other of their schedules. Furthermore, through import/export, professors can also make use of Deadline Manager to update and remind students of upcoming assessments. The ability to export as CSV format further improves the user experience, as users can switch seamlessly to other major Calendar services such as Google Calendar.
-** Highlights: //TO-DO. Talk abt import resolver
-** Credits: Referenced https://support.google.com/calendar/answer/37118?hl=en[CSV format compatible with Google Calendar] to understand the specifications for exporting in CSV format.
+* *Major enhancement*: added *the ability to import to and export from Deadline Manager*
+** What it does: This feature allows users to export a selection of tasks to a file. This file can be shared with friends, who can then import it to their own Deadline Manager. Furthermore, users can export their tasks as Comma Separated Values (CSV) format, which is compatible with other major Calendar applications. This enables users to switch seamlessly to various services such as Google Calendar.
+** Justification: This feature is essential to our Deadline Manager. Our Deadline Manager is targeted at users within NUS School of Computing. As most assignments/deadlines are common to the entire module, the ability to import/export tasks is essential as it allows students to share and remind each other of their schedules. Furthermore, even professors can make use of the import/export feature to update and remind students of upcoming assessments. The ability to export as CSV format further improves the user experience, as users can switch seamlessly to other major Calendar services such as Google Calendar.
+** Highlights: The challenges and highlights for this enhancement comes mainly from 2 areas: Firstly, as the File System is involved, it is necessary to consider and account for how the different Operating Systems conduct file operations. Extensive testing is required to ensure correctness. Secondly, the many use-cases for this feature poses a significant design consideration to ensure optimal user experience. For example, it is likely that users may end up importing tasks that are duplicate. To cater to the different use cases, an entire ImportConflictResolver class is implemented to provide flexibility and simplicity for the user when importing.
+** Credits: The resource at https://support.google.com/calendar/answer/37118?hl=en[CSV format compatible with Google Calendar] provides specifications for exporting in CSV format.
 
 * *Minor enhancement*: changed how parameters are parsed by the app.
-** What it does: Previously, the app ignores repeated parameters (e.g. specify `name` more than once), which can be confusing for the user. Made changes to the parser so that an appropriate error will be thrown instead.
+** What it does: This enhancement makes changes to the parser so that an appropriate error will be thrown when the user provides duplicate parameters. This is in contrast to AddressBook - Level 4, where the app ignores repeated parameters (e.g. specify `name` more than once).
 
-* *Code contributed*: [https://github.com/CS2103-AY1819S1-W17-4/main/commits?author=sijie123[Commits]]
+** Justification: The previous implementation can be confusing for the user as Deadline Manager silently ignores repeated parameters. The enhancement instead provides visual alert to the user so that erroneous commands can be rectified.
+
+* *Code contributed*: [https://github.com/CS2103-AY1819S1-W17-4/main/commits?author=sijie123[Commits]] [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=sijie123[RepoSense]]
 
 * *Other contributions*:
 
 ** Project management:
 *** Set up project repository and labels for Issue Tracker.
 *** Managed releases `v1.2` and `v1.3` on GitHub
-*** Contributed to user stories on GitHub Issue Tracker (https://github.com/CS2103-AY1819S1-W17-4/main/issues/1[#1], https://github.com/CS2103-AY1819S1-W17-4/main/issues/2[#2], https://github.com/CS2103-AY1819S1-W17-4/main/issues/3[#3], https://github.com/CS2103-AY1819S1-W17-4/main/issues/4[#4])
-*** Reported and resolved bugs in Deadline Manager (https://github.com/CS2103-AY1819S1-W17-4/main/issues/147[#147], https://github.com/CS2103-AY1819S1-W17-4/main/issues/170[#170], https://github.com/CS2103-AY1819S1-W17-4/main/issues/191[#191]
+*** Contributed to user stories on GitHub Issue Tracker: https://github.com/CS2103-AY1819S1-W17-4/main/issues/1[#1], https://github.com/CS2103-AY1819S1-W17-4/main/issues/2[#2], https://github.com/CS2103-AY1819S1-W17-4/main/issues/3[#3], https://github.com/CS2103-AY1819S1-W17-4/main/issues/4[#4]
+*** Reported and resolved bugs in Deadline Manager: https://github.com/CS2103-AY1819S1-W17-4/main/issues/147[#147], https://github.com/CS2103-AY1819S1-W17-4/main/issues/170[#170], https://github.com/CS2103-AY1819S1-W17-4/main/issues/191[#191], https://github.com/CS2103-AY1819S1-W17-4/main/pull/286[#286]
 ** Enhancements to existing features:
 *** Added additional checks to detect potential errors in file I/O operations (e.g. saving).
-*** Refactored unit test for `AddCommandTest` by creating  `ModelStub`, a class containing scaffolding code common to other instances of `CommandTest`. (https://github.com/CS2103-AY1819S1-W17-4/main/blob/master/src/test/java/seedu/address/logic/commands/ModelStub.java[ModelStub.java])
+*** Refactored unit test for `AddCommandTest` by creating  `ModelStub`, a class containing scaffolding code common to other types of `CommandTest`.
 ** Documentation:
 *** Rewrote introduction chapters and add more signposting for Developer Guide, so that Developer Guide is more structured and easier to understand: https://github.com/CS2103-AY1819S1-W17-4/main/pull/129/files[#129]
 
 ** Community:
-*** Reviewed Pull Requests (with non-trivial review comments): https://github.com/CS2103-AY1819S1-W17-4/main/pull/169[#169], https://github.com/CS2103-AY1819S1-W17-4/main/pull/206[#206]
-*** Reported bugs and suggested fixes in the original se-edu addressbook-level2 (Pull Requests: https://github.com/se-edu/addressbook-level2/pull/431[#431], https://github.com/se-edu/addressbook-level2/pull/436[436])
+*** Reviewed Pull Requests (with non-trivial review comments): https://github.com/CS2103-AY1819S1-W17-4/main/pull/169[#169], https://github.com/CS2103-AY1819S1-W17-4/main/pull/206[#206], https://github.com/CS2103-AY1819S1-W17-4/main/pull/275[#275]
+*** Reported bugs and suggested fixes in the original se-edu addressbook-level2: Pull Requests https://github.com/se-edu/addressbook-level2/pull/431[#431], https://github.com/se-edu/addressbook-level2/pull/436[#436]
 ** Tools:
 *** Integrated TravisCI to the project to the team repo.
 
@@ -49,17 +57,35 @@ Written in Java, Deadline Manager builds upon AddressBook - Level 4, a code base
 
 
 |===
-|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|_Given below is an excerpt of sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::../UserGuide.adoc[tag=export]
+include::../UserGuide.adoc[tag=sijie_include1]
 
-include::../UserGuide.adoc[tag=import]
+include::../UserGuide.adoc[tag=sijie_include2]
 
 == Contributions to the Developer Guide
 
 |===
-|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|_Given below is an excerpt of the Import/Export section that I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
+include::../DeveloperGuide.adoc[tag=sijie_include3]
 
-include::../DeveloperGuide.adoc[tag=importexport]
+include::../DeveloperGuide.adoc[tag=sijie_include4]
+
+[NOTE]
+Due to limited space, detailed technical implementation of inter-component communication is omitted, and an overview is presented below in <<Sequence Flow, Sequence Flow>> instead. You may wish to refer to the https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html#inter-component-communication[Developer Guide] for details.
+
+include::../DeveloperGuide.adoc[tag=sijie_include5]
+
+[NOTE]
+Due to limited space in the PPP, detailed technical discussion of the CSV implementation is omitted, and is summarised with the following Sequence Diagram instead. This diagram is also replicated in https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html#Design-Storage[`Storage`].
+
+include::../DeveloperGuide.adoc[tag=sijie_include6]
+
+Notably, `TaskCollectionReadStorage` and `TaskCollectionWriteStorage` represents the disk reading and writing capabilities respectively; file format implementations can choose to support reading only, writing only, or both.
+
+include::../DeveloperGuide.adoc[tag=sijie_include7]
+
+[NOTE]
+Due to limited space in the PPP, an aspect on supporting different file formats is omitted. Please refer to  https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html#aspect-how-to-support-different-file-formats[the Developer Guide] for more details.

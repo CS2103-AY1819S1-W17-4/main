@@ -77,28 +77,11 @@ Most commands follow the following format (characterized by `X/` parameter prefi
 * The minimum year allowed is 1 (i.e. non-positive years are not allowed).  The maximum year allowed is rather large (more than 6 digits, but limited by Java's internal `Date` representation), but it will definitely work with year values less than 1000000.
 ====
 
-====
-*Priority Format*
-
-* `PRIORITY` should only be 0, 1, 2, 3, or 4.
-* Priority 0 denotes a task with no priority (lowest priority).
-* The order is: Priority 1 (highest priority) > Priority 2 > Priority 3 > Priority 4 > Priority 0 (lowest priority).
-====
-
-====
-*Frequency Format*
-
-* `FREQUENCY` should be a non-negative integer between 0 and 999 (number of days betweeen consecutive occurrences of the task).
-* Zero frequency denotes a non-recurring task.
-* Non-zero frequency denotes a recurring task.
-====
-
 === Viewing help : `help`
 Displays the list of available functions for the user to use. It acts as a guide to help the user.
 
 Format: `help`
 
-// tag::adding-a-task[]
 === Adding a task: `add`
 Adds a task to the deadline manager +
 Format: `add n/NAME [p/PRIORITY] [f/FREQUENCY] d/DEADLINE [t/TAG]...`
@@ -113,10 +96,16 @@ Examples of valid dates are:
 29/03/2018, 29/3/2018, 1/1/2018.
 `DEADLINE` is a mandatory parameter.
 
-* `PRIORITY` is an optional parameter.
+* `PRIORITY` should only be 0, 1, 2, 3, or 4.
+Priority 0 denotes a task with no priority (lowest priority).
+The order is: Priority 1 (highest priority) > Priority 2 > Priority 3 > Priority 4 > Priority 0 (lowest priority).
+`PRIORITY` is an optional parameter.
 If `PRIORITY` is not given, priority 0 is assumed.
 
-* `FREQUENCY` is an optional parameter.
+* `FREQUENCY` should be a non-negative integer between 0 and 999 (number of days).
+Zero frequency denotes a non-recurring task.
+Non-zero frequency denotes a recurring task.
+`FREQUENCY` is an optional parameter.
 If `FREQUENCY` is not given, frequency 0 is assumed.
 ****
 
@@ -137,10 +126,6 @@ Adds a task with name `v1 milestone` with a deadline on 9th October 2018 with pr
 
 * `add n/Clean the house d/01/01/2018 f/7` +
 Adds a task with name `Clean the house` with a deadline on 1st January 2018 with frequency 7 (this is a recurring task).
-
-// end::adding-a-task[]
-
-// tag::completing-a-task[]
 
 === Completing a task : `complete`
 Completes an existing task in the deadline manager.
@@ -189,8 +174,6 @@ image::userguide/completedemo_2.png[CompleteDemo2, width="400"]
 [caption="Figure 3.3.3: "]
 image::userguide/completedemo_3.png[CompleteDemo3, width="400"]
 
-// end::completing-a-task[]
-
 === Listing all tasks : `list`
 
 Shows a list of all tasks in the deadline manager. +
@@ -231,6 +214,9 @@ When executing any _modifying_ commands on a filtered list, the filter will be r
 
 ==== Overview
 
+.Screenshot of simplified filter syntax
+image::userguide/filterdemo_simplified.png[FilterDemo_Simplified, width="300",float=right]
+
 Filter predicates are the core of the `filter` command.  Each filter predicate specifies a testable condition that, for every task, may evaluate to either `true` or `false` (e.g. whether the deadline is earlier than 1/10/2018).  Filter predicates are regarded as "indivisible".
 
 // end::filter-overview[]
@@ -247,13 +233,7 @@ However, when there are many tasks in the deadline manager and the simplified sy
 
 Tasks can be filtered by typing `filter` followed by one or more space-separated keywords (e.g. `filter assignment`, `filter homework CS2103`, or `filter badminton utown 3/10/2018`).  Such a filter expression would display only those tasks that contain textual or date fields (i.e. name, deadline, tags, and attachments) that matches **every** keyword (e.g. `filter homework CS2103` will match a task with name `Homework 1` **and** tags `CS2103` and `easy`).
 
-The following screenshot is an example to demonstrate that any field may be matched:
-
-[filterdemo_simplified]
-.Result of `filter assignment` command (notice that the keyword "assignment" matches task name, tags, and attachments)
-[#img-filterdemo_simplified]
-[caption="Figure 3.6.2.1: "]
-image::userguide/filterdemo_simplified.png[FilterDemo_Simplified, width="300"]
+The screenshot on the right is an example to demonstrate that any field may be matched.
 
 // end::filter-simplified[]
 
@@ -290,9 +270,10 @@ Returns a subset of the current list of tasks that have a name, tag, attachment,
 // tag::filter-field[]
 ==== Controlling the field being matched
 
-Each keyword can instead be written as a _full predicate_, which is a string of the following format: `<key><operator><phrase>`. The following diagram is an example of a typical full predicate:
+.Filter unit format
+image::FilterUnitDiagramUG.png[width="120",role="thumb right"]
 
-image::FilterUnitDiagramUG.png[width="200"]
+Each keyword can instead be written as a _full predicate_, which is a string of the following format: `<key><operator><phrase>`. The diagram on the right is an example of a typical full predicate.
 
 Each of the three parts of a full predicate means the following:
 
@@ -466,7 +447,7 @@ In the simplified filter syntax, multiple space-separated keywords mean that _ev
 Filter expressions (i.e. the `FILTER_EXPRESSION` strings) are composed from any number of filter predicates, and they create a composite rule to filter against.  The `filter` command is designed to accept arbitrarily complex filter expressions that can be composed from any number of filter predicates. +
 The format for `FILTER_EXPRESSION` is defined recursively in the following paragraphs.
 
-`FILTER_EXPRESSION` is a string any of the following possible formats:
+`FILTER_EXPRESSION` is a string in any of the following possible formats:
 
 * `FILTER_PREDICATE` -- This filter expression contains a single filter predicate (each filter predicate can use either the full predicate or the keyword syntax)
 * `FILTER_EXPRESSION & FILTER_EXPRESSION` -- This filter expression is a logical conjunction (i.e. AND) of two other filter expressions.  The operator `&` may be substituted with `&&`.
@@ -520,9 +501,10 @@ Returns a subset of the current list of tasks that have a name that does not con
 // tag::filter-set[]
 ==== Set-based extensions for filter predicates
 
-For fields that represent a collection (i.e. tags and attachments), it is also possible to filter only tasks which **do not contain** other tags or attachments **apart** from those specified.  To do so, we introduce a set operator as per the diagram below:
+.Filter unit format (set-based)
+image::FilterUnitDiagramSetUG.png[width="150",role="thumb right"]
 
-image::FilterUnitDiagramSetUG.png[width="250"]
+For fields that represent a collection (i.e. tags and attachments), it is also possible to filter only tasks which **do not contain** other tags or attachments **apart** from those specified.  To do so, we introduce a set operator as per the diagram on the right.
 
 The part that was called `operator` previously is called the `field operator` here, and it retains its original meaning.  The `set operator` introduced here specifies how the specified set (in the filter predicate) compares to the task's set (of tags or attachments).
 
@@ -541,16 +523,7 @@ When comparing a set-based field without using this dual-operator syntax, the se
 
 Examples to demonstrate each operator type (using the tag field):
 
-[width="100%",options="header,autowidth"]
-|=========================================================
-|Task tags |Test phrase |Matches ">:" |Matches "=:" | Matches "<:"| Matches "::"
-|easy,CS2103,homework |CS2103 |Yes |No |No |Yes
-|easy,CS2103,homework |easy,CS2103,homework |Yes |Yes |Yes |Yes
-|easy,CS2103,homework |CS2103,homework,easy |Yes |Yes |Yes |Yes
-|CS2103 |CS2103,homework |No |No |Yes |No
-|easy,CS2103,homework |cs2103 |Yes |No |No |Yes
-|easy,CS2103,homework |cs |Yes |No |No |Yes
-|=========================================================
+image::userguide/filter_set_example.png[width="800"]
 
 [TIP]
 The set operator works in the same way as the above table for the attachment field as well.
@@ -588,17 +561,8 @@ There are a total of around *15 different types* of error messages.
 
 The following screenshots show two possible errors and the displayed result:
 
-[filterdemo_error1]
-.Possible error result #1
-[#img-filterdemo_error1]
-[caption="Figure 3.6.6.1: "]
-image::userguide/filterdemo_error1.png[FilterDemo_Error1, width="400"]
-
-[filterdemo_error2]
-.Possible error result #2
-[#img-filterdemo_error2]
-[caption="Figure 3.6.6.2: "]
-image::userguide/filterdemo_error2.png[FilterDemo_Error2, width="400"]
+.Screenshots displaying errors in the filter expression
+image::userguide/filterdemo_error_combined.png[FilterDemo_Combined, width="800"]
 
 // end::filter-errors[]
 // end::filter[]
@@ -609,10 +573,10 @@ image::userguide/filterdemo_error2.png[FilterDemo_Error2, width="400"]
 
 Sorts the lists of all the tasks which the user is currently viewing. Generally meant to be used in combination with `filter`. +
 
-When this command is used, Deadline Manager will sort all the currently displayed tasks according to the user-specified comparison method. +
+When this command is used, Deadline Manager will sort all the currently displayed tasks according to the user specified comparison method. +
 Sort comparators are the core of the `sort` command.  Each sort comparator specifies a particular attribute (Example - `name`, `priority`) and a comparison direction, i.e ascending or descending.
 
-The entire sorting command is composed of a chain of sort comparators. This chain helps the user to define which tasks to show earlier and which ones to show later. +
+The entire sorting command is composed of a chain of sort comparators. This chain helps the user to define which tasks to show earlier and which ones to show latter. +
 
 [TIP]
 The sort command results in a stable sort, i.e if two deadlines are equal according to the sort comparators then their relative order before the sort command and after the sort command remains the same.
@@ -631,11 +595,11 @@ Format: `sort SORT_COMPARATOR [SORT_COMPARATOR]...` +
 * `<` stands for sorting in ascending order and `>' stands for sorting in descending order.
 * Sorts the list by the 1st comparator, in case of ties, it sorts by 2nd comparator and so on.
 * Meaning of the operators for each valid key:
-** When `key` is `n` or `name`, the task name is compared. The comparison is case-insensitive.
+** When `key` is `n` or `name`, the task name is compared. Comparison is case-insensitive.
 ** When `key` is `d` or `due` or `deadline`, the task's due date is compared.
-** When `key` is `p` or `priority`, the task's priority is compared. Note that the order is: Priority 1 (highest priority) > Priority 2 > Priority 3 > Priority 4 > Priority 0 (lowest priority).
+** When `key` is `p` or `priority`, the task's priority is compared. Note that 1 is the highest priority and 4 is the lowest priority.
 ** When `key` is `f` or `frequency`, the task's frequency (i.e. the number of days between consecutive occurrences of that task) is compared.  A non-recurring task is treated as if it has a frequency of positive infinity.
-** When `key` is `t` or `tag`, the task's tags are compared. In case `<` is used, it means `TAG1` is placed earlier in the sorted order as compared to `TAG2` and so on. For `>` it is vice-versa.
+** When `key` is `t` or `tag`, the task's tags are compared. In case `<` is used, it means `TAG1` is placed eariler in the sorted order as compared to `TAG2` and so on. For `>` it is vice-versa.
 [NOTE]
 For sorting by tags the user has to specify which tags are more important and which are less important.
 ** Any other `key` will cause Deadline Manager to produce an error.
@@ -645,7 +609,10 @@ Examples:
 * `sort n>` +
 Sorts the current list of tasks in view in descending order by name, where sorting is done in alphabetical order.
 
+[sortdemo1]
 .Result of "sort n<" command
+[#img-sortdemo1]
+[caption="Figure 3.10.1: "]
 image::userguide/sortdemo_1.png[SortDemo1, width="900"]
 
 * `sort due< name>` +
@@ -660,21 +627,24 @@ before those tasks with the tag `family`, finally followed by those tasks with t
 * `sort n< tag<{` +
 This is invalid syntax since the curly braces have not been closed. +
 
+[sortdemo2]
 .Result of "sort n< tag<{" command
+[#img-sortdemo2]
+[caption="Figure 3.10.2: "]
 image::userguide/sortdemo_2.png[SortDemo1, width="600"]
-The above figure shows the error message when user feeds in an invalid command.
+Figure 3.10.2 above shows the error message when user feeds in an invalid command.
 
 [TIP]
 In case a task does not belong to any of the tags mentioned in the sort comparator it will be placed at the bottom of the sorted list.
 
 [TIP]
-In case a task contains more than one tag specified in the sort comparator, then it will be sorted according to those tags first which place it formerly in the sorted list.
+In case a task contains more than one tag specified in the sort comparator, then it will be sorted according to those tags first which place it former in the sorted list.
 
 // end::sort[]
 
 
 //TODO: Ranald
-// tag::attachment-excerpt[]
+// tag::attachment[]
 === Managing attachments of a task : `attachment`
 Allows the user to add, list, delete and retrieve files associated with a specific task. +
 Deadline manager does not make a copy or backup the files added. Only the location of the files are stored by Deadline Manager. Hence, it is possible that the file might have been modified, renamed, moved or deleted without Deadline Manager's knowledge. As such, there is no guarantee for a file associated with a specific task to always exist.  +
@@ -718,17 +688,17 @@ Adds an attachment located at "D:\Documents\Hello World.docx" to the 1st task cu
 [attachmentdemo1]
 .Result of Attachment Command with Add Action
 [#img-attachmentdemo1]
-[caption="Figure 3.8.1: "]
+[caption="Figure 3.10.1: "]
 image::userguide/attachmentdemo_1.png[AttachmentDemo2, width="600"]
-Figure 3.8.1 above shows an expected result message if the command is successfully executed by Deadline Manager for the example command.
+Figure 3.10.1 above shows an expected result message if the command is successfully executed by Deadline Manager for the example command.
 
 
 [attachmentdemo2]
 .Attachment Label after an attachment is added to a file
 [#img-attachmentdemo2]
-[caption="Figure 3.8.2: "]
+[caption="Figure 3.10.2: "]
 image::userguide/attachmentdemo_2.png[AttachmentDemo2, width="300"]
-Figure 3.8.2 above shows the label that would be displayed along with the task after an attachment is added. The label will contain the file name.
+Figure 3.10.2 above shows the label that would be displayed along with the task after an attachment is added. The label will contain the file name.
 
 
 * List: `attachment 1 list` +
@@ -737,10 +707,10 @@ Lists all attachments currently associated with the 1st task in the deadline man
 [attachmentdemo3]
 .Result of Attachment Command with List Action
 [#img-attachmentdemo3]
-[caption="Figure 3.8.3: "]
+[caption="Figure 3.10.3: "]
 image::userguide/attachmentdemo_3.png[AttachmentDemo3, width="300"]
-Figure 3.8.3 above shows an expected result message if the command is successfully executed by Deadline Manager for the above command with the List Action.
-// end::attachment-excerpt[]
+Figure 3.10.3 above shows an expected result message if the command is successfully executed by Deadline Manager for the above command with the List Action.
+
 
 * Get: `attachment 2 get p/"D:\Documents\TaskAttachments.zip" n/"Assignment.zip"` +
 Saves an attachment named "Assignment.zip" of the 2nd task in the deadline manager to "D:\Documents\TaskAttachments.zip"
@@ -749,17 +719,17 @@ Saves an attachment named "Assignment.zip" of the 2nd task in the deadline manag
 [attachmentdemo4]
 .Result of Attachment Command with Get Action
 [#img-attachmentdemo4]
-[caption="Figure 3.8.4: "]
+[caption="Figure 3.10.4: "]
 image::userguide/attachmentdemo_4.png[AttachmentDemo4, width="600"]
-Figure 3.8.4 above shows an expected result message if the command is successfully executed by Deadline Manager for the above command with the Get action.
+Figure 3.10.4 above shows an expected result message if the command is successfully executed by Deadline Manager for the above command with the Get action.
 
 
 [attachmentdemo5]
 .Attachment will be saved to the designated location after the Get Action
 [#img-attachmentdemo5]
-[caption="Figure 3.8.5: "]
+[caption="Figure 3.10.5: "]
 image::userguide/attachmentdemo_5.png[AttachmentDemo5, width="600"]
-Figure 3.8.5 above shows that you can expect to see the attachment appear in the designated location after the Get action.
+Figure 3.10.5 above shows that you can expect to see the attachment appear in the designated location after the Get action.
 
 * Delete: `attachment 1 delete n/"Hello World.docx"`
 Removes the association of the attachment named "Hello World.docx" with the 1st task in the deadline manager.
@@ -767,20 +737,20 @@ Removes the association of the attachment named "Hello World.docx" with the 1st 
 [attachmentdemo6]
 .Result of Attachment Command with Delete Action
 [#img-attachmentdemo6]
-[caption="Figure 3.8.6: "]
+[caption="Figure 3.10.6: "]
 image::userguide/attachmentdemo_6.png[AttachmentDemo6, width="400"]
-Figure 3.8.6 above shows an expected result message if the command is successfully executed by Deadline Manager for the above command with the Delete action.
+Figure 3.10.6 above shows an expected result message if the command is successfully executed by Deadline Manager for the above command with the Delete action.
 
 [NOTE]
 The <<Importing a set of tasks: `import`, `import`>>, <<Exporting a set of tasks: `export`, `export`>> commands do *NOT* support backing up attachments. However they will keep a link to the attachments path if any.
 
 [NOTE]
 The <<Sorting a list of tasks : `sort`, `sort`>> command currently does *NOT* support sorting tasks by their attachments. Support for this commands may be added in future releases of the application.
+// end::attachment[]
 
 
-
+//TODO: Add a picture on what I mean by "currently displayed"
 // tag::export[]
-// tag::sijie_include1[]
 === Exporting a set of tasks: `export`
 Exports the tasks that is currently displayed by the Deadline Manager. The tasks will be saved as a file at the provided `FILEPATH` location.
 
@@ -814,29 +784,33 @@ Creates and exports tasks to `cs2101.xml` in the same folder as Deadline Manager
 
 The following is a step-by-step guide on how the export command behaves.
 [exportdemo1]
-.A successful export command
+.Command box.
 [#img-exportdemo1]
 [caption="Figure 3.9.1: "]
-image::userguide/exportScreenshot_1.png[ExportDemo, width="790"]
-Figure 3.9.1 (left) shows the sequence of events, starting from when the user enters the `export p/cs2101.xml` command into the command box.
+image::userguide/exportdemo_1.PNG[ExportDemo, width="790"]
+In Figure 3.9.1 above, the user enters the `export p/cs2101.xml` command into the command box.
 
-Figure 3.9.1 (right) shows Deadline Manager exporting the file and displaying a success message. The exported file is located at cs2101.xml in the same folder, and contains the tasks displayed in the deadline manager, namely "CS2101 Oral Presentation" in the screenshot above.
+[exportdemo2]
+.Result of export command
+[#img-exportdemo2]
+[caption="Figure 3.9.2: "]
+image::userguide/exportdemo_2.png[ExportDemo2, width="790"]
+In Figure 3.9.2 above, after the user presses enter, Deadline Manager exports the file and display a success message. The exported file is located at cs2101.xml, and contains the tasks displayed in the deadline manager, namely "CS2101 Oral Presentation" in the screenshot above.
 
 * `export p/cs2101.txt` (Exports a file successfully) +
   `export p/cs2101.txt` +
 Fails and returns an error as `cs2101.txt` already exists when the second command is run. In order to protect your data, the second export command fails.
-// end::sijie_include1[]
 
 [exportdemo3]
-.Export error message
+.Sample error message
 [#img-exportdemo3]
-[caption="Figure 3.9.2: "]
-image::userguide/exportScreenshot_2.png[ExportDemo3, width="790"]
-Figure 3.9.2 shows the error message when the user attempts to `export p/cs2101.txt` for the second time. Since the file `cs2101.txt` already exists, Deadline Manager will not overwrite any existing file so as to protect your data.
+[caption="Figure 3.9.3: "]
+image::userguide/exportdemo_3.png[ExportDemo3, width="790"]
+Figure 3.9.3 above shows the error message when the user attempts to export to a file that already exists. Deadline Manager will not overwrite any existing file so as to protect your data.
 
 [TIP]
 You can overwrite the file by specifying r/overwrite. The command would be `export p/cs2101.txt r/overwrite` in this case.
-//tag::sijie_include2[]
+
 * `export csv p/cs2103.csv` +
 Creates and exports tasks to `cs2103.csv` as CSV format. This file is compatible with most calendar applications and can be imported into Google Calendar.
 
@@ -867,7 +841,7 @@ Currently, Deadline Manager does not support importing from a CSV file. This fea
 Optional commands can provided to specify what Deadline Manager should do when there is an import conflict.
 
 [NOTE]
-An import conflict occurs when you try to import a task, but the task (having the same name, deadline and other attributes) already exists in your Deadline Manager. When this happens, Deadline Manager needs to know what you want to do with these tasks.
+An import conflict occurs when you try to import a task, but a similar task already exists in your Deadline Manager. When this happens, Deadline Manager needs to know what you want to do with these tasks.
 
 You can input either one of three commands to specify how to resolve an import conflict:
 
@@ -884,25 +858,31 @@ Examples:
 `import p/cs2101.xml r/all` +
 Imports all tasks from `cs2101.xml`. Deadline Manager will save all tasks, even if duplicates already exist.
 
-[importdemo]
-.Importing from XML, keeping duplicate tasks
-[#img-importdemo]
-[caption="Figure 3.10.1: "]
-image::userguide/importScreenshot_1.png[ImportDemo, width="790"]
-In Figure 3.10.1 (left), we assume that the user has previously exported to `cs2101.xml`. `cs2101.xml` contains another copy of "CS2101 Oral Presentation". The user now attempts to import from `cs2101.xml`.
-
-The result of the import is shown in Figure 3.10.1 (right). Since the r/all command is used, both copies of "CS2101 Oral Presentation" are saved.
-
-* `import p/cs2101.xml` +
-Imports all tasks from `cs2101.xml`. Since the r/all parameter is not specified, if an incoming task already exists in Deadline Manager, it is skipped.
-//end::sijie_include2[]
 [importdemo2]
-.Result of import command with no parameters
-[#img-importdemo]
+.User prepares to import from cs2101.xml
+[#img-importdemo2]
+[caption="Figure 3.10.1: "]
+image::userguide/importdemo_2.png[ImportDemo2, width="790"]
+In Figure 3.10.1, we assume that the user has previously exported to `cs2101.xml`. `cs2101.xml` contains another copy of "CS2101 Oral Presentation". The user now attempts to import from `cs2101.xml`.
+
+[importdemo3]
+.Result of import command with the r/all command
+[#img-importdemo3]
 [caption="Figure 3.10.2: "]
-image::userguide/importScreenshot_2.png[ImportDemo4, width="790"]
-Figure 3.10.2 shows the success message after importing from `cs2101.xml`. By default, duplicate entries are skipped. Since `cs2101.xml` contains a duplicate copy of "CS2101 Oral Presentation", nothing new is imported.
-//tag::sijie_include3[]
+image::userguide/importdemo_3.png[ImportDemo3, width="790"]
+Figure 3.10.2 shows the success message after importing from cs2101.xml. Note that, as the r/all command is used, both copies of "CS2101 Oral Presentation" are saved.
+
+*
+`import p/cs2101.xml` +
+Imports all tasks from `cs2101.xml`. Since the r/all parameter is not specified, if an incoming task already exists in Deadline Manager, it is skipped.
+
+[importdemo4]
+.Result of import command with no additional parameters
+[#img-importdemo]
+[caption="Figure 3.10.3: "]
+image::userguide/importdemo_4.PNG[ImportDemo4, width="790"]
+Figure 3.10.3 shows the success message after importing from `cs2101.xml`. As `cs2101.xml` contains a duplicate copy of "CS2101 Oral Presentation", nothing new is imported.
+
 * `import p/"C:\Documents\cs2101.xml" r/all` +
 Imports all tasks from `C:\Documents\cs2101.xml`. Deadline Manager will save all tasks, even if duplicates already exist.
 // end::import[]
