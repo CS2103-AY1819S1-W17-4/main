@@ -36,7 +36,7 @@ For more information and to do a test run, please visit our home page [<a href="
 <p>What it does: It allows the users to order the tasks using a user-defined sort expression. A single sort expression can be composed of multiple comparators, where each comparator is based on a certain attribute(Example - Name, Due Date, Priority) of the task.</p>
 </li>
 <li>
-<p>Justification: This feature is a critical to the Deadline Manager because if a user has lots of deadlines/tasks due and they only want to focus on the most important ones. The sort functionality enables them to view those deadlines which are more important at the top of the list followed by the those which are less important.</p>
+<p>Justification: This feature is critical to the Deadline Manager because if a user has lots of deadlines/tasks due and they only want to focus on the most important ones. The sort functionality enables them to view those deadlines which are more important at the top of the list followed by the those which are less important.</p>
 </li>
 <li>
 <p>Highlights: The sort functionality supports chaining of comparators, which enables the user to fine-tune how they want to order the tasks. Example - If a user has a lot of tasks with the very close due dates, the sort function allows them to first sort by due date and then by priority. This sorts all the tasks by due date first and all those tasks with the same due date are sorted by priority within themselves.</p>
@@ -123,11 +123,11 @@ For more information and to do a test run, please visit our home page [<a href="
 <p>Sorts the lists of all the tasks which the user is currently viewing. Generally meant to be used in combination with <code>filter</code>.<br></p>
 </div>
 <div class="paragraph">
-<p>When this command is used, Deadline Manager will sort all the currently displayed tasks according to the user specified comparison method.<br>
+<p>When this command is used, Deadline Manager will sort all the currently displayed tasks according to the user-specified comparison method.<br>
 Sort comparators are the core of the <code>sort</code> command.  Each sort comparator specifies a particular attribute (Example - <code>name</code>, <code>priority</code>) and a comparison direction, i.e ascending or descending.</p>
 </div>
 <div class="paragraph">
-<p>The entire sorting command is composed of a chain of sort comparators. This chain helps the user to define which tasks to show earlier and which ones to show latter.<br></p>
+<p>The entire sorting command is composed of a chain of sort comparators. This chain helps the user to define which tasks to show earlier and which ones to show later.<br></p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -172,19 +172,19 @@ The sort command results in a stable sort, i.e if two deadlines are equal accord
 <div class="ulist">
 <ul>
 <li>
-<p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared. Comparison is case-insensitive.</p>
+<p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared. The comparison is case-insensitive.</p>
 </li>
 <li>
 <p>When <code>key</code> is <code>d</code> or <code>due</code> or <code>deadline</code>, the task&#8217;s due date is compared.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared. Note that 1 is the highest priority and 4 is the lowest priority.</p>
+<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared. Note that the order is: Priority 1 (highest priority) &gt; Priority 2 &gt; Priority 3 &gt; Priority 4 &gt; Priority 0 (lowest priority).</p>
 </li>
 <li>
 <p>When <code>key</code> is <code>f</code> or <code>frequency</code>, the task&#8217;s frequency (i.e. the number of days between consecutive occurrences of that task) is compared.  A non-recurring task is treated as if it has a frequency of positive infinity.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared. In case <code>&lt;</code> is used, it means <code>TAG1</code> is placed eariler in the sorted order as compared to <code>TAG2</code> and so on. For <code>&gt;</code> it is vice-versa.</p>
+<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared. In case <code>&lt;</code> is used, it means <code>TAG1</code> is placed earlier in the sorted order as compared to <code>TAG2</code> and so on. For <code>&gt;</code> it is vice-versa.</p>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -278,7 +278,7 @@ In case a task does not belong to any of the tags mentioned in the sort comparat
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-In case a task contains more than one tag specified in the sort comparator, then it will be sorted according to those tags first which place it former in the sorted list.
+In case a task contains more than one tag specified in the sort comparator, then it will be sorted according to those tags first which place it formerly in the sorted list.
 </td>
 </tr>
 </table>
@@ -302,13 +302,13 @@ In case a task contains more than one tag specified in the sort comparator, then
 <div class="sect2">
 <h3 id="sort-feature"><a class="link" href="#sort-feature">4.1. Sort feature</a></h3>
 <div class="paragraph">
-<p>The sort command enables the user to sort the tasks currently being shown according to user defined custom comparator.
+<p>The sort command enables the user to sort the tasks currently being shown according to a user-defined custom comparator.
 It is made up of two main components - <code>SortCommandParser</code> and <code>SortCommand</code></p>
 </div>
 <div class="sect3">
 <h4 id="current-implementation"><a class="link" href="#current-implementation">4.1.1. Current Implementation</a></h4>
 <div class="paragraph">
-<p>The sort command is facilitated by <code>VersionedTaskCollection</code>.</p>
+<p>The sort command is facilitated by <code>VersionedTaskCollection</code>.<br></p>
 </div>
 <div class="paragraph">
 <p>The sort command exposes the operation <code>updateSortedTaskList</code> to sort the task list.</p>
@@ -337,26 +337,30 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 <div class="paragraph">
 <p>Given below is a sequence of steps, illustrating the interaction between <code>SortCommandParser</code>, <code>SortCommand</code> and <code>ModelManager</code></p>
 </div>
-<div class="paragraph">
-<p>Step 1. The user executes the sort command with a comparator typed by user.</p>
-</div>
-<div class="paragraph">
-<p>Step 2. The <code>SortCommandParser</code> receives the command with the user comparator given as a string.</p>
-</div>
-<div class="paragraph">
-<p>Step 3. The <code>SortCommandParser</code> parses the string into a valid comparator and calls the <code>SortCommand</code> with this comparator provided.</p>
-</div>
 <div class="imageblock">
 <div class="content">
 <img src="../images/SortOperationSequenceDiagram.png" alt="SortOperationSequenceDiagram" width="800">
 </div>
 <div class="title">Figure 3. Sequence Diagram for executing Sort Command.</div>
 </div>
-<div class="paragraph">
-<p>Step 4. The <code>SortCommand</code> calls the <code>updateSortedTaskList</code> API method of <code>ModelManager</code></p>
-</div>
-<div class="paragraph">
-<p>Step 5. The method <code>updateSortedTaskList</code> sorts the <code>versionTaskCollection</code> using JavaFx sort method</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The user executes the sort command along with providing a user-specified comparator.</p>
+</li>
+<li>
+<p>The <code>SortCommandParser</code> receives the command with the user comparator given as a string.</p>
+</li>
+<li>
+<p>The <code>SortCommandParser</code> parses the string into a valid comparator and calls the <code>SortCommand</code> with this comparator provided.</p>
+</li>
+<li>
+<p>The <code>SortCommand</code> calls the <code>updateSortedTaskList</code> API method of <code>ModelManager</code></p>
+</li>
+<li>
+<p>The method <code>updateSortedTaskList</code> sorts the <code>versionTaskCollection</code> using JavaFx sort method</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect3">
@@ -475,4 +479,4 @@ A <code>NullPointerException</code> is raised in case the <code>SortCommand</cod
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 10:33:40 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 11:28:01 UTC</div></div></div></body></html>

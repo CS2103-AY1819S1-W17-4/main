@@ -174,6 +174,46 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 </div>
 </div>
 </div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Priority Format</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>PRIORITY</code> should only be 0, 1, 2, 3, or 4.</p>
+</li>
+<li>
+<p>Priority 0 denotes a task with no priority (lowest priority).</p>
+</li>
+<li>
+<p>The order is: Priority 1 (highest priority) &gt; Priority 2 &gt; Priority 3 &gt; Priority 4 &gt; Priority 0 (lowest priority).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Frequency Format</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>FREQUENCY</code> should be a non-negative integer between 0 and 999 (number of days betweeen consecutive occurrences of the task).</p>
+</li>
+<li>
+<p>Zero frequency denotes a non-recurring task.</p>
+</li>
+<li>
+<p>Non-zero frequency denotes a recurring task.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="viewing-help-code-help-code"><a class="link" href="#viewing-help-code-help-code">3.1. Viewing help : <code>help</code></a></h3>
 <div class="paragraph">
@@ -212,17 +252,11 @@ Examples of valid dates are:
 <code>DEADLINE</code> is a mandatory parameter.</p>
 </li>
 <li>
-<p><code>PRIORITY</code> should only be 0, 1, 2, 3, or 4.
-Priority 0 denotes a task with no priority (lowest priority).
-The order is: Priority 1 (highest priority) &gt; Priority 2 &gt; Priority 3 &gt; Priority 4 &gt; Priority 0 (lowest priority).
-<code>PRIORITY</code> is an optional parameter.
+<p><code>PRIORITY</code> is an optional parameter.
 If <code>PRIORITY</code> is not given, priority 0 is assumed.</p>
 </li>
 <li>
-<p><code>FREQUENCY</code> should be a non-negative integer between 0 and 999 (number of days).
-Zero frequency denotes a non-recurring task.
-Non-zero frequency denotes a recurring task.
-<code>FREQUENCY</code> is an optional parameter.
+<p><code>FREQUENCY</code> is an optional parameter.
 If <code>FREQUENCY</code> is not given, frequency 0 is assumed.</p>
 </li>
 </ul>
@@ -1364,11 +1398,11 @@ Returns a subset of the current list of tasks that do not have any tags that do 
 <p>Sorts the lists of all the tasks which the user is currently viewing. Generally meant to be used in combination with <code>filter</code>.<br></p>
 </div>
 <div class="paragraph">
-<p>When this command is used, Deadline Manager will sort all the currently displayed tasks according to the user specified comparison method.<br>
+<p>When this command is used, Deadline Manager will sort all the currently displayed tasks according to the user-specified comparison method.<br>
 Sort comparators are the core of the <code>sort</code> command.  Each sort comparator specifies a particular attribute (Example - <code>name</code>, <code>priority</code>) and a comparison direction, i.e ascending or descending.</p>
 </div>
 <div class="paragraph">
-<p>The entire sorting command is composed of a chain of sort comparators. This chain helps the user to define which tasks to show earlier and which ones to show latter.<br></p>
+<p>The entire sorting command is composed of a chain of sort comparators. This chain helps the user to define which tasks to show earlier and which ones to show later.<br></p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1413,19 +1447,19 @@ The sort command results in a stable sort, i.e if two deadlines are equal accord
 <div class="ulist">
 <ul>
 <li>
-<p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared. Comparison is case-insensitive.</p>
+<p>When <code>key</code> is <code>n</code> or <code>name</code>, the task name is compared. The comparison is case-insensitive.</p>
 </li>
 <li>
 <p>When <code>key</code> is <code>d</code> or <code>due</code> or <code>deadline</code>, the task&#8217;s due date is compared.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared. Note that 1 is the highest priority and 4 is the lowest priority.</p>
+<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared. Note that the order is: Priority 1 (highest priority) &gt; Priority 2 &gt; Priority 3 &gt; Priority 4 &gt; Priority 0 (lowest priority).</p>
 </li>
 <li>
 <p>When <code>key</code> is <code>f</code> or <code>frequency</code>, the task&#8217;s frequency (i.e. the number of days between consecutive occurrences of that task) is compared.  A non-recurring task is treated as if it has a frequency of positive infinity.</p>
 </li>
 <li>
-<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared. In case <code>&lt;</code> is used, it means <code>TAG1</code> is placed eariler in the sorted order as compared to <code>TAG2</code> and so on. For <code>&gt;</code> it is vice-versa.</p>
+<p>When <code>key</code> is <code>t</code> or <code>tag</code>, the task&#8217;s tags are compared. In case <code>&lt;</code> is used, it means <code>TAG1</code> is placed earlier in the sorted order as compared to <code>TAG2</code> and so on. For <code>&gt;</code> it is vice-versa.</p>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1519,7 +1553,7 @@ In case a task does not belong to any of the tags mentioned in the sort comparat
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-In case a task contains more than one tag specified in the sort comparator, then it will be sorted according to those tags first which place it former in the sorted list.
+In case a task contains more than one tag specified in the sort comparator, then it will be sorted according to those tags first which place it formerly in the sorted list.
 </td>
 </tr>
 </table>
@@ -2352,4 +2386,4 @@ e.g. <code>sort due&lt; name&gt;</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 10:33:40 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 11:28:01 UTC</div></div></div></body></html>
