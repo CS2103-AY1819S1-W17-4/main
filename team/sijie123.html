@@ -13,10 +13,7 @@
 <h2 id="overview"><a class="link" href="#overview">1. Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Deadline Manager is an easy-to-use application to assist students in managing deadlines. Interacting through a Command Line Interface (CLI), users can easily manage their schedules and focus on what is most important.</p>
-</div>
-<div class="paragraph">
-<p>Deadline Manager is written in Java and builds upon AddressBook Level 4, a code base originally designed to teach Software Engineering principles. For more information and to take our project for a test run, please visit our home page [<a href="https://cs2103-ay1819s1-w17-4.github.io/main">on GitHub</a>].</p>
+<p>Deadline Manager is an easy-to-use application to assist students in managing deadlines. Interacting through a Command Line Interface (CLI), users can easily manage their schedules and focus on what is most important. Deadline Manager is written in Java and builds upon AddressBook Level 4, a code base originally designed to teach Software Engineering principles. For more information and to take our project for a test run, please visit our home page [<a href="https://cs2103-ay1819s1-w17-4.github.io/main">on GitHub</a>].</p>
 </div>
 </div>
 </div>
@@ -30,13 +27,23 @@
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: This feature allows users to export a selection of tasks to a file. This file can be shared with friends, who can then import it to their own Deadline Manager. Furthermore, users can export their tasks as Comma Separated Values (CSV) format, which is compatible with other major Calendar applications. This enables users to switch seamlessly to various services such as Google Calendar.</p>
+<p>What it does: This feature allows users to export a selection of tasks to a file. This file can be shared with friends, who can then import it to their own Deadline Manager. Furthermore, users can export their tasks as Comma Separated Values (CSV) format, which is compatible with other major Calendar applications.</p>
 </li>
 <li>
 <p>Justification: This feature is essential to our Deadline Manager. Our Deadline Manager is targeted at users within NUS School of Computing. As most assignments/deadlines are common to the entire module, the ability to import/export tasks is essential as it allows students to share and remind each other of their schedules. Furthermore, even professors can make use of the import/export feature to update and remind students of upcoming assessments. The ability to export as CSV format further improves the user experience, as users can switch seamlessly to other major Calendar services such as Google Calendar.</p>
 </li>
 <li>
-<p>Highlights: The challenges and highlights for this enhancement comes mainly from 2 areas: Firstly, as the File System is involved, it is necessary to consider and account for how the different Operating Systems conduct file operations. Extensive testing is required to ensure correctness. Secondly, the many use-cases for this feature poses a significant design consideration to ensure optimal user experience. For example, it is likely that users may end up importing tasks that are duplicate. To cater to the different use cases, an entire ImportConflictResolver class is implemented to provide flexibility and simplicity for the user when importing.</p>
+<p>Highlights:</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>As the File System is involved, it is necessary to consider and account for how the different Operating Systems conduct file operations. Extensive testing is required to ensure correctness.</p>
+</li>
+<li>
+<p>Significant design consideration is required to ensure optimal user experiences are there are many potential usage scenarios. For example, it is likely that users may import duplicate tasks. To cater to the different scenarios, an entire ImportConflictResolver class is implemented to provide flexibility and simplicity for the user when importing.</p>
+</li>
+</ol>
+</div>
 </li>
 <li>
 <p>Credits: The resource at <a href="https://support.google.com/calendar/answer/37118?hl=en">CSV format compatible with Google Calendar</a> provides specifications for exporting in CSV format.</p>
@@ -72,7 +79,7 @@
 <p>Set up project repository and labels for Issue Tracker.</p>
 </li>
 <li>
-<p>Managed releases <code>v1.2</code> and <code>v1.3</code> on GitHub</p>
+<p>Managed releases <code>v1.2</code>, <code>v1.3</code> and <code>v1.4</code> on GitHub</p>
 </li>
 <li>
 <p>Contributed to user stories on GitHub Issue Tracker: <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/1">#1</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/2">#2</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/3">#3</a>, <a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/4">#4</a></p>
@@ -92,6 +99,9 @@
 </li>
 <li>
 <p>Refactored unit test for <code>AddCommandTest</code> by creating  <code>ModelStub</code>, a class containing scaffolding code common to other types of <code>CommandTest</code>.</p>
+</li>
+<li>
+<p>Fixed indentation to align coding style with OSS Style Guide: <a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/315">#315</a></p>
 </li>
 </ul>
 </div>
@@ -178,7 +188,7 @@
 <p>If the <code>csv</code> option is specified, Deadline Manager will export tasks in CSV format. Otherwise, by default, it will export in XML format.</p>
 </li>
 <li>
-<p><code>FILEPATH</code> refers to a location on your computer, and the <code>FILEPATH</code> provided should be enclosed within quotes (<code>"</code>). You may provide a relative location (<code>tasks.xml</code>) or an absolute location (<code>C:\Folder\tasks.xml</code>). Deadline Manager will attempt to export to the specified location.</p>
+<p><code>FILEPATH</code> refers to a location on your computer, and the <code>FILEPATH</code> provided should be enclosed within quotes (<code>"</code>). You may provide a relative location (<code>tasks.xml</code>) or an absolute location (<code>C:\Folder\tasks.xml</code>) for Deadline Manager to export to.</p>
 </li>
 </ul>
 </div>
@@ -272,7 +282,7 @@ Creates and exports tasks to <code>cs2103.txt</code> in the <code>C:\Documents</
 <div class="ulist">
 <ul>
 <li>
-<p><code>FILEPATH</code> refers to a location on your computer, and the <code>FILEPATH</code> provided should be enclosed within quotes (<code>"</code>). You may provide a relative location (<code>tasks.xml</code>) or an absolute location (<code>C:\Folder\tasks.xml</code>). Deadline Manager will attempt to import from the specified location.</p>
+<p><code>FILEPATH</code> refers to a location on your computer, and the <code>FILEPATH</code> provided should be enclosed within quotes (<code>"</code>). You may provide a relative location (<code>tasks.xml</code>) or an absolute location (<code>C:\Folder\tasks.xml</code>), for Deadline Manager to export to.</p>
 </li>
 </ul>
 </div>
@@ -371,10 +381,10 @@ Imports all tasks from <code>cs2101.xml</code>. Deadline Manager will save all t
 <div class="title">Figure 3.10.1: Importing from XML, keeping duplicate tasks</div>
 </div>
 <div class="paragraph">
-<p>In Figure 3.10.1 (left), we assume that the user has previously exported to <code>cs2101.xml</code>. <code>cs2101.xml</code> contains another copy of "CS2101 Oral Presentation". The user now attempts to import from <code>cs2101.xml</code>.</p>
+<p>In Figure 3.10.1 (left), we assume that the user has previously exported to <code>cs2101.xml</code>, which contains another copy of "CS2101 Oral Presentation". The user now attempts to import from <code>cs2101.xml</code>.</p>
 </div>
 <div class="paragraph">
-<p>The result of the import is shown in Figure 3.10.1 (right). Since the r/all command is used, both copies of "CS2101 Oral Presentation" are saved.</p>
+<p>The result of the import is shown in Figure 3.10.1 (right). Since the <code>r/all</code> command is used, both copies of "CS2101 Oral Presentation" are saved.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -571,7 +581,7 @@ If the user attempts to import a new conflicting task, Deadline Manager de-confl
 <p>Step 2. <code>ModelManager</code> retrieves the TaskCollection data, and for each task, <code>ModelManager</code> checks whether the task already exists in the Model.</p>
 </div>
 <div class="paragraph">
-<p>Step 3a. If the task already exists, the functional method <code>resolve(() &#8594; add(), () &#8594; delete(), task)</code> of <code>OverwriteImportConflictResolver</code> is invoked. The Functional Programming style is used here, and ModelManager passes a reference to its <code>add</code> and <code>delete</code> methods.</p>
+<p>Step 3a. If the task already exists, the functional method <code>resolve(() &#8594; add(), () &#8594; delete(), task)</code> is invoked. The Functional Programming style is used here, and ModelManager passes a reference to its <code>add</code> and <code>delete</code> methods.</p>
 </div>
 <div class="paragraph">
 <p>Step 3b. <code>OverwriteImportConflictResolver</code> will first <code>delete()</code> the existing task, before it calls <code>add()</code> on the new one. This behaviour is specific to <code>OverwriteImportConflictResolver</code>. A <code>DuplicateImportConflictResolver</code> will simply add the new entry, while a <code>IgnoreImportConflictResolver</code> will do nothing.</p>
@@ -696,4 +706,4 @@ Due to limited space in the PPP, an aspect on supporting different file formats 
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 13:57:41 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:02:56 UTC</div></div></div></body></html>

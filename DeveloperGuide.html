@@ -1367,7 +1367,7 @@ If the user attempts to import a new conflicting task, Deadline Manager de-confl
 <p>Step 2. <code>ModelManager</code> retrieves the TaskCollection data, and for each task, <code>ModelManager</code> checks whether the task already exists in the Model.</p>
 </div>
 <div class="paragraph">
-<p>Step 3a. If the task already exists, the functional method <code>resolve(() &#8594; add(), () &#8594; delete(), task)</code> of <code>OverwriteImportConflictResolver</code> is invoked. The Functional Programming style is used here, and ModelManager passes a reference to its <code>add</code> and <code>delete</code> methods.</p>
+<p>Step 3a. If the task already exists, the functional method <code>resolve(() &#8594; add(), () &#8594; delete(), task)</code> is invoked. The Functional Programming style is used here, and ModelManager passes a reference to its <code>add</code> and <code>delete</code> methods.</p>
 </div>
 <div class="paragraph">
 <p>Step 3b. <code>OverwriteImportConflictResolver</code> will first <code>delete()</code> the existing task, before it calls <code>add()</code> on the new one. This behaviour is specific to <code>OverwriteImportConflictResolver</code>. A <code>DuplicateImportConflictResolver</code> will simply add the new entry, while a <code>IgnoreImportConflictResolver</code> will do nothing.</p>
@@ -4828,4 +4828,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 13:57:41 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:02:56 UTC</div></div></div></body></html>
