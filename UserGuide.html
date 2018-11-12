@@ -436,7 +436,16 @@ Filter predicates are indivisible because each filter predicate represents a sin
 <div class="sect3">
 <h4 id="simplified-filter-syntax"><a class="link" href="#simplified-filter-syntax">3.6.2. Simplified filter syntax</a></h4>
 <div class="paragraph">
-<p>Tasks can be filtered by typing <code>filter</code> followed by one or more space-separated keywords (e.g. <code>filter homework</code>, <code>filter assignment CS2103</code>, or <code>filter badminton utown 3/10/2018</code>).  Such a filter expression would display only those tasks that contain textual or date fields (i.e. name, deadline, tags, and attachments) that matches <strong>every</strong> keyword (e.g. <code>filter assignment CS2103</code> will match a task with name <code>Assignment 1</code> <strong>and</strong> tags <code>CS2103</code> and <code>easy</code>).</p>
+<p>Tasks can be filtered by typing <code>filter</code> followed by one or more space-separated keywords (e.g. <code>filter assignment</code>, <code>filter homework CS2103</code>, or <code>filter badminton utown 3/10/2018</code>).  Such a filter expression would display only those tasks that contain textual or date fields (i.e. name, deadline, tags, and attachments) that matches <strong>every</strong> keyword (e.g. <code>filter homework CS2103</code> will match a task with name <code>Homework 1</code> <strong>and</strong> tags <code>CS2103</code> and <code>easy</code>).</p>
+</div>
+<div class="paragraph">
+<p>The following screenshot is an example to demonstrate that any field may be matched:</p>
+</div>
+<div id="img-filterdemo_simplified" class="imageblock">
+<div class="content">
+<img src="images/userguide/filterdemo_simplified.png" alt="FilterDemo_Simplified" width="300">
+</div>
+<div class="title">Figure 3.6.2.1: Result of <code>filter assignment</code> command (notice that the keyword "assignment" matches task name, tags, and attachments)</div>
 </div>
 <div class="paragraph">
 <p>Numeric fields such as priority and frequency are not matched because the integer values used for priority and frequency often match many task names and tags too.  To filter by priority and frequency, the field must be specified explicitly (see <a href="#controlling-the-field-being-matched">Section 3.6.3, &#8220;Controlling the field being matched&#8221;</a> below).</p>
@@ -483,19 +492,19 @@ An unquoted keyword can contain only alphanumeric characters, <code>_</code>, <c
 <ul>
 <li>
 <p><code>filter homework</code>
-Returns a subset of the current list of tasks that have a name or tag list that contains "homework".  Note that "homework" cannot be interpreted as a valid date, so the deadline field is ignored.</p>
+Returns a subset of the current list of tasks that have a name, tag, or attachment that matches "homework".  Note that "homework" cannot be interpreted as a valid date, so the deadline field is ignored.</p>
 </li>
 <li>
 <p><code>filter assignment CS2103</code>
-Returns a subset of the current list of tasks that have a name or tag list that contains "assignment" and a name or tag list that contains "CS2103".  Note that neither "assignment" or "CS2103" can be interpreted as a valid date, so the deadline field is ignored for both keywords.</p>
+Returns a subset of the current list of tasks that have a name, tag, or attachment that matches "assignment" and a name, tag, or attachment that matches "CS2103".  Note that neither "assignment" or "CS2103" can be interpreted as a valid date, so the deadline field is ignored for both keywords.</p>
 </li>
 <li>
 <p><code>filter badminton utown 3/10/2018</code>
-Returns a subset of the current list of tasks that have a name or tag list that contains "badminton", a name or tag list that contains "utown", and a name, tag list, or deadline that matches "3/10/2018".  Note that any deadline on or before 3 October 2018 will match "3/10/2018".</p>
+Returns a subset of the current list of tasks that have a name, tag, or attachment that matches "badminton"; a name, tag, or attachment that matches "utown"; and a name, tag, attachment, or deadline that matches "3/10/2018".  Note that any deadline on or before 3<sup>rd</sup> October 2018 will match "3/10/2018".</p>
 </li>
 <li>
 <p><code>filter 1/10/2018</code>
-Returns a subset of the current list of tasks that have a name, tag list, or deadline on or before 1st October 2018.</p>
+Returns a subset of the current list of tasks that have a name, tag, attachment, or deadline that matches "3/10/2018".  Note that any deadline on or before 1<sup>st</sup> October 2018 will match "1/10/2018".</p>
 </li>
 </ul>
 </div>
@@ -1114,6 +1123,18 @@ Intuitively, the syntax for filter expressions mirrors that of arithmetic expres
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In the examples below, when we say that a task <em>has</em> a test phrase, we mean that the task has a name, tag, or attachment that contains the test phrase as a substring.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Examples:</p>
 </div>
@@ -1121,12 +1142,27 @@ Intuitively, the syntax for filter expressions mirrors that of arithmetic expres
 <ul>
 <li>
 <p><code>filter assignment|CS2101</code>
-Returns a subset of the current list of tasks that have a name or tag list that contains "assignment" or "CS2101".</p>
+Returns a subset of the current list of tasks that has "assignment" or "CS2101".</p>
 </li>
 <li>
 <p><code>filter ! t:CS2101</code>
 Returns a subset of the current list of tasks that do not have the tag "CS2101".</p>
 </li>
+<li>
+<p><code>filter cs &amp; ((present &amp; f=7) | meeting)</code>
+Returns a subset of the current list of tasks that has "cs" and either (1) has "present" and repeats exactly once a week, or (2) has "meeting".<br>
+The following screenshot is an example of a list of tasks that could be displayed by the above example:</p>
+</li>
+</ul>
+</div>
+<div id="img-filterdemo_complex" class="imageblock">
+<div class="content">
+<img src="images/userguide/filterdemo_complex.png" alt="FilterDemo_Complex" width="300">
+</div>
+<div class="title">Figure 3.6.4.1: Result of <code>filter cs &amp; ((present &amp; f=7) | meeting)</code> command</div>
+</div>
+<div class="ulist">
+<ul>
 <li>
 <p><code>filter n:assignment | (p:3 &amp; t:CS2101)</code>
 Returns a subset of the current list of tasks that have a name that contains "assignment", or have priority at least 3 and contains tag "CS2101".</p>
@@ -1292,6 +1328,33 @@ Returns a subset of the current list of tasks that has the tag "CS2103T" (case-i
 Returns a subset of the current list of tasks that do not have any tags that do not contain the substring "CS" (case-insensitive).  The task need not have any tags that contain the substring "CS", and it could have no tags at all.  This is usually used in conjunction with other filter predicates to constrain the filtered list to be exported.</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="error-messages"><a class="link" href="#error-messages">3.6.6. Error messages</a></h4>
+<div class="paragraph">
+<p>As filter expressions can be made arbitrarily complex, the filter command is also designed to provide comprehensive error messages that will help you to pinpoint any errors.</p>
+</div>
+<div class="paragraph">
+<p>When an error is encountered, a copy of the filter expression will be displayed, with the error underlined and coloured in red, so that it becomes easier to identify the error.  A relevant error message will also be displayed.</p>
+</div>
+<div class="paragraph">
+<p>There are a total of around <strong>15 different types</strong> of error messages.</p>
+</div>
+<div class="paragraph">
+<p>The following screenshots show two possible errors and the displayed result:</p>
+</div>
+<div id="img-filterdemo_error1" class="imageblock">
+<div class="content">
+<img src="images/userguide/filterdemo_error1.png" alt="FilterDemo_Error1" width="400">
+</div>
+<div class="title">Figure 3.6.6.1: Possible error result #1</div>
+</div>
+<div id="img-filterdemo_error2" class="imageblock">
+<div class="content">
+<img src="images/userguide/filterdemo_error2.png" alt="FilterDemo_Error2" width="400">
+</div>
+<div class="title">Figure 3.6.6.2: Possible error result #2</div>
 </div>
 </div>
 </div>
@@ -2297,4 +2360,4 @@ e.g. <code>sort due&lt; name&gt;</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 09:06:54 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 09:26:45 UTC</div></div></div></body></html>

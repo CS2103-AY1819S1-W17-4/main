@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>Deadline Manager - User Guide</title><link rel="stylesheet" href="stylesheets/gh-pages.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="header"><h1>Deadline Manager - User Guide</h1></div><div id="content"><div id="preamble">
+<link rel="stylesheet" href="stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="index.html">DeadlineManager</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link active" href="UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link" href="DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link" href="AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/CS2103-AY1819S1-W17-4/main"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>Deadline Manager - User Guide</h1></div><div id="content"><div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
 <p>By: <a href="AboutUs.html">CS2103-AY1819S1-W17-4</a>      Since: <code>Sep 2018</code>      Licence: <code>MIT</code></p>
@@ -411,6 +411,12 @@ When executing any <em>modifying</em> commands on a filtered list, the filter wi
 </div>
 <div class="sect3">
 <h4 id="overview"><a class="link" href="#overview">3.6.1. Overview</a></h4>
+<div class="imageblock" style="float: right">
+<div class="content">
+<img src="images/userguide/filterdemo_simplified.png" alt="FilterDemo_Simplified" width="300">
+</div>
+<div class="title">Figure 1. Screenshot of simplified filter syntax</div>
+</div>
 <div class="paragraph">
 <p>Filter predicates are the core of the <code>filter</code> command.  Each filter predicate specifies a testable condition that, for every task, may evaluate to either <code>true</code> or <code>false</code> (e.g. whether the deadline is earlier than 1/10/2018).  Filter predicates are regarded as "indivisible".</p>
 </div>
@@ -439,13 +445,7 @@ Filter predicates are indivisible because each filter predicate represents a sin
 <p>Tasks can be filtered by typing <code>filter</code> followed by one or more space-separated keywords (e.g. <code>filter assignment</code>, <code>filter homework CS2103</code>, or <code>filter badminton utown 3/10/2018</code>).  Such a filter expression would display only those tasks that contain textual or date fields (i.e. name, deadline, tags, and attachments) that matches <strong>every</strong> keyword (e.g. <code>filter homework CS2103</code> will match a task with name <code>Homework 1</code> <strong>and</strong> tags <code>CS2103</code> and <code>easy</code>).</p>
 </div>
 <div class="paragraph">
-<p>The following screenshot is an example to demonstrate that any field may be matched:</p>
-</div>
-<div id="img-filterdemo_simplified" class="imageblock">
-<div class="content">
-<img src="images/userguide/filterdemo_simplified.png" alt="FilterDemo_Simplified" width="300">
-</div>
-<div class="title">Figure 3.6.2.1: Result of <code>filter assignment</code> command (notice that the keyword "assignment" matches task name, tags, and attachments)</div>
+<p>The screenshot on the right is an example to demonstrate that any field may be matched.</p>
 </div>
 <div class="paragraph">
 <p>Numeric fields such as priority and frequency are not matched because the integer values used for priority and frequency often match many task names and tags too.  To filter by priority and frequency, the field must be specified explicitly (see <a href="#controlling-the-field-being-matched">Section 3.6.3, &#8220;Controlling the field being matched&#8221;</a> below).</p>
@@ -511,13 +511,14 @@ Returns a subset of the current list of tasks that have a name, tag, attachment,
 </div>
 <div class="sect3">
 <h4 id="controlling-the-field-being-matched"><a class="link" href="#controlling-the-field-being-matched">3.6.3. Controlling the field being matched</a></h4>
-<div class="paragraph">
-<p>Each keyword can instead be written as a <em>full predicate</em>, which is a string of the following format: <code>&lt;key&gt;&lt;operator&gt;&lt;phrase&gt;</code>. The following diagram is an example of a typical full predicate:</p>
-</div>
-<div class="imageblock">
+<div class="imageblock thumb right">
 <div class="content">
-<img src="images/FilterUnitDiagramUG.png" alt="FilterUnitDiagramUG" width="200">
+<img src="images/FilterUnitDiagramUG.png" alt="FilterUnitDiagramUG" width="120">
 </div>
+<div class="title">Figure 2. Filter unit format</div>
+</div>
+<div class="paragraph">
+<p>Each keyword can instead be written as a <em>full predicate</em>, which is a string of the following format: <code>&lt;key&gt;&lt;operator&gt;&lt;phrase&gt;</code>. The diagram on the right is an example of a typical full predicate.</p>
 </div>
 <div class="paragraph">
 <p>Each of the three parts of a full predicate means the following:</p>
@@ -1180,13 +1181,14 @@ Returns a subset of the current list of tasks that have a name that does not con
 </div>
 <div class="sect3">
 <h4 id="set-based-extensions-for-filter-predicates"><a class="link" href="#set-based-extensions-for-filter-predicates">3.6.5. Set-based extensions for filter predicates</a></h4>
-<div class="paragraph">
-<p>For fields that represent a collection (i.e. tags and attachments), it is also possible to filter only tasks which <strong>do not contain</strong> other tags or attachments apart from those specified.  To do so, we introduce a set operator as per the diagram below:</p>
-</div>
-<div class="imageblock">
+<div class="imageblock thumb right">
 <div class="content">
-<img src="images/FilterUnitDiagramSetUG.png" alt="FilterUnitDiagramSetUG" width="250">
+<img src="images/FilterUnitDiagramSetUG.png" alt="FilterUnitDiagramSetUG" width="150">
 </div>
+<div class="title">Figure 3. Filter unit format (set-based)</div>
+</div>
+<div class="paragraph">
+<p>For fields that represent a collection (i.e. tags and attachments), it is also possible to filter only tasks which <strong>do not contain</strong> other tags or attachments apart from those specified.  To do so, we introduce a set operator as per the diagram on the right.</p>
 </div>
 <div class="paragraph">
 <p>The part that was called <code>operator</code> previously is called the <code>field operator</code> here, and it retains its original meaning.  The <code>set operator</code> introduced here specifies how the specified set (in the filter predicate) compares to the task&#8217;s set (of tags or attachments).</p>
@@ -1220,76 +1222,11 @@ When comparing a set-based field without using this dual-operator syntax, the se
 <div class="paragraph">
 <p>Examples to demonstrate each operator type (using the tag field):</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col>
-<col>
-<col>
-<col>
-<col>
-<col>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Task tags</th>
-<th class="tableblock halign-left valign-top">Test phrase</th>
-<th class="tableblock halign-left valign-top">Matches "&gt;:"</th>
-<th class="tableblock halign-left valign-top">Matches "=:"</th>
-<th class="tableblock halign-left valign-top">Matches "&lt;:"</th>
-<th class="tableblock halign-left valign-top">Matches "::"</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CS2103</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CS2103,homework,easy</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CS2103</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CS2103,homework</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cs2103</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">easy,CS2103,homework</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cs</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-</tbody>
-</table>
+<div class="imageblock">
+<div class="content">
+<img src="images/userguide/filter_set_example.png" alt="filter set example" width="800">
+</div>
+</div>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -1344,17 +1281,11 @@ Returns a subset of the current list of tasks that do not have any tags that do 
 <div class="paragraph">
 <p>The following screenshots show two possible errors and the displayed result:</p>
 </div>
-<div id="img-filterdemo_error1" class="imageblock">
+<div class="imageblock">
 <div class="content">
-<img src="images/userguide/filterdemo_error1.png" alt="FilterDemo_Error1" width="400">
+<img src="images/userguide/filterdemo_error_combined.png" alt="FilterDemo_Combined" width="800">
 </div>
-<div class="title">Figure 3.6.6.1: Possible error result #1</div>
-</div>
-<div id="img-filterdemo_error2" class="imageblock">
-<div class="content">
-<img src="images/userguide/filterdemo_error2.png" alt="FilterDemo_Error2" width="400">
-</div>
-<div class="title">Figure 3.6.6.2: Possible error result #2</div>
+<div class="title">Figure 4. Screenshots displaying errors in the filter expression</div>
 </div>
 </div>
 </div>
@@ -1460,11 +1391,11 @@ Sorts the current list of tasks in view in descending order by name, where sorti
 </li>
 </ul>
 </div>
-<div class="imageblock">
+<div id="img-sortdemo1" class="imageblock">
 <div class="content">
 <img src="images/userguide/sortdemo_1.png" alt="SortDemo1" width="900">
 </div>
-<div class="title">Figure 1. Result of "sort n&lt;" command</div>
+<div class="title">Figure 3.10.1: Result of "sort n&lt;" command</div>
 </div>
 <div class="ulist">
 <ul>
@@ -1491,14 +1422,14 @@ This is invalid syntax since the curly braces have not been closed.<br></p>
 </li>
 </ul>
 </div>
-<div class="imageblock">
+<div id="img-sortdemo2" class="imageblock">
 <div class="content">
 <img src="images/userguide/sortdemo_2.png" alt="SortDemo1" width="600">
 </div>
-<div class="title">Figure 2. Result of "sort n&lt; tag&lt;{" command</div>
+<div class="title">Figure 3.10.2: Result of "sort n&lt; tag&lt;{" command</div>
 </div>
 <div class="paragraph">
-<p>The above figure shows the error message when user feeds in an invalid command.</p>
+<p>Figure 3.10.2 above shows the error message when user feeds in an invalid command.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1810,15 +1741,21 @@ Creates and exports tasks to <code>cs2101.xml</code> in the same folder as Deadl
 </div>
 <div id="img-exportdemo1" class="imageblock">
 <div class="content">
-<img src="images/userguide/exportScreenshot_1.png" alt="ExportDemo" width="790">
+<img src="images/userguide/exportdemo_1.PNG" alt="ExportDemo" width="790">
 </div>
-<div class="title">Figure 3.9.1: A successful export command</div>
-</div>
-<div class="paragraph">
-<p>Figure 3.9.1 (left) shows the sequence of events, starting from when the user enters the <code>export p/cs2101.xml</code> command into the command box.</p>
+<div class="title">Figure 3.9.1: Command box.</div>
 </div>
 <div class="paragraph">
-<p>Figure 3.9.1 (right) shows Deadline Manager exporting the file and displaying a success message. The exported file is located at cs2101.xml in the same folder, and contains the tasks displayed in the deadline manager, namely "CS2101 Oral Presentation" in the screenshot above.</p>
+<p>In Figure 3.9.1 above, the user enters the <code>export p/cs2101.xml</code> command into the command box.</p>
+</div>
+<div id="img-exportdemo2" class="imageblock">
+<div class="content">
+<img src="images/userguide/exportdemo_2.png" alt="ExportDemo2" width="790">
+</div>
+<div class="title">Figure 3.9.2: Result of export command</div>
+</div>
+<div class="paragraph">
+<p>In Figure 3.9.2 above, after the user presses enter, Deadline Manager exports the file and display a success message. The exported file is located at cs2101.xml, and contains the tasks displayed in the deadline manager, namely "CS2101 Oral Presentation" in the screenshot above.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1831,12 +1768,12 @@ Fails and returns an error as <code>cs2101.txt</code> already exists when the se
 </div>
 <div id="img-exportdemo3" class="imageblock">
 <div class="content">
-<img src="images/userguide/exportScreenshot_2.png" alt="ExportDemo3" width="790">
+<img src="images/userguide/exportdemo_3.png" alt="ExportDemo3" width="790">
 </div>
-<div class="title">Figure 3.9.2: Export error message</div>
+<div class="title">Figure 3.9.3: Sample error message</div>
 </div>
 <div class="paragraph">
-<p>Figure 3.9.2 shows the error message when the user attempts to <code>export p/cs2101.txt</code> for the second time. Since the file <code>cs2101.txt</code> already exists, Deadline Manager will not overwrite any existing file so as to protect your data.</p>
+<p>Figure 3.9.3 above shows the error message when the user attempts to export to a file that already exists. Deadline Manager will not overwrite any existing file so as to protect your data.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1968,34 +1905,37 @@ Imports all tasks from <code>cs2101.xml</code>. Deadline Manager will save all t
 </li>
 </ul>
 </div>
-<div id="img-importdemo" class="imageblock">
+<div id="img-importdemo2" class="imageblock">
 <div class="content">
-<img src="images/userguide/importScreenshot_1.png" alt="ImportDemo" width="790">
+<img src="images/userguide/importdemo_2.png" alt="ImportDemo2" width="790">
 </div>
-<div class="title">Figure 3.10.1: Importing from XML, keeping duplicate tasks</div>
-</div>
-<div class="paragraph">
-<p>In Figure 3.10.1 (left), we assume that the user has previously exported to <code>cs2101.xml</code>. <code>cs2101.xml</code> contains another copy of "CS2101 Oral Presentation". The user now attempts to import from <code>cs2101.xml</code>.</p>
+<div class="title">Figure 3.10.1: User prepares to import from cs2101.xml</div>
 </div>
 <div class="paragraph">
-<p>The result of the import is shown in Figure 3.10.1 (right). Since the r/all command is used, both copies of "CS2101 Oral Presentation" are saved.</p>
+<p>In Figure 3.10.1, we assume that the user has previously exported to <code>cs2101.xml</code>. <code>cs2101.xml</code> contains another copy of "CS2101 Oral Presentation". The user now attempts to import from <code>cs2101.xml</code>.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>import p/cs2101.xml</code><br>
+<div id="img-importdemo3" class="imageblock">
+<div class="content">
+<img src="images/userguide/importdemo_3.png" alt="ImportDemo3" width="790">
+</div>
+<div class="title">Figure 3.10.2: Result of import command with the r/all command</div>
+</div>
+<div class="paragraph">
+<p>Figure 3.10.2 shows the success message after importing from cs2101.xml. Note that, as the r/all command is used, both copies of "CS2101 Oral Presentation" are saved.</p>
+</div>
+<div class="paragraph">
+<p>*
+<code>import p/cs2101.xml</code><br>
 Imports all tasks from <code>cs2101.xml</code>. Since the r/all parameter is not specified, if an incoming task already exists in Deadline Manager, it is skipped.</p>
-</li>
-</ul>
 </div>
 <div id="img-importdemo" class="imageblock">
 <div class="content">
-<img src="images/userguide/importScreenshot_2.png" alt="ImportDemo4" width="790">
+<img src="images/userguide/importdemo_4.PNG" alt="ImportDemo4" width="790">
 </div>
-<div class="title">Figure 3.10.2: Result of import command with no parameters</div>
+<div class="title">Figure 3.10.3: Result of import command with no additional parameters</div>
 </div>
 <div class="paragraph">
-<p>Figure 3.10.2 shows the success message after importing from <code>cs2101.xml</code>. By default, duplicate entries are skipped. Since <code>cs2101.xml</code> contains a duplicate copy of "CS2101 Oral Presentation", nothing new is imported.</p>
+<p>Figure 3.10.3 shows the success message after importing from <code>cs2101.xml</code>. As <code>cs2101.xml</code> contains a duplicate copy of "CS2101 Oral Presentation", nothing new is imported.</p>
 </div>
 <div class="ulist">
 <ul>

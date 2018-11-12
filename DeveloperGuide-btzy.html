@@ -1800,7 +1800,7 @@ The second component in the list above also accepts a filter unit that contains 
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/FilterOperationSequenceDiagram.png" alt="FilterOperationSequenceDiagram" width="800">
+<img src="images/FilterOperationSequenceDiagram.png" alt="FilterOperationSequenceDiagram" width="500">
 </div>
 <div class="title">Figure 19. Sequence diagram for parsing a filter command (for non-set-based fields)</div>
 </div>
@@ -1947,13 +1947,19 @@ The <code>StringTokenizer</code> class is also used in two other places&#8201;&#
 <div class="paragraph">
 <p>There are three possible ways to express a filter unit:</p>
 </div>
+<div class="imageblock" style="float: right">
+<div class="content">
+<img src="images/FilterUnitDiagram.png" alt="FilterUnitDiagram" width="200">
+</div>
+<div class="title">Figure 20. Structure of a filter unit</div>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>The full syntax&#8201;&#8212;&#8201;this allows for specifying the field for comparison and the method of comparison to be used</p>
+<p>The full syntax&#8201;&#8212;&#8201;this allows for specifying the field for comparison and the method of comparison used</p>
 </li>
 <li>
-<p>The extended full syntax for sets&#8201;&#8212;&#8201;this is like the full syntax, but enhanced with a way to specify how to compare sets</p>
+<p>The extended full syntax for sets&#8201;&#8212;&#8201;this is enhanced to specify how to compare sets</p>
 </li>
 <li>
 <p>The simplified syntax&#8201;&#8212;&#8201;this improves terseness and reduces cognitive overhead</p>
@@ -1961,13 +1967,7 @@ The <code>StringTokenizer</code> class is also used in two other places&#8201;&#
 </ol>
 </div>
 <div class="paragraph">
-<p>The following diagram describes a filter unit that is specified using the full syntax:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/FilterUnitDiagram.png" alt="FilterUnitDiagram" width="200">
-</div>
-<div class="title">Figure 20. Structure of a filter unit that uses the full syntax</div>
+<p>The diagram on the right describes a filter unit that is specified using the full syntax.</p>
 </div>
 <div class="paragraph">
 <p>The following diagram describes a filter unit that is specified using the extended full syntax for sets:</p>
@@ -2014,7 +2014,7 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/FilterUnitActivityDiagram.png" alt="FilterUnitActivityDiagram" width="800">
+<img src="images/FilterUnitActivityDiagram.png" alt="FilterUnitActivityDiagram" width="600">
 </div>
 <div class="title">Figure 22. Activity diagram for parsing a filter unit</div>
 </div>
