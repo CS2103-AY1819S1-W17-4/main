@@ -308,7 +308,7 @@ Lists all attachments currently associated with the 1st task in the deadline man
 </div>
 <div id="img-qnafilepath1" class="imageblock">
 <div class="content">
-<img src="../images/userguide/qna_filepath_1.png" alt="QnAFilepath1" width="600">
+<img src="../images/userguide/qna_filepath_1.png" alt="QnAFilepath1" width="500">
 </div>
 <div class="title">Figure 4.1: <code>Copy path</code> button within the <code>File Explorer</code> application</div>
 </div>
@@ -443,23 +443,121 @@ Lists all attachments currently associated with the 1st task in the deadline man
 </li>
 </ol>
 </div>
+</div>
+<div class="sect4">
+<h5 id="listattachmentaction"><a class="link" href="#listattachmentaction">4.1.3.2. ListAttachmentAction</a></h5>
+<div class="paragraph">
+<p><code>ListAttachmentAction</code> implements <code>AttachmentAction</code> and provides the implementations required for the user to list all the files associated with a task. In other words, it provides a listing of all attachments that are added to the task. The constructor class requries no parameters. The <code>perform</code> method of <code>ListAttachmentAction</code> executes the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Prints the total number of attachments in the specified task.</p>
+</li>
+<li>
+<p>Prints the filename of each of the attachments in the specified task, with one attachment per line.</p>
+</li>
+</ol>
+</div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Description for <code>ListAttachmentAction</code>, <code>DeleteAttachmentAction</code> and <code>GetAttachmentAction</code> are omitted for brevity.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Description for <code>DeleteAttachmentAction</code> and <code>GetAttachmentAction</code> are omitted for brevity.</em></p></td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">4.1.4. Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-how-to-associate-files-to-tasks"><a class="link" href="#aspect-how-to-associate-files-to-tasks">4.1.4.1. Aspect: How to associate files to tasks</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Saves the path of the file.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easy to implement. Reduces storage footprint.</p>
+</li>
+<li>
+<p>Cons: Associated file can cease to exist, due to it being renamed, moved or deleted.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Copies the entire file to a user specified directory.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Deletion of the associated file (in its original location) will not affect the application.</p>
+</li>
+<li>
+<p>Cons: Harder to implement file management system on the file system. Uses more storage space. User will not be able to update the attachment without deleting and re-adding the file.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-to-identify-attachments-within-a-task"><a class="link" href="#aspect-how-to-identify-attachments-within-a-task">4.1.4.2. Aspect: How to identify attachments within a task</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Use the file name as an identifier.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: More user friendly as there is less words to type.</p>
+</li>
+<li>
+<p>Cons: Cannot have more than one attachment with the same file name in the same task. For example: <code>folder1/Template.docx</code> and <code>folder2/Template.docx</code> cannot be simultaneously added as attachments to the same task.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Use the path to the file as an identifier.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Allows for more than one attachments with the same file name to be associated with the same task. For example: <code>folder1/Template.docx</code> and <code>folder2/Template.docx</code> can be added to the same task as attachments.</p>
+</li>
+<li>
+<p>Cons: Cumbersome for the user to type the full path to identify the file.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 3:</strong> Prompt the user for an identifier for each attachment added.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Can be customized by the user to manage multiple files with the same file name in the same task.</p>
+</li>
+<li>
+<p>Cons: Cumbersome for the user to type the identifier for every time they want to add attachments to a task.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>For the full content of this section, please do refer to the <a href="https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html">Developer Guide</a>.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>For the full content of the Attachment section, please do refer to the <a href="https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html">Developer Guide</a>.</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -467,4 +565,4 @@ Lists all attachments currently associated with the 1st task in the deadline man
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:06:09 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 14:11:36 UTC</div></div></div></body></html>
