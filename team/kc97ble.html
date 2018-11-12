@@ -1,0 +1,370 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>Nguyen Tien Trung Kien - Project Portfolio</title><link rel="stylesheet" href="../stylesheets/gh-pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="../index.html">DeadlineManager</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link" href="../DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link active" href="../AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="../ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/CS2103-AY1819S1-W17-4/main"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>Nguyen Tien Trung Kien - Project Portfolio</h1></div><div id="content"><div class="sect1">
+<h2 id="project-deadline-manager"><a class="link" href="#project-deadline-manager">PROJECT: Deadline Manager</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This portfolio summarizes what I have done in a Software Engineering team project, CS2103T.
+Within 6 weeks, our team of 5 students have transformed an existing code base into a new application called Deadline Manager.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="link" href="#overview">1. Overview</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Deadline Manager is a Java application to help users manage deadlines.
+Besides basic features like add/edit/remove tasks and import/export task lists,
+Deadline Manager supports recurring tasks, complex filtering, flexible sorting, tags and attachments.</p>
+</div>
+<div class="paragraph">
+<p>For more information, visit [<a href="https://cs2103-ay1819s1-w17-4.github.io/main">our GitHub page</a>].</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="summary-of-contributions"><a class="link" href="#summary-of-contributions">2. Summary of Contributions</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Major enhancement</strong>: added the <strong>ability to manage recurring tasks in Deadline Manager</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: It allows users to add and complete recurring tasks in Deadline Manager.
+Users can use the <code>add</code> command with the frequency parameter (in days) to add a recurring task.
+To complete a task, users can use the <code>complete</code> command.
+Completing a non-recurring task will delete the task.
+Completing a recurring task will shift the deadline of the task to the next occurrence.</p>
+</li>
+<li>
+<p>Justification: This feature allows users to manage recurring tasks, which are very common.
+The <code>complete</code> command provides a natural way for users to mark a task as completed.</p>
+</li>
+<li>
+<p>Highlights: Implementing this feature requires modifying the <code>Task</code> class, the most basic class in the code base.
+A minor change in this class may takes 4-5 hours of modifying parts of code which are dependent on <code>Task</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: added <code>priority</code>, <code>frequency</code> and removed unnecessary fields in the <code>Task</code> class</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Highlights: Changes in the <code>Task</code> class take a lot of time because it is used at a lot of places in the code base.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Code contributed</strong>: [<a href="https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&amp;search=kc97ble">Commits</a>]</p>
+</li>
+<li>
+<p><strong>Other contributions</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Reported bugs in Deadline Manager:
+<a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/98">#98</a>,
+<a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/132">#132</a>,
+<a href="https://github.com/CS2103-AY1819S1-W17-4/main/issues/195">#195</a></p>
+</li>
+<li>
+<p>Reviewed Pull Requests (with non-trivial review comments):
+<a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/112">#112</a>,
+<a href="https://github.com/CS2103-AY1819S1-W17-4/main/pull/154">#302</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-user-guide"><a class="link" href="#contributions-to-the-user-guide">3. Contributions to the User Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are excerpts of sections that I contributed to the user guide. They showcase my ability to write documentation targeting end-users.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="adding-a-task-code-add-code"><a class="link" href="#adding-a-task-code-add-code">3.1. Adding a task: <code>add</code></a></h3>
+<div class="paragraph">
+<p>Adds a task to the deadline manager<br>
+Format: <code>add n/NAME [p/PRIORITY] [f/FREQUENCY] d/DEADLINE [t/TAG]&#8230;&#8203;</code></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+A task can have any number of tags (including 0)
+</td>
+</tr>
+</table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p><code>DEADLINE</code> should be a date in the format DD/MM/YYYY.
+Examples of valid dates are:
+29/03/2018, 29/3/2018, 1/1/2018.
+<code>DEADLINE</code> is a mandatory parameter.</p>
+</li>
+<li>
+<p><code>PRIORITY</code> should only be 0, 1, 2, 3, or 4.
+Priority 0 denotes a task with no priority (lowest priority).
+The order is: Priority 1 (highest priority) &gt; Priority 2 &gt; Priority 3 &gt; Priority 4 &gt; Priority 0 (lowest priority).
+<code>PRIORITY</code> is an optional parameter.
+If <code>PRIORITY</code> is not given, priority 0 is assumed.</p>
+</li>
+<li>
+<p><code>FREQUENCY</code> should be a non-negative integer between 0 and 999 (number of days).
+Zero frequency denotes a non-recurring task.
+Non-zero frequency denotes a recurring task.
+<code>FREQUENCY</code> is an optional parameter.
+If <code>FREQUENCY</code> is not given, frequency 0 is assumed.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can have two tasks with the same attributes!
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>add n/Homework d/01/01/2018</code><br>
+Adds a task with name <code>Homework</code> with a deadline on 1st January 2018.
+Because <code>PRIORITY</code> and <code>FREQUENCY</code> are omitted, this task has priority 0 (no priority/lowest priority) and frequency 0 (non-recurring task).</p>
+</li>
+<li>
+<p><code>add n/Assignment 2 d/1/1/2018 p/1</code><br>
+Adds a task with name <code>Assignment 2</code> with a deadline on 1st January 2018 with priority 1 (highest priority).</p>
+</li>
+<li>
+<p><code>add n/v1 milestone d/9/10/2018 t/CS2103T t/Project p/2</code><br>
+Adds a task with name <code>v1 milestone</code> with a deadline on 9th October 2018 with priority 2 (second highest priority). It is additionally tagged with 2 tags: <code>CS2103T</code> and <code>Project</code>.</p>
+</li>
+<li>
+<p><code>add n/Clean the house d/01/01/2018 f/7</code><br>
+Adds a task with name <code>Clean the house</code> with a deadline on 1st January 2018 with frequency 7 (this is a recurring task).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="completing-a-task-code-complete-code"><a class="link" href="#completing-a-task-code-complete-code">3.2. Completing a task : <code>complete</code></a></h3>
+<div class="paragraph">
+<p>Completes an existing task in the deadline manager.
+If the task is not recurred (the frequency is equal to 0), the task will be deleted.
+Otherwise, the deadline will be shifted to the next occurrence.<br>
+Format: <code>complete INDEX</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p><code>INDEX</code> refers to the index number shown in the displayed task list.
+The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>clear</code><br>
+Starts with an empty task list<br>
+<code>add n/Homework d/01/01/2018</code><br>
+Adds a non-recurring task.<br>
+<code>add n/Clean the house d/01/01/2018 f/7</code><br>
+Adds a recurring task with frequency 7.
+See Figure 3.3.1 below.<br>
+<code>complete 2</code><br>
+Completes the second task in the task list.
+Because the task is a recurring task, the deadline will be changed to 08/01/2018.
+See Figure 3.3.2 below.<br>
+<code>complete 1</code>
+Completes the first task in the task list.
+Because the task is a non-recurring task, it will be deleted.
+See Figure 3.3.3 below.</p>
+</li>
+</ul>
+</div>
+<div id="img-completedemo3" class="imageblock">
+<div class="content">
+<img src="../images/userguide/completedemo_1.png" alt="CompleteDemo1" width="400">
+</div>
+<div class="title">Figure 3.3.1: Result after one <code>clear</code> command and two <code>add</code> commands</div>
+</div>
+<div id="img-completedemo2" class="imageblock">
+<div class="content">
+<img src="../images/userguide/completedemo_2.png" alt="CompleteDemo2" width="400">
+</div>
+<div class="title">Figure 3.3.2: Result of the <code>complete 2</code> command</div>
+</div>
+<div id="img-completedemo3" class="imageblock">
+<div class="content">
+<img src="../images/userguide/completedemo_3.png" alt="CompleteDemo3" width="400">
+</div>
+<div class="title">Figure 3.3.3: Result of the <code>complete 1</code> command</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-developer-guide"><a class="link" href="#contributions-to-the-developer-guide">4. Contributions to the Developer Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="add-feature"><a class="link" href="#add-feature">4.1. Add feature</a></h3>
+<div class="paragraph">
+<p>The <code>add</code> command enables the user to create a new task with a name and a deadline.
+The user can also provide additional information including priority, frequency and tags.</p>
+</div>
+<div class="paragraph">
+<p>Given below is a sequence of steps, illustrating the interaction between <code>AddCommandParser</code>, <code>AddCommand</code> and <code>Model</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/AddOperationSequenceDiagram.png" alt="AddOperationSequenceDiagram" width="800">
+</div>
+<div class="title">Figure 1. Sequence diagram for adding a task</div>
+</div>
+<div class="paragraph">
+<p>Step 1. The user enters an <code>add</code> command.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The <code>AddCommandParser#parse</code> method is invoked.
+The <code>AddCommandParser</code> receives the command with the arguments given as a string.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>AddCommandParser</code> interprets the arguments and constructs a <code>AddCommand</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. The <code>AddCommand</code> with a <code>Task</code> specified by the user is returned.</p>
+</div>
+<div class="paragraph">
+<p>Step 5. The <code>AddCommand#execute</code> method is invoked.</p>
+</div>
+<div class="paragraph">
+<p>Step 6. The <code>Model</code> is updated: The <code>Model#addTask</code> method and the <code>Model#commitTaskCollection</code> method are invoked.</p>
+</div>
+<div class="paragraph">
+<p>Step 7. A <code>CommandResult</code> object is returned.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="complete-feature"><a class="link" href="#complete-feature">4.2. Complete feature</a></h3>
+<div class="paragraph">
+<p>The <code>complete</code> command provides users a natural way to complete a task:
+either delete a task if it is not recurred or shift the deadline to the next occurrence if the task is recurred.</p>
+</div>
+<div class="sect3">
+<h4 id="current-implementation"><a class="link" href="#current-implementation">4.2.1. Current Implementation</a></h4>
+<div class="paragraph">
+<p>The complete feature is implemented by <code>CompleteCommand</code> and <code>CompleteCommandParser</code>.</p>
+</div>
+<div class="paragraph">
+<p>After the task specified by the user is retrieved, the <code>CompleteCommand</code> will consider these two cases:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the task is not recurred, it will be deleted.</p>
+</li>
+<li>
+<p>Otherwise, the task will be updated using the following formula:<br>
+<code>NewDeadline = OldDeadline + Frequency</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="sequence-flow"><a class="link" href="#sequence-flow">4.2.2. Sequence Flow</a></h4>
+<div class="paragraph">
+<p>Given below is a sequence of steps, illustrating the interaction between <code>CompleteCommandParser</code>, <code>CompleteCommand</code> and <code>Model</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/CompleteOperationSequenceDiagram.png" alt="CompleteOperationSequenceDiagram" width="800">
+</div>
+<div class="title">Figure 2. Sequence diagram for completing a task</div>
+</div>
+<div class="paragraph">
+<p>Step 1. The user enters a <code>complete</code> command with the index of a task in the task list.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The <code>CompleteCommandParser#parse</code> method is invoked.
+The <code>CompleteCommandParser</code> receives the command with the arguments given as a string.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>CompleteCommandParser</code> interprets the arguments and constructs a <code>CompleteCommand</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. The <code>CompleteCommand</code> with the index specified by the user is returned.</p>
+</div>
+<div class="paragraph">
+<p>Step 5. The <code>CompleteCommand#execute</code> method is invoked.</p>
+</div>
+<div class="paragraph">
+<p>Step 6. The task identified by the user is retrieved from the <code>Model</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 7. The <code>Model</code> is updated:
+If the task is not recurred, <code>Model#deleteTask</code> is invoked to delete the task.
+Otherwise, <code>Model#updateTask</code> (followed by <code>Model#updateFilteredTaskList</code>) is invoked
+with a new <code>Task</code> where the deadline is updated.</p>
+</div>
+<div class="paragraph">
+<p>Step 8. The <code>Model#commitTaskCollection</code> method is invoked.</p>
+</div>
+<div class="paragraph">
+<p>Step 9. A <code>CommandResult</code> object is returned.</p>
+</div>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 09:28:26 UTC</div></div></div></body></html>

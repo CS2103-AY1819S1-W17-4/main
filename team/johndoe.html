@@ -229,117 +229,9 @@ The <code>redo</code> command fails as there are no <code>undo</code> commands e
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="add-feature"><a class="link" href="#add-feature">Add feature</a></h3>
-<div class="paragraph">
-<p>The <code>add</code> command enables the user to create a new task with a name and a deadline.
-The user can also provide additional information including priority, frequency and tags.</p>
-</div>
-<div class="paragraph">
-<p>Given below is a sequence of steps, illustrating the interaction between <code>AddCommandParser</code>, <code>AddCommand</code> and <code>Model</code>:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/AddOperationSequenceDiagram.png" alt="AddOperationSequenceDiagram" width="800">
-</div>
-<div class="title">Figure 1. Sequence diagram for adding a task</div>
-</div>
-<div class="paragraph">
-<p>Step 1. The user enters an <code>add</code> command.</p>
-</div>
-<div class="paragraph">
-<p>Step 2. The <code>AddCommandParser#parse</code> method is invoked.
-The <code>AddCommandParser</code> receives the command with the arguments given as a string.</p>
-</div>
-<div class="paragraph">
-<p>Step 3. The <code>AddCommandParser</code> interprets the arguments and constructs a <code>AddCommand</code>.</p>
-</div>
-<div class="paragraph">
-<p>Step 4. The <code>AddCommand</code> with a <code>Task</code> specified by the user is returned.</p>
-</div>
-<div class="paragraph">
-<p>Step 5. The <code>AddCommand#execute</code> method is invoked.</p>
-</div>
-<div class="paragraph">
-<p>Step 6. The <code>Model</code> is updated: The <code>Model#addTask</code> method and the <code>Model#commitTaskCollection</code> method are invoked.</p>
-</div>
-<div class="paragraph">
-<p>Step 7. A <code>CommandResult</code> object is returned.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="complete-feature"><a class="link" href="#complete-feature">Complete feature</a></h3>
-<div class="paragraph">
-<p>The <code>complete</code> command provides users a natural way to complete a task:
-either delete a task if it is not recurred or shift the deadline to the next occurrence if the task is recurred.</p>
-</div>
-<div class="sect3">
-<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
-<div class="paragraph">
-<p>The complete feature is implemented by <code>CompleteCommand</code> and <code>CompleteCommandParser</code>.</p>
-</div>
-<div class="paragraph">
-<p>After the task specified by the user is retrieved, the <code>CompleteCommand</code> will consider these two cases:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>If the task is not recurred, it will be deleted.</p>
-</li>
-<li>
-<p>Otherwise, the task will be updated using the following formula:<br>
-<code>NewDeadline = OldDeadline + Frequency</code></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="sequence-flow"><a class="link" href="#sequence-flow">Sequence Flow</a></h4>
-<div class="paragraph">
-<p>Given below is a sequence of steps, illustrating the interaction between <code>CompleteCommandParser</code>, <code>CompleteCommand</code> and <code>Model</code>:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/CompleteOperationSequenceDiagram.png" alt="CompleteOperationSequenceDiagram" width="800">
-</div>
-<div class="title">Figure 2. Sequence diagram for completing a task</div>
-</div>
-<div class="paragraph">
-<p>Step 1. The user enters a <code>complete</code> command with the index of a task in the task list.</p>
-</div>
-<div class="paragraph">
-<p>Step 2. The <code>CompleteCommandParser#parse</code> method is invoked.
-The <code>CompleteCommandParser</code> receives the command with the arguments given as a string.</p>
-</div>
-<div class="paragraph">
-<p>Step 3. The <code>CompleteCommandParser</code> interprets the arguments and constructs a <code>CompleteCommand</code>.</p>
-</div>
-<div class="paragraph">
-<p>Step 4. The <code>CompleteCommand</code> with the index specified by the user is returned.</p>
-</div>
-<div class="paragraph">
-<p>Step 5. The <code>CompleteCommand#execute</code> method is invoked.</p>
-</div>
-<div class="paragraph">
-<p>Step 6. The task identified by the user is retrieved from the <code>Model</code>.</p>
-</div>
-<div class="paragraph">
-<p>Step 7. The <code>Model</code> is updated:
-If the task is not recurred, <code>Model#deleteTask</code> is invoked to delete the task.
-Otherwise, <code>Model#updateTask</code> (followed by <code>Model#updateFilteredTaskList</code>) is invoked
-with a new <code>Task</code> where the deadline is updated.</p>
-</div>
-<div class="paragraph">
-<p>Step 8. The <code>Model#commitTaskCollection</code> method is invoked.</p>
-</div>
-<div class="paragraph">
-<p>Step 9. A <code>CommandResult</code> object is returned.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">Undo/Redo feature</a></h3>
 <div class="sect3">
-<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">Current Implementation</a></h4>
+<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
 <div class="paragraph">
 <p>The undo/redo mechanism is facilitated by <code>VersionedTaskCollection</code>.
 It extends <code>TaskCollection</code> with an undo/redo history, stored internally as an <code>taskCollectionStateList</code> and <code>currentStatePointer</code>.
@@ -427,7 +319,7 @@ If the <code>currentStatePointer</code> is at index 0, pointing to the initial d
 <div class="content">
 <img src="../images/UndoRedoSequenceDiagram.png" alt="UndoRedoSequenceDiagram" width="800">
 </div>
-<div class="title">Figure 3. Sequence diagram for <code>undo</code></div>
+<div class="title">Figure 1. Sequence diagram for <code>undo</code></div>
 </div>
 <div class="paragraph">
 <p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;it calls <code>Model#redoTaskCollection()</code>, which shifts the <code>currentStatePointer</code> once to the right, pointing to the previously undone state, and restores the deadline manager to that state.</p>
@@ -467,7 +359,7 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 <div class="content">
 <img src="../images/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram" width="650">
 </div>
-<div class="title">Figure 4. Activity diagram when a command is executed</div>
+<div class="title">Figure 2. Activity diagram when a command is executed</div>
 </div>
 </div>
 <div class="sect3">
@@ -550,4 +442,4 @@ If the <code>currentStatePointer</code> is at index <code>taskCollectionStateLis
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 09:26:45 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 09:28:26 UTC</div></div></div></body></html>
