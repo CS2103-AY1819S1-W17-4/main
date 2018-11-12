@@ -469,7 +469,7 @@ After data has been successfully read or written, the response is placed in a <c
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Due to limited space, detailed technical implementation of inter-component communication is omitted, and an overview is presented below in <a href="#Sequence Flow">Sequence Flow</a> instead. You may wish to refer to the <a href="https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html#inter-component-communication">Developer Guide</a> for details.
+Due to space constraints, detailed technical implementation of inter-component communication is omitted, and an overview is presented below in <a href="#Sequence Flow">Sequence Flow</a> instead. You may wish to refer to the <a href="https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html#inter-component-communication">Developer Guide</a> for details.
 </td>
 </tr>
 </table>
@@ -514,23 +514,17 @@ Due to limited space, detailed technical implementation of inter-component commu
 <div class="paragraph">
 <p>The sequence diagram above shows the interactions that happen when a user attempts to import data from a file. The interactions are similar to export, with an additional step to resolve import conflict.</p>
 </div>
-<div class="paragraph">
-<p>Step 1. The user types in an import command. The Logic component parses the user&#8217;s command, and calls ModelManager&#8217;s <code>importTaskCollection</code>.</p>
-</div>
-<div class="paragraph">
-<p>Step 2. The <code>ModelManager</code> posts the <code>ImportRequestEvent</code> to the <code>EventsCenter</code>.</p>
-</div>
-<div class="paragraph">
-<p>Step 3. The <code>EventsCenter</code> dispatches the <code>ImportRequestEvent</code> to <code>Storage</code>.</p>
-</div>
-<div class="paragraph">
-<p>Step 4. <code>Storage</code> handles the <code>ImportRequestEvent</code>, reads from file, then posts a new <code>ImportDataAvailableEvent</code> to <code>EventsCenter</code> to signal that data is available.</p>
-</div>
-<div class="paragraph">
-<p>Step 5. The <code>EventsCenter</code> dispatches the <code>ImportDataAvailableEvent</code> back to <code>ModelManager</code>.</p>
-</div>
-<div class="paragraph">
-<p>Step 6. <code>ModelManager</code> takes the imported data and adds it to the Model. If necessary, it also de-conflicts the new entries.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Due to space constraints, the step-by-step description for the import sequence diagram is omitted as the process is similar to export. Please refer to the <a href="https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html#sequence-flow-2">Developer Guide</a> for details.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
@@ -592,7 +586,7 @@ If the user attempts to import a new conflicting task, Deadline Manager de-confl
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Due to limited space in the PPP, detailed technical discussion of the CSV implementation is omitted, and is summarised with the following Sequence Diagram instead. This diagram is also replicated in <a href="https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html#Design-Storage"><code>Storage</code></a>.
+Due to space constraints, detailed technical discussion of the CSV implementation is omitted, and is summarised with the following Sequence Diagram instead. This diagram is also replicated in <a href="https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html#Design-Storage"><code>Storage</code></a>.
 </td>
 </tr>
 </table>
@@ -696,4 +690,4 @@ Due to limited space in the PPP, an aspect on supporting different file formats 
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 15:22:56 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 15:31:18 UTC</div></div></div></body></html>
