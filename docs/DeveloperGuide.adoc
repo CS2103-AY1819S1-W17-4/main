@@ -984,7 +984,7 @@ In total, there are around 15 distinct kinds of error conditions when parsing a 
 // end::filter-design-considerations-exceptions[]
 // end::filter[]
 
-// tag::attachments[]
+// tag::attachments-excerpt-1[]
 === Attachment Feature
 The attachment feature aims to help users organise and keep track of important files needed for the respective tasks. It allows users to associate files in their computer with a particular task. When the user subsequently decides to perform a particular task, this feature provides functionality to identify files previously associated with the task and facilitates exporting it to an appropriate location.
 
@@ -992,6 +992,7 @@ The attachment feature aims to help users organise and keep track of important f
 The attachment feature is mainly implemented by `AttachmentCommand`. As `AttachmentCommand` is an all-purpose command involving numerous actions, an interface `AttachmentAction` is defined within `AttachmentCommand` in order to facilitate this. There are 4 classes that implements `AttachmentAction` in order to implement the various actions of the attachment feature. The command line arguments for the attachment command is parsed by `AttachmentCommandParser`.
 
 ==== Sequence Flow
+// end::attachments-excerpt-1[]
 Given below is a sequence of steps, illustrating the interaction between `AttachmentCommandParser`, `AttachmentCommand` and classes that implement `AttachmentAction` after a user enters a relevant command.
 
 Step 1. The user enters an attachment command which involves either `add`, `list`, `delete` or `get` actions.
@@ -1001,7 +1002,7 @@ Step 2. The `AttachmentCommandParser` receives the command with the arguments gi
 Step 3. The `AttachmentCommandParser` interprets the arguments and constructs either a `AddAttachmentAction` for `add`, `ListAttachmentAction` for `list`, `DeleteAttachmentAction` for `delete` or `GetAttachmentAction` for `get`. The relevant arguments will also be passed as parameters to the constructors of these classes. Do note that these classes all extends from the abstract class `AttachmentAction`.
 
 Step 4. An `AttachmentCommand` is constructed and initialized with the `AttachmentAction` constructed in Step 3.
-
+// tag::attachments-excerpt-2[]
 Given below is another sequence of steps, also illustrated by the sequence diagram. They describe the interaction between `AttachmentCommand` and classes that implement `AttachmentAction` after the `AttachmentCommand#execute` method is invoked by the `LogicManager`.
 
 .Sequence Diagram for performing the `execute` method of an `AttachmentCommand`.
@@ -1016,7 +1017,9 @@ Step 3. The invoked `AttachmentAction` performs specific application logic which
 Step 4. The `Model` is updated with the `Task` object retrieved from the returned `ActionResult`.
 
 Step 5. The message to be shown to the user is retrieved from the returned `ActionResult`. Then, it is used to create a `CommandResult` object which is to be returned to the the `LogicManager`.
+// end::attachments-excerpt-2[]
 
+// tag::attachments-excerpt-3[]
 ==== AttachmentAction and Implementing Classes
 `AttachmentAction` is an interface nested within `AttachmentCommand`. It defines and requires implementing classes to implement a `perform` method. The implementation for `AttachmentAction` is shown below:
 [source,java]
@@ -1043,14 +1046,10 @@ private static class ActionResult {
         this.resultMessage = resultMessage;
     }
 
-    /**
-     * Returns the task
-     */
+    // Returns the task
     public Task getTask() { return updatedTask; }
 
-    /**
-     * Returns the result message
-     */
+    // Returns the result message
     public String getMessage() { return resultMessage; }
 }
 ----
@@ -1064,6 +1063,7 @@ private static class ActionResult {
 . Constructs a new `Attachment` object using the file at the specified `filePath`.
 . Constructs a new `Task` object with the same attributes as the original task, but with the additional `Attachment` object added to the set of attachments.
 
+// end::attachments-excerpt-3[]
 
 ===== ListAttachmentAction
 `ListAttachmentAction` implements `AttachmentAction` and provides the implementations required for the user to list all the files associated with a task. In other words, it provides a listing of all attachments that are added to the task. The constructor class requries no parameters. The `perform` method of `ListAttachmentAction` executes the following:

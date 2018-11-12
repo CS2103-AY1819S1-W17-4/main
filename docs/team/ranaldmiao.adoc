@@ -54,87 +54,10 @@ For more information, the Github page with the full source can be found: [https:
 == Contributions to the User Guide
 
 |===
-|_Given below are some of the sections that I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|_Given below is that I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-//include::../UserGuide.adoc[tag=attachment]
-=== Managing Attachments of a Task : `attachment`
-Allows the user to add, list, delete and retrieve files associated with a specific task. +
-Deadline manager does not make a copy or backup the files added. Only the location of the files are stored by Deadline Manager. Hence, it is possible that the file might have been modified, renamed, moved or deleted without Deadline Manager's knowledge. As such, there is no guarantee for a file associated with a specific task to always exist.  +
-After the command is successfully executed, all the tasks in Deadline Manager will be listed. +
-Format (in general): `INDEX ACTION [p/"FILEPATH"] [n/"FILENAME"]`
-
-More specific formats for each actions are listed below.
-
-* Format for *Add* Actions: `attachment INDEX add p/"FILEPATH"`
-
-* Format for *Delete* Actions: `attachment INDEX delete n/"FILENAME"`
-
-* Format for *List* Actions: `attachment INDEX list`
-
-* Format for *Get* Actions: `attachment INDEX get n/"FILENAME" p/"FILEPATH"`
-[TIP]
-The application does not allow adding more than one file with the same filename to the same task, even if they are in different locations on the computer. For this application, filename includes the file extension as well.
-****
-*  Modify and manages the attachments of the task at the specified INDEX. The index refers to the index number shown in the displayed task list. The index must be a positive integer 1, 2, 3, …​
-* `ACTION` is either `add`, `list`, `delete` or `get`
-
-* For `add` actions, the `FILEPATH` argument is required to denote the file you intend to attach to the task. A file must exist at the `FILEPATH` specified. The `FILEPATH` must be enclosed in quotation marks. For example: `"D:/Documents/HelloWorld.txt"`
-
-* For `list` actions, no additional arguments are required.
-
-* For `delete` actions, the `FILENAME` argument is required to represent the file to delete. The `FILENAME` must be enclosed in quotation marks. For example: `"Hello World.docx"`.
-
-* For `get` actions, the `FILENAME` argument is required to represent the file to retrieve and the `FILEPATH` argument is required to denote the destination you want the file to be exported to. If there is an existing file at `FILEPATH`, it would be overwritten without warning. The `FILEPATH` and `FILENAME` must be enclosed in quotation marks, similar to the arguments in `add` and `delete` actions. Do note that `FILEPATH` should be a path to a file, not a folder in the computer.
-****
-
-[TIP]
-To avoid ambiguity, it is recommended to use quotation marks when specifying a `FILEPATH` or `FILENAME`. Those that are not enclosed in quotations will still be parsed, however correct behaviour is not guaranteed.
-[TIP]
-If your filename contains double quotation marks `"` but not single quotation marks `'`, you may enclose the filename with single quotation marks `'` instead. However, the application will not be able to work with files that have both double quotation marks and single quotation marks.
-
-Examples:
-
-* Add: `attachment 1 add p/"D:\Documents\Hello World.docx"` +
-Adds an attachment located at "D:\Documents\Hello World.docx" to the 1st task currently listed in the deadline manager. (Tip: You can list all tasks using the `list` command.)
-
-[attachmentdemo1]
-.Result of Attachment Command with Add Action
-[#img-attachmentdemo1]
-[caption="Figure 3.10.1: "]
-image::userguide/attachmentdemo_1.png[AttachmentDemo2, width="400"]
-Figure 3.10.1 above shows an expected result message if the command is successfully executed by Deadline Manager for the example command.
-
-
-[attachmentdemo2]
-.Attachment Label after an attachment is added to a file
-[#img-attachmentdemo2]
-[caption="Figure 3.10.2: "]
-image::userguide/attachmentdemo_2.png[AttachmentDemo2, width="200"]
-Figure 3.10.2 above shows the label that would be displayed along with the task after an attachment is added. The label will contain the file name.
-
-
-* List: `attachment 1 list` +
-Lists all attachments currently associated with the 1st task in the deadline manager.
-
-[attachmentdemo3]
-.Result of Attachment Command with List Action
-[#img-attachmentdemo3]
-[caption="Figure 3.10.3: "]
-image::userguide/attachmentdemo_3.png[AttachmentDemo3, width="200"]
-Figure 3.10.3 above shows an expected result message if the command is successfully executed by Deadline Manager for the above command with the List Action.
-
-//
-//* Get: `attachment 2 get p/"D:\Documents\TaskAttachments.zip" n/"Assignment.zip"` +
-//Saves an attachment named "Assignment.zip" of the 2nd task in the deadline manager to "D:\Documents\TaskAttachments.zip"
-//
-//
-//[attachmentdemo4]
-//.Result of Attachment Command with Get Action
-//[#img-attachmentdemo4]
-//[caption="Figure 3.10.4: "]
-//image::userguide/attachmentdemo_4.png[AttachmentDemo4, width="400"]
-//Figure 3.10.4 above shows an expected result message if the command is successfully executed by Deadline Manager for the above command with the Get action.
+include::../UserGuide.adoc[tag=attachment-excerpt]
 
 |===
 |_The description for `Delete` and `Get` actions are omitted. For the full text, please refer to the https://cs2103-ay1819s1-w17-4.github.io/main/UserGuide.html[User Guide]._
@@ -148,113 +71,19 @@ Figure 3.10.3 above shows an expected result message if the command is successfu
 |===
 |_Given below are excerpts of the Developer Guide which I contributed to. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
-[discrete]
-=== Attachment Feature
-The attachment feature aims to help users organise and keep track of important files needed for the respective tasks. It allows users to associate files in their computer with a particular task. When the user subsequently decides to perform a particular task, this feature provides functionality to identify files previously associated with the task and facilitates exporting it to an appropriate location.
 
-==== Current Implementation
-The attachment feature is mainly implemented by `AttachmentCommand`. As `AttachmentCommand` is an all-purpose command involving numerous actions, an interface `AttachmentAction` is defined within `AttachmentCommand` in order to facilitate this. There are 4 classes that implements `AttachmentAction` in order to implement the various actions of the attachment feature. The command line arguments for the attachment command is parsed by `AttachmentCommandParser`.
-
-==== Sequence Flow
-//Given below is a sequence of steps, illustrating the interaction between `AttachmentCommandParser`, `AttachmentCommand` and classes that implement `AttachmentAction` after a user enters a relevant command.
-//
-//Step 1. The user enters an attachment command which involves either `add`, `list`, `delete` or `get` actions.
-//
-//Step 2. The `AttachmentCommandParser` receives the command with the arguments given as a string.
-//
-//Step 3. The `AttachmentCommandParser` interprets the arguments and constructs either a `AddAttachmentAction` for `add`, `ListAttachmentAction` for `list`, `DeleteAttachmentAction` for `delete` or `GetAttachmentAction` for `get`. The relevant arguments will also be passed as parameters to the constructors of these classes. Do note that these classes all extends from the abstract class `AttachmentAction`.
-//
-//Step 4. An `AttachmentCommand` is constructed and initialized with the `AttachmentAction` constructed in Step 3.
-
-Given below is a sequence of steps and a sequence diagram that corresponds to it. They describe the interaction between `AttachmentCommand` and classes that implement `AttachmentAction` after the `AttachmentCommand#execute` method is invoked by the `LogicManager`.
-
-.Sequence Diagram for performing the `execute` method of an `AttachmentCommand`
-image::AttachmentExecuteSequenceDiagram.png[width="750"]
-
-. The task identified by the user is retrieved from the `Model`.
-
-. The `perform` method of the `AttachmentAction` is invoked, with the task retrieved in Step 1 as the parameter.
-
-. The invoked `AttachmentAction` performs specific application logic which is different for each action. Then, a `ActionResult` object containing a `Task` and a message is returned to the `execute` method.
-
-. The `Model` is updated with the `Task` object retrieved from the returned `ActionResult`.
-
-. The message to be shown to the user is retrieved from the returned `ActionResult`. Then, it is used to create a `CommandResult` object which is to be returned to the the `LogicManager`.
+include::../DeveloperGuide.adoc[tag=attachments-excerpt-1]
 |===
-|_The remaining sequence flows are omitted for brevity._
+|_Given below is just one example of a sequence flow that was documented in the Developer Guide._
+|===
+include::../DeveloperGuide.adoc[tag=attachments-excerpt-2]
+
+include::../DeveloperGuide.adoc[tag=attachments-excerpt-3]
+
+|===
+|_Description for `ListAttachmentAction`, `DeleteAttachmentAction` and `GetAttachmentAction` are omitted for brevity._
 |===
 
-==== AttachmentAction and Implementing Classes
-`AttachmentAction` is an interface nested within `AttachmentCommand`. It defines and requires implementing classes to implement a `perform` method. The implementation for `AttachmentAction` is shown below:
-[source,java]
-----
-public interface AttachmentAction {
-    ActionResult perform(Task taskToEdit) throws CommandException;
-}
-----
-
-* The `perform` method is invoked by `AttachmentCommand` to perform the action on the task provided. `ActionResult` is immutable and contains two properties: a `Task` and a `message` which can be used by implementing classes to return the updated `Task` together with any `message` that should be displayed to the user. Since `Task` is immutable, a new task with the modified values should be returned by the method, instead of modifying `taskToEdit`.
-
-The contents of `ActionResult` is shown below:
-[source,java]
-----
-private static class ActionResult {
-    public final String resultMessage;
-    public final Task updatedTask;
-
-    public ActionResult(Task updatedTask, String resultMessage) {
-        this.updatedTask = updatedTask;
-        this.resultMessage = resultMessage;
-    }
-
-    // Returns the task
-    public Task getTask() { return updatedTask; }
-
-    // Returns the result message
-    public String getMessage() { return resultMessage; }
-}
-----
-
-===== AddAttachmentAction
-`AddAttachmentAction` implements `AttachmentAction` and provides the implementations required for the user to associate a file with a task. In other words, it adds an attachment to a task. The constructor class takes in a single parameter, `filePath`, denoting the path to the file to be associated with the task. The `perform` method of `AddAttachmentAction` executes the following:
-
-. Checks if a file exists at the specified `filePath`. A `CommandException` will be raised if this is not the case.
-. Checks if the task already contains an attachment with the same filename. A `CommandException` will be raised if this is not the case.
-. Constructs a new `Attachment` object using the file at the specified `filePath`.
-. Constructs a new `Task` object with the same attributes as the original task, but with the additional `Attachment` object added to the set of attachments.
-
-
-===== ListAttachmentAction
-`ListAttachmentAction` implements `AttachmentAction` and provides the implementations required for the user to list all the files associated with a task. In other words, it provides a listing of all attachments that are added to the task. The constructor class requries no parameters. The `perform` method of `ListAttachmentAction` executes the following:
-
-. Prints the total number of attachments in the specified task.
-. Prints the filename of each of the attachments in the specified task, with one attachment per line.
-|===
-|_Description for `DeleteAttachmentAction` and `GetAttachmentAction` are omitted for brevity._
-|===
-
-==== Design Considerations
-
-===== Aspect: How to associate files to tasks
-* **Alternative 1 (current choice):** Saves the path of the file.
-** Pros: Easy to implement. Reduces storage footprint.
-** Cons: Associated file can cease to exist, due to it being renamed, moved or deleted.
-
-* **Alternative 2:** Copies the entire file to a user specified directory.
-** Pros: Deletion of the associated file (in its original location) will not affect the application.
-** Cons: Harder to implement file management system on the file system. Uses more storage space. User will not be able to update the attachment without deleting and re-adding the file.
-
-===== Aspect: How to identify attachments within a task
-
-* **Alternative 1 (current choice):** Use the file name as an identifier.
-** Pros: More user friendly as there is less words to type.
-** Cons: Cannot have more than one attachment with the same file name in the same task. For example: `folder1/Template.docx` and `folder2/Template.docx` cannot be simultaneously added as attachments to the same task.
-* **Alternative 2:** Use the path to the file as an identifier.
-** Pros: Allows for more than one attachments with the same file name to be associated with the same task. For example: `folder1/Template.docx` and `folder2/Template.docx` can be added to the same task as attachments.
-** Cons: Cumbersome for the user to type the full path to identify the file.
-* **Alternative 3:** Prompt the user for an identifier for each attachment added.
-** Pros: Can be customized by the user to manage multiple files with the same file name in the same task.
-** Cons: Cumbersome for the user to type the identifier for every time they want to add attachments to a task.
 
 |===
 |_For the full content of this section, please do refer to the https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html[Developer Guide]._
