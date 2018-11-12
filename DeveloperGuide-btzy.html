@@ -1779,7 +1779,7 @@ When executing any <em>modifying</em> commands on a filtered list, the filter wi
 <p>A parser that splits set-based fields (e.g. <code>CS2101,CS2103</code>) into individual keywords (this applies only to set-based fields (tags and attachments))&#8201;&#8212;&#8201;this is referred to as the <em>set parser</em>, and is implemented as a static method in a utility class</p>
 </li>
 <li>
-<p>A method for each field (e.g. <code>Name</code>, <code>Deadline</code>, <code>Priority</code>, <code>Tag</code>) that interprets the the parts of the splitted filter unit in the context of that particular field, and returns the predicate that is required &#8201;&#8212;&#8201;this is referred to as the <em>field-specific parser</em>, and is implemented as a static method in each filterable field</p>
+<p>A method for each field (e.g. <code>Name</code>, <code>Deadline</code>, <code>Priority</code>, <code>Tag</code>) that interprets the parts of the splitted filter unit in the context of that particular field, and returns the predicate that is required &#8201;&#8212;&#8201;this is referred to as the <em>field-specific parser</em>, and is implemented as a static method in each filterable field</p>
 </li>
 </ol>
 </div>
@@ -2085,13 +2085,13 @@ The simplified syntax only contains the test phrase, and is explained in a separ
 <p>Name: Any text string</p>
 </li>
 <li>
-<p>Deadline: Any date in the form <code>DD/MM/YYYY</code></p>
+<p>Deadline: Any date in the form <code>D/M/Y</code> or <code>D/M</code> (will assume current year), for example <code>1/1/2019</code> or <code>16/11</code></p>
 </li>
 <li>
 <p>Priority: Any valid priority value (i.e. any integer between 0 and 4 inclusive)</p>
 </li>
 <li>
-<p>Frequency: Any valid frequency value (i.e. any non-negative integer that does not exceed the maximum bounds of an integer)</p>
+<p>Frequency: Any valid frequency value (i.e. any integer between 0 and 999 inclusive)</p>
 </li>
 <li>
 <p>Tag set: Any comma-separated list of tags, where each tag can be any text string (e.g. <code>CS2101,CS2103T</code>)</p>
@@ -2114,7 +2114,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 </table>
 </div>
 <div class="paragraph">
-<p>Set-based fields that contain spaces may be specified by placing quotes around those the item with spaces.  This means that the whole test phrase must also be quoted with a different type of quote (e.g. <code>t:"CS2101,CS2103T,'Oral Presentation'"</code>).</p>
+<p>Set-based fields that contain spaces may be specified by placing quotes around those the item with spaces.  This means that the whole test phrase must also be quoted with a different type of quote (e.g. <code>a:"test.txt,'hello world.txt'"</code>).</p>
 </div>
 </div>
 <div class="sect4">
@@ -2123,7 +2123,7 @@ The rules for quoted strings for the string tokenizer applies here as well, beca
 <p>The filter operator specifies exactly <em>how</em> the task should be compared to the test phrase.</p>
 </div>
 <div class="paragraph">
-<p>For fields that are intrinsically ordered (i.e. deadline, priority and frequency), the <code>&lt;</code>, <code>=</code>, and <code>&gt;</code> operators have their usual mathematical meaning, except that the operators <code>&lt;</code> and <code>&gt;</code> are non-strict.  This means that <code>p&gt;2</code> will return a superset of the tasks returned by <code>p=2</code>.</p>
+<p>For fields that have a natural total ordering (i.e. deadline, priority and frequency), the <code>&lt;</code>, <code>=</code>, and <code>&gt;</code> operators have their usual mathematical meaning, except that the operators <code>&lt;</code> and <code>&gt;</code> are non-strict.  This means that <code>p&gt;2</code> will return a superset of the tasks returned by <code>p=2</code>.</p>
 </div>
 <div class="paragraph">
 <p>For textual fields (e.g. name, tag), the <code>&lt;</code>, <code>=</code>, <code>&gt;</code> operators represent <em>substring</em>, <em>equivalence</em>, and <em>superstring</em> relations respectively.</p>
@@ -2269,7 +2269,7 @@ Priority values do not compare in the same order as their values as integers.  P
 <div class="sect3">
 <h4 id="error-messages"><a class="link" href="#error-messages">4.6.7. Error messages</a></h4>
 <div class="paragraph">
-<p>As the filter expression syntax can be rather complicated, detecting syntax errors and displaying useful error messages help the user to rectify those errors quickly.  When a parse error is detected, the filter command is designed to the offending token and provides an error message customised for that error.</p>
+<p>As the filter expression syntax can be rather complicated, detecting syntax errors and displaying useful error messages help the user to rectify those errors quickly.  When a parse error is detected, the filter command is designed to highlight the offending token and provide an error message customised for that error.</p>
 </div>
 <div class="paragraph">
 <p>Error conditions are signalled via checked exceptions that inherit from <code>seedu.address.logic.parser.tokenizer.exception.TokenizationException</code>.  Those error conditions that are associated with a particular character range in the filter expression inherit from <code>seedu.address.logic.parser.tokenizer.exception.TokenizationMismatchException</code>, which provides the facilities for storing the start and end indices of the offending character range.  <code>TokenizationMismatchException</code> itself inherits from <code>TokenizationException</code>.  Checked exceptions were chosen because they allow the compiler to enforce that every possible exception is caught, and creating a subclass for each kind of error condition allows for the precise specification (in the <code>throws</code> clause) of the kind of error conditions that can happen in each and every method.</p>
@@ -2284,7 +2284,7 @@ Priority values do not compare in the same order as their values as integers.  P
 <div class="title">Figure 24. Inheritance tree for exceptions that may be thrown from parsing a filter expression</div>
 </div>
 <div class="paragraph">
-<p>In the diagram above, the <span class="blue"><strong>blue</strong></span> classes are exceptions thrown by <code>StringTokenizer</code>, while the <span class="red"><strong>red</strong></span> classes are exceptions thrown by <code>BooleanExpressionParser</code>.  In order to reduce coupling between <code>StringTokenizer</code> and <code>BooleanExpressionParser</code>, and to be able to distinguish (by type-based <code>catch</code> clauses) the end-of-string exceptions of those components, they do not shared the same class for end-of-string exceptions.</p>
+<p>In the diagram above, the <span class="blue"><strong>blue</strong></span> classes are exceptions thrown by <code>StringTokenizer</code>, while the <span class="red"><strong>red</strong></span> classes are exceptions thrown by <code>BooleanExpressionParser</code>.  In order to reduce coupling between <code>StringTokenizer</code> and <code>BooleanExpressionParser</code>, and to be able to distinguish (by type-based <code>catch</code> clauses) the end-of-string exceptions of those components, they do not share the same class for end-of-string exceptions.</p>
 </div>
 <div class="paragraph">
 <p><code>TokenizationInvalidPredicateException</code> is a wrapper class for <code>InvalidPredicateException</code>, which is thrown when the field-specific parser or set parser encounters an error.  The diagram below shows the different exceptions that may be thrown to indicate the types of issues that may be encountered when parsing a filter unit, and how they may be propagated to <code>FilterCommandParser</code> via wrapping by <code>TokenizationInvalidPredicateException</code>:</p>
@@ -4830,4 +4830,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 11:51:34 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 12:38:01 UTC</div></div></div></body></html>

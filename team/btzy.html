@@ -167,7 +167,7 @@ When executing any <em>modifying</em> commands on a filtered list, the filter wi
 <div class="ulist">
 <ul>
 <li>
-<p><code>key</code> is an alphabetic string that describes the attribute being compared. For example: <code>priority</code>, <code>tag</code> and <code>name</code>.</p>
+<p><code>key</code> is an alphabetic string that describes the attribute being compared. For example: <code>priority</code>, <code>tag</code>, or <code>name</code>.</p>
 </li>
 <li>
 <p><code>operator</code> is one of <code>:</code>, <code>=</code>, <code>&lt;</code>, <code>&gt;</code>.</p>
@@ -219,7 +219,7 @@ When executing any <em>modifying</em> commands on a filtered list, the filter wi
 <div class="title">Figure 3. Filter unit format (set-based)</div>
 </div>
 <div class="paragraph">
-<p>For fields that represent a collection (i.e. tags and attachments), it is also possible to filter only tasks which <strong>do not contain</strong> other tags or attachments apart from those specified.  To do so, we introduce a set operator as per the diagram on the right.</p>
+<p>For fields that represent a collection (i.e. tags and attachments), it is also possible to filter only tasks which <strong>do not contain</strong> other tags or attachments <strong>apart</strong> from those specified.  To do so, we introduce a set operator as per the diagram on the right.</p>
 </div>
 <div class="paragraph">
 <p>The part that was called <code>operator</code> previously is called the <code>field operator</code> here, and it retains its original meaning.  The <code>set operator</code> introduced here specifies how the specified set (in the filter predicate) compares to the task&#8217;s set (of tags or attachments).</p>
@@ -235,6 +235,9 @@ When executing any <em>modifying</em> commands on a filtered list, the filter wi
 <p>The operator <code>&gt;</code> tests if every item in the specified set is contained within the task&#8217;s set.  The operator <code>&lt;</code> tests if every item in the task&#8217;s set is contained within the specified set.  The operator <code>=</code> tests if the two sets are equivalent (meaning that every item in the task&#8217;s set is contained within the specified set and vice-versa).  The convenience operator is an alias for <code>&gt;</code>.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Note that the definition of "contained" here is dependent on the kind of field operator being used - it does not necessarily mean a comparison for equality.  See the examples below for more information.</p>
 </div>
 </div>
 </div>
@@ -288,6 +291,18 @@ The set operator works in the same way as the above table for the attachment fie
 </div>
 <div class="paragraph">
 <p>When an error is encountered, a copy of the filter expression will be displayed, with the error underlined and coloured in red, so that it becomes easier to identify the error.  A relevant error message will also be displayed.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The underlined substring might not always be exactly what you expect, because there could be multiple possible candidates for the error.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>There are a total of around <strong>15 different types</strong> of error messages.</p>
@@ -361,7 +376,7 @@ The set operator works in the same way as the above table for the attachment fie
 <p>A parser that splits set-based fields (e.g. <code>CS2101,CS2103</code>) into individual keywords (this applies only to set-based fields (tags and attachments))&#8201;&#8212;&#8201;this is referred to as the <em>set parser</em>, and is implemented as a static method in a utility class</p>
 </li>
 <li>
-<p>A method for each field (e.g. <code>Name</code>, <code>Deadline</code>, <code>Priority</code>, <code>Tag</code>) that interprets the the parts of the splitted filter unit in the context of that particular field, and returns the predicate that is required &#8201;&#8212;&#8201;this is referred to as the <em>field-specific parser</em>, and is implemented as a static method in each filterable field</p>
+<p>A method for each field (e.g. <code>Name</code>, <code>Deadline</code>, <code>Priority</code>, <code>Tag</code>) that interprets the parts of the splitted filter unit in the context of that particular field, and returns the predicate that is required &#8201;&#8212;&#8201;this is referred to as the <em>field-specific parser</em>, and is implemented as a static method in each filterable field</p>
 </li>
 </ol>
 </div>
@@ -605,4 +620,4 @@ The second component in the list above also accepts a filter unit that contains 
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 11:51:34 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 12:38:01 UTC</div></div></div></body></html>

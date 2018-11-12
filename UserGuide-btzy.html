@@ -479,7 +479,7 @@ An unquoted keyword can contain only alphanumeric characters, <code>_</code>, <c
 <p>When matching tags, a task is considered to match if the specified tag is a substring (case-insensitive) of any tag of the task.</p>
 </li>
 <li>
-<p>When matching attachments, a task is considered to match if the specified keyword is a substring (case-insensitive) of a filename of any attachment in the task.</p>
+<p>When matching attachments, a task is considered to match if the specified keyword is a substring (case-insensitive) of the filename of any attachment in the task.</p>
 </li>
 </ul>
 </div>
@@ -496,7 +496,7 @@ Returns a subset of the current list of tasks that have a name, tag, or attachme
 </li>
 <li>
 <p><code>filter assignment CS2103</code>
-Returns a subset of the current list of tasks that have a name, tag, or attachment that matches "assignment" and a name, tag, or attachment that matches "CS2103".  Note that neither "assignment" or "CS2103" can be interpreted as a valid date, so the deadline field is ignored for both keywords.</p>
+Returns a subset of the current list of tasks that have a name, tag, or attachment that matches "assignment" and a name, tag, or attachment that matches "CS2103".  Note that neither "assignment" nor "CS2103" can be interpreted as a valid date, so the deadline field is ignored for both keywords.</p>
 </li>
 <li>
 <p><code>filter badminton utown 3/10/2018</code>
@@ -504,7 +504,7 @@ Returns a subset of the current list of tasks that have a name, tag, or attachme
 </li>
 <li>
 <p><code>filter 1/10/2018</code>
-Returns a subset of the current list of tasks that have a name, tag, attachment, or deadline that matches "3/10/2018".  Note that any deadline on or before 1<sup>st</sup> October 2018 will match "1/10/2018".</p>
+Returns a subset of the current list of tasks that have a name, tag, attachment, or deadline that matches "1/10/2018".  Note that any deadline on or before 1<sup>st</sup> October 2018 will match "1/10/2018".</p>
 </li>
 </ul>
 </div>
@@ -526,7 +526,7 @@ Returns a subset of the current list of tasks that have a name, tag, attachment,
 <div class="ulist">
 <ul>
 <li>
-<p><code>key</code> is an alphabetic string that describes the attribute being compared. For example: <code>priority</code>, <code>tag</code> and <code>name</code>.</p>
+<p><code>key</code> is an alphabetic string that describes the attribute being compared. For example: <code>priority</code>, <code>tag</code>, or <code>name</code>.</p>
 </li>
 <li>
 <p><code>operator</code> is one of <code>:</code>, <code>=</code>, <code>&lt;</code>, <code>&gt;</code>.</p>
@@ -561,13 +561,13 @@ The <code>&lt;</code> and <code>&gt;</code> operators are non-strict: Every task
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-This full predicate syntax can be mixed arbitrary with the keyword syntax described in the previous section.  For example, <code>badminton n:utown 3/10/2018</code> is allowed.
+This full predicate syntax can be mixed arbitrarily with the keyword syntax described in the previous section.  For example, <code>badminton n:utown 3/10/2018</code> is allowed.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>The following subsections explain the meaning of the operators for each valid key:</p>
+<p>The following subsections explain the meaning of the operators for each valid key.  (Any other <code>key</code> will cause Deadline Manager to produce an error.)</p>
 </div>
 <div class="sect4">
 <h5 id="name"><a class="link" href="#name">3.6.3.1. Name</a></h5>
@@ -659,7 +659,7 @@ This full predicate syntax can be mixed arbitrary with the keyword syntax descri
 <div class="sect4">
 <h5 id="deadline"><a class="link" href="#deadline">3.6.3.2. Deadline</a></h5>
 <div class="paragraph">
-<p>When <code>key</code> is <code>d</code>, <code>due</code> or <code>deadline</code>, the task&#8217;s due date is compared, and the search phrase is interpreted as a date.  Dates must in the format specified in the <em>Deadline Format</em> section.  The operator <code>&gt;</code> tests if the task&#8217;s due date is on or after the specified due date.  The operator <code>&lt;</code> tests if the task&#8217;s due date is on or before the specified due date.  The operator <code>=</code> tests if the task&#8217;s due date is exactly equal to the specified due date.  The convenience operator is an alias for <code>&lt;</code>.</p>
+<p>When <code>key</code> is <code>d</code>, <code>due</code>, or <code>deadline</code>, the task&#8217;s due date is compared, and the search phrase is interpreted as a date.  Dates must in the format specified in the <em>Deadline Format</em> section.  The operator <code>&gt;</code> tests if the task&#8217;s due date is on or after the specified due date.  The operator <code>&lt;</code> tests if the task&#8217;s due date is on or before the specified due date.  The operator <code>=</code> tests if the task&#8217;s due date is exactly equal to the specified due date.  The convenience operator is an alias for <code>&lt;</code>.</p>
 </div>
 <div class="paragraph">
 <p>Examples to demonstrate each operator type:</p>
@@ -714,7 +714,7 @@ This full predicate syntax can be mixed arbitrary with the keyword syntax descri
 <div class="sect4">
 <h5 id="priority"><a class="link" href="#priority">3.6.3.3. Priority</a></h5>
 <div class="paragraph">
-<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared, and the search phrase is interpreted as an integer, representing the priority to be searched.  A priority of zero matches all the tasks with no priority set.  The operator <code>&gt;</code> tests if the task has priority at least as high as the specified priority.  The operator <code>&lt;</code> tests if the task has priority at most as high as the specified priority.  The operator <code>=</code> tests if the task&#8217;s priority is exactly equal to the specified priority.  The convenience operator is an alias for <code>&gt;</code>.  Note that priority 1 is the highest priority, priority 4 is the lowest priority, and tasks without any priority are considered to be of lower priority than priority 4.  In other words, <code>1 &gt; 2 &gt; 3 &gt; 4 &gt; (no priority)</code>.</p>
+<p>When <code>key</code> is <code>p</code> or <code>priority</code>, the task&#8217;s priority is compared, and the search phrase is interpreted as an integer, representing the priority to be searched.  A priority of zero matches all the tasks with no priority set.  The operator <code>&gt;</code> tests if the task has priority at least as high as the specified priority.  The operator <code>&lt;</code> tests if the task has priority at most as high as the specified priority.  The operator <code>=</code> tests if the task&#8217;s priority is exactly equal to the specified priority.  The convenience operator is an alias for <code>&gt;</code>.  Note that priority 1 is the highest priority, priority 4 is the lowest (non-zero) priority, and tasks without any priority are considered to be of lower priority than priority 4.  In other words, <code>1 &gt; 2 &gt; 3 &gt; 4 &gt; (no priority)</code>.</p>
 </div>
 <div class="paragraph">
 <p>Examples to demonstrate each operator type:</p>
@@ -769,7 +769,7 @@ This full predicate syntax can be mixed arbitrary with the keyword syntax descri
 <div class="sect4">
 <h5 id="frequency"><a class="link" href="#frequency">3.6.3.4. Frequency</a></h5>
 <div class="paragraph">
-<p>When <code>key</code> is <code>f</code> or <code>frequency</code>, the task&#8217;s frequency (i.e. the number of days between consecutive occurrences of that task) is compared, and the search phrase is interpreted as an integer, representing the frequency to be searched.  A non-recurring task is treated as if it has a frequency that is infinitely large (i.e. <code>f&gt;100</code> also includes all non-recurring tasks).  The operator <code>&gt;</code> tests if the task has a recurrence interval larger than or equal to the specified number of days.  The operator <code>&lt;</code> tests if the task has a recurrence interval smaller than or equal to the specified number of days.  The operator <code>=</code> tests if the task has a recurrence interval exactly equal to the specified number of days.  The convenience operator is an alias for <code>&lt;</code>.</p>
+<p>When <code>key</code> is <code>f</code> or <code>frequency</code>, the task&#8217;s frequency (i.e. the number of days between consecutive occurrences of that task) is compared, and the search phrase is interpreted as an integer, representing the frequency to be searched.  A non-recurring task (frequency of zero) is treated as if it has a frequency that is infinitely large (e.g. <code>f&gt;100</code> also includes all non-recurring tasks).  The operator <code>&gt;</code> tests if the task has a recurrence interval larger than or equal to the specified number of days.  The operator <code>&lt;</code> tests if the task has a recurrence interval smaller than or equal to the specified number of days.  The operator <code>=</code> tests if the task has a recurrence interval exactly equal to the specified number of days.  The convenience operator is an alias for <code>&lt;</code>.</p>
 </div>
 <div class="paragraph">
 <p>Examples to demonstrate each operator type:</p>
@@ -903,8 +903,7 @@ This full predicate syntax can be mixed arbitrary with the keyword syntax descri
 <div class="sect4">
 <h5 id="attachment"><a class="link" href="#attachment">3.6.3.6. Attachment</a></h5>
 <div class="paragraph">
-<p>When <code>key</code> is <code>a</code> or <code>attachment</code>, the task&#8217;s attachments are compared, and the search phrase is interpreted as a (unordered) set of (substrings of) filenames.  Comparison is case-insensitive.  Multiple filenames are separated by commas, in the same way as tags.  The operator <code>&gt;</code> tests if every specified filename is a substring of an attachment filename (of the given task).  The operator <code>&lt;</code> tests if every specified tag is a superstring of an attachment filename.  The operator <code>=</code> tests if every specified tag exactly matches an attachment filename.  The convenience operator is an alias for <code>&gt;</code>.
-* Any other <code>key</code> will cause Deadline Manager to produce an error.</p>
+<p>When <code>key</code> is <code>a</code> or <code>attachment</code>, the task&#8217;s attachments are compared, and the search phrase is interpreted as a (unordered) set of (substrings of) filenames.  Comparison is case-insensitive.  Multiple filenames are separated by commas, in the same way as tags.  The operator <code>&gt;</code> tests if every specified filename is a substring of an attachment filename (of the given task).  The operator <code>&lt;</code> tests if every specified attachment is a superstring of an attachment filename.  The operator <code>=</code> tests if every specified attachment exactly matches an attachment filename.  The convenience operator is an alias for <code>&gt;</code>.</p>
 </div>
 <div class="paragraph">
 <p>Examples to demonstrate each operator type:</p>
@@ -920,7 +919,7 @@ This full predicate syntax can be mixed arbitrary with the keyword syntax descri
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Task tags</th>
+<th class="tableblock halign-left valign-top">Task attachments</th>
 <th class="tableblock halign-left valign-top">Test phrase</th>
 <th class="tableblock halign-left valign-top">Matches "&gt;"</th>
 <th class="tableblock halign-left valign-top">Matches "="</th>
@@ -1078,7 +1077,7 @@ Returns a subset of the current list of tasks that contains the attachments with
 The format for <code>FILTER_EXPRESSION</code> is defined recursively in the following paragraphs.</p>
 </div>
 <div class="paragraph">
-<p><code>FILTER_EXPRESSION</code> is a string in the following format:</p>
+<p><code>FILTER_EXPRESSION</code> is a string in any of the following possible formats:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1092,7 +1091,7 @@ The format for <code>FILTER_EXPRESSION</code> is defined recursively in the foll
 <p><code>FILTER_EXPRESSION | FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical disjunction (i.e. OR) of two other filter expressions.  The operator <code>|</code> may be substituted with <code>||</code>.</p>
 </li>
 <li>
-<p><code>! FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical negation (i.e. NOT) of two other filter expressions.</p>
+<p><code>! FILTER_EXPRESSION</code>&#8201;&#8212;&#8201;This filter expression is a logical negation (i.e. NOT) of another filter expression.</p>
 </li>
 <li>
 <p><code>( FILTER_EXPRESSION )</code>&#8201;&#8212;&#8201;This filter expression is surrounded by parentheses.</p>
@@ -1147,11 +1146,11 @@ Returns a subset of the current list of tasks that has "assignment" or "CS2101".
 </li>
 <li>
 <p><code>filter ! t:CS2101</code>
-Returns a subset of the current list of tasks that do not have the tag "CS2101".</p>
+Returns a subset of the current list of tasks that do not have a tag that contains "CS2101".</p>
 </li>
 <li>
 <p><code>filter cs &amp; ((present &amp; f=7) | meeting)</code>
-Returns a subset of the current list of tasks that has "cs" and either (1) has "present" and repeats exactly once a week, or (2) has "meeting".<br>
+Returns a subset of the current list of tasks that has "cs", and either (1) has "present" and recurs exactly once a week, or (2) has "meeting".<br>
 The following screenshot is an example of a list of tasks that could be displayed by the above example:</p>
 </li>
 </ul>
@@ -1166,15 +1165,15 @@ The following screenshot is an example of a list of tasks that could be displaye
 <ul>
 <li>
 <p><code>filter n:assignment | (p:3 &amp; t:CS2101)</code>
-Returns a subset of the current list of tasks that have a name that contains "assignment", or have priority at least 3 and contains tag "CS2101".</p>
+Returns a subset of the current list of tasks that have a name that contains "assignment", or have priority at least 3 and a tag that contains "CS2101".</p>
 </li>
 <li>
 <p><code>filter n:assignment||(p:3 t:CS2101)</code>
-Returns a subset of the current list of tasks that have a name that contains "assignment", or have priority at least 3 and contains tag "CS2101".</p>
+Returns a subset of the current list of tasks that have a name that contains "assignment", or have priority at least 3 and a tag that contains "CS2101".</p>
 </li>
 <li>
 <p><code>filter !n:homework||(p:3 t:CS2101)</code>
-Returns a subset of the current list of tasks that have a name that does not contain "homework", or have priority at least 3 and contains tag "CS2101".</p>
+Returns a subset of the current list of tasks that have a name that does not contain "homework", or have priority at least 3 and a tag that contains "CS2101".</p>
 </li>
 </ul>
 </div>
@@ -1188,7 +1187,7 @@ Returns a subset of the current list of tasks that have a name that does not con
 <div class="title">Figure 3. Filter unit format (set-based)</div>
 </div>
 <div class="paragraph">
-<p>For fields that represent a collection (i.e. tags and attachments), it is also possible to filter only tasks which <strong>do not contain</strong> other tags or attachments apart from those specified.  To do so, we introduce a set operator as per the diagram on the right.</p>
+<p>For fields that represent a collection (i.e. tags and attachments), it is also possible to filter only tasks which <strong>do not contain</strong> other tags or attachments <strong>apart</strong> from those specified.  To do so, we introduce a set operator as per the diagram on the right.</p>
 </div>
 <div class="paragraph">
 <p>The part that was called <code>operator</code> previously is called the <code>field operator</code> here, and it retains its original meaning.  The <code>set operator</code> introduced here specifies how the specified set (in the filter predicate) compares to the task&#8217;s set (of tags or attachments).</p>
@@ -1204,6 +1203,9 @@ Returns a subset of the current list of tasks that have a name that does not con
 <p>The operator <code>&gt;</code> tests if every item in the specified set is contained within the task&#8217;s set.  The operator <code>&lt;</code> tests if every item in the task&#8217;s set is contained within the specified set.  The operator <code>=</code> tests if the two sets are equivalent (meaning that every item in the task&#8217;s set is contained within the specified set and vice-versa).  The convenience operator is an alias for <code>&gt;</code>.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Note that the definition of "contained" here is dependent on the kind of field operator being used - it does not necessarily mean a comparison for equality.  See the examples below for more information.</p>
 </div>
 </div>
 </div>
@@ -1262,7 +1264,7 @@ Returns a subset of the current list of tasks that has the tag "CS2103T" (case-i
 </li>
 <li>
 <p><code>filter t&lt;:CS</code>
-Returns a subset of the current list of tasks that do not have any tags that do not contain the substring "CS" (case-insensitive).  The task need not have any tags that contain the substring "CS", and it could have no tags at all.  This is usually used in conjunction with other filter predicates to constrain the filtered list to be exported.</p>
+Returns a subset of the current list of tasks that do not have any tags that do not contain the substring "CS" (case-insensitive).  The task need not have any tags that contain the substring "CS", so it could have no tags at all.  This is usually used in conjunction with other filter predicates to constrain the filtered list to be exported.</p>
 </li>
 </ul>
 </div>
@@ -1274,6 +1276,18 @@ Returns a subset of the current list of tasks that do not have any tags that do 
 </div>
 <div class="paragraph">
 <p>When an error is encountered, a copy of the filter expression will be displayed, with the error underlined and coloured in red, so that it becomes easier to identify the error.  A relevant error message will also be displayed.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The underlined substring might not always be exactly what you expect, because there could be multiple possible candidates for the error.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>There are a total of around <strong>15 different types</strong> of error messages.</p>
@@ -2300,4 +2314,4 @@ e.g. <code>sort due&lt; name&gt;</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 11:51:34 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 12:38:01 UTC</div></div></div></body></html>
