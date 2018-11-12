@@ -1204,7 +1204,7 @@ An ImportExportExceptionEvent is raised if Deadline Manager fails to read or wri
 <div class="paragraph">
 <p>To facilitate communication between the two components, the deadline manager uses the event-driven model.
 An import or export request event is created by <code>ModelManager</code>, and a handler in <code>StorageManager</code> is invoked to handle the event.
-After data has been successfully read or written, the response is placed in another event for <code>ModelManager</code> to process.</p>
+After data has been successfully read or written, the response is placed in a <code>DataAvailableEvent</code> for <code>ModelManager</code> to process. Similarly, errors also are passed between the two components using events (such as <code>ImportExportExceptionEvent</code>).</p>
 </div>
 <div class="paragraph">
 <p>To achieve the above, <code>ModelManager</code> indicates an import/export request by creating these events:</p>
@@ -1333,7 +1333,7 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 <h4 id="import-conflict-resolver"><a class="link" href="#import-conflict-resolver">4.4.3. Import Conflict Resolver</a></h4>
 <div class="paragraph">
 <p>An imported task is deemed conflicting with an existing task if the two tasks compare <code>equal</code> with the internal implementation of Task&#8217;s <code>equal</code> method.
-If the user attempts to import a new task that conflicts with an existing task, the task needs to be de-conflicted with one of the following resolver:</p>
+If the user attempts to import a new conflicting task, Deadline Manager de-conflicts the task with one of the following resolvers:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1356,7 +1356,7 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/ImportConflictResolverSequenceDiagram.png" alt="ImportConflictResolverSequenceDiagram" width="800">
+<img src="images/ImportConflictResolverSequenceDiagram.png" alt="ImportConflictResolverSequenceDiagram" width="600">
 </div>
 <div class="title">Figure 16. Sequence diagram for import conflict resolver</div>
 </div>
@@ -1373,13 +1373,13 @@ If the user attempts to import a new task that conflicts with an existing task, 
 <p>Step 3b. <code>OverwriteImportConflictResolver</code> will first <code>delete()</code> the existing task, before it calls <code>add()</code> on the new one. This behaviour is specific to <code>OverwriteImportConflictResolver</code>. A <code>DuplicateImportConflictResolver</code> will simply add the new entry, while a <code>IgnoreImportConflictResolver</code> will do nothing.</p>
 </div>
 <div class="paragraph">
-<p>Step 4. Otherwise, if the task doesn&#8217;t exist, <code>ModelManager</code> adds the task to the model.</p>
+<p>Step 4. Otherwise, if the task doesn&#8217;t exist, <code>ModelManager</code> simply adds the task to the model.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="csv-format-support"><a class="link" href="#csv-format-support">4.4.4. CSV Format support</a></h4>
 <div class="paragraph">
-<p>The discussion above has been format-agnostic, abstracting away details about the file formats. Deadline Manager supports both eXtensible Markup Language (XML) and Comma Separated Values (CSV) format. Currently, while XML format can be freely used to import and export data, CSV format can only be used to export data.</p>
+<p>The discussion above has been format-agnostic, abstracting away details about the file formats. Deadline Manager supports both eXtensible Markup Language (XML) and Comma Separated Values (CSV) format.</p>
 </div>
 <div class="paragraph">
 <p>The CSV/XML format support is implemented using the respective <code>{*}TaskCollectionStorage</code> class. <code>XMLTaskCollectionStorage</code> is able to import and export data, so it implements both <code>TaskCollectionReadStorage</code> and <code>TaskCollectionWriteStorage</code> interface. On the other hand, <code>CSVTaskCollectionStorage</code> can only export data, so it implements only the <code>TaskCollectionWriteStorage</code> interface.</p>
@@ -4834,4 +4834,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 11:28:01 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 11:51:34 UTC</div></div></div></body></html>

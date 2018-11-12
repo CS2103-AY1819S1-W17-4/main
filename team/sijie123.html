@@ -16,7 +16,7 @@
 <p>Deadline Manager is an easy-to-use application to assist students in managing deadlines. Interacting through a Command Line Interface (CLI), users can easily manage their schedules and focus on what is most important.</p>
 </div>
 <div class="paragraph">
-<p>Deadline Manager is written in Java and builds upon <a href="https://github.com/nus-cs2103-AY1819S1/addressbook-level4">AddressBook Level 4</a>, a code base originally designed to teach Software Engineering principles. For more information and to take our project for a test run, please visit our home page [<a href="https://cs2103-ay1819s1-w17-4.github.io/main">on GitHub</a>].</p>
+<p>Deadline Manager is written in Java and builds upon AddressBook Level 4, a code base originally designed to teach Software Engineering principles. For more information and to take our project for a test run, please visit our home page [<a href="https://cs2103-ay1819s1-w17-4.github.io/main">on GitHub</a>].</p>
 </div>
 </div>
 </div>
@@ -91,7 +91,7 @@
 <p>Added additional checks to detect potential errors in file I/O operations (e.g. saving).</p>
 </li>
 <li>
-<p>Refactored unit test for <code>AddCommandTest</code> by creating  <code>ModelStub</code>, a class containing scaffolding code common to other instances of <code>CommandTest</code>. (<a href="https://github.com/CS2103-AY1819S1-W17-4/main/blob/master/src/test/java/seedu/address/logic/commands/ModelStub.java">ModelStub.java</a>)</p>
+<p>Refactored unit test for <code>AddCommandTest</code> by creating  <code>ModelStub</code>, a class containing scaffolding code common to other types of <code>CommandTest</code>.</p>
 </li>
 </ul>
 </div>
@@ -460,33 +460,7 @@ An ImportExportExceptionEvent is raised if Deadline Manager fails to read or wri
 <div class="paragraph">
 <p>To facilitate communication between the two components, the deadline manager uses the event-driven model.
 An import or export request event is created by <code>ModelManager</code>, and a handler in <code>StorageManager</code> is invoked to handle the event.
-After data has been successfully read or written, the response is placed in another event for <code>ModelManager</code> to process.</p>
-</div>
-<div class="paragraph">
-<p>To achieve the above, <code>ModelManager</code> indicates an import/export request by creating these events:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>ImportRequestEvent</code>: Requests for a new import from file.</p>
-</li>
-<li>
-<p><code>ExportRequestEvent</code>: Requests to create a new export to file.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>ModelManager</code> implements these additional methods to handle the responses from <code>Storage</code>:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>handleImportDataAvailableEvent</code>: Processes the read task collection and merges tasks into the current collection.</p>
-</li>
-<li>
-<p><code>handleImportExportExceptionEvent</code>: Indicates internally that the last import/export request has failed.</p>
-</li>
-</ul>
+After data has been successfully read or written, the response is placed in a <code>DataAvailableEvent</code> for <code>ModelManager</code> to process. Similarly, errors also are passed between the two components using events (such as <code>ImportExportExceptionEvent</code>).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -495,36 +469,10 @@ After data has been successfully read or written, the response is placed in anot
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-It is the responsibility of the <code>Model</code> to feedback to the user in the case of an exception.
+Due to limited space, detailed technical implementation of inter-component communication is omitted, and an overview is presented below in <a href="#sequence-flow">Sequence Flow</a> instead. You may wish to refer to the <a href="https://cs2103-ay1819s1-w17-4.github.io/main/DeveloperGuide.html#inter-component-communication">Developer Guide</a> for details.
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>Similarly, <code>StorageManager</code> returns the result of imports and errors with the following events:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>ImportExportExceptionEvent</code>: Indicates that an error has occurred with import or export.</p>
-</li>
-<li>
-<p><code>ImportDataAvailableEvent</code>: Indicates that the requested task collection has been read from disk.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>StorageManager</code> implements these additional methods to handle requests from <code>Model</code>:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>handleImportRequestEvent</code>: Processes an import event and reads from file.</p>
-</li>
-<li>
-<p><code>handleExportRequestEvent</code>: Processes an export event and writes to file.</p>
-</li>
-</ul>
 </div>
 </div>
 </div>
@@ -589,7 +537,7 @@ It is the responsibility of the <code>Model</code> to feedback to the user in th
 <h4 id="import-conflict-resolver"><a class="link" href="#import-conflict-resolver">4.1.3. Import Conflict Resolver</a></h4>
 <div class="paragraph">
 <p>An imported task is deemed conflicting with an existing task if the two tasks compare <code>equal</code> with the internal implementation of Task&#8217;s <code>equal</code> method.
-If the user attempts to import a new task that conflicts with an existing task, the task needs to be de-conflicted with one of the following resolver:</p>
+If the user attempts to import a new conflicting task, Deadline Manager de-conflicts the task with one of the following resolvers:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -612,7 +560,7 @@ If the user attempts to import a new task that conflicts with an existing task, 
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/ImportConflictResolverSequenceDiagram.png" alt="ImportConflictResolverSequenceDiagram" width="800">
+<img src="../images/ImportConflictResolverSequenceDiagram.png" alt="ImportConflictResolverSequenceDiagram" width="600">
 </div>
 <div class="title">Figure 3. Sequence diagram for import conflict resolver</div>
 </div>
@@ -629,13 +577,13 @@ If the user attempts to import a new task that conflicts with an existing task, 
 <p>Step 3b. <code>OverwriteImportConflictResolver</code> will first <code>delete()</code> the existing task, before it calls <code>add()</code> on the new one. This behaviour is specific to <code>OverwriteImportConflictResolver</code>. A <code>DuplicateImportConflictResolver</code> will simply add the new entry, while a <code>IgnoreImportConflictResolver</code> will do nothing.</p>
 </div>
 <div class="paragraph">
-<p>Step 4. Otherwise, if the task doesn&#8217;t exist, <code>ModelManager</code> adds the task to the model.</p>
+<p>Step 4. Otherwise, if the task doesn&#8217;t exist, <code>ModelManager</code> simply adds the task to the model.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="csv-format-support"><a class="link" href="#csv-format-support">4.1.4. CSV Format support</a></h4>
 <div class="paragraph">
-<p>The discussion above has been format-agnostic, abstracting away details about the file formats. Deadline Manager supports both eXtensible Markup Language (XML) and Comma Separated Values (CSV) format. Currently, while XML format can be freely used to import and export data, CSV format can only be used to export data.</p>
+<p>The discussion above has been format-agnostic, abstracting away details about the file formats. Deadline Manager supports both eXtensible Markup Language (XML) and Comma Separated Values (CSV) format.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -748,4 +696,4 @@ Due to limited space in the PPP, an aspect on supporting different file formats 
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 11:28:01 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 11:51:34 UTC</div></div></div></body></html>
